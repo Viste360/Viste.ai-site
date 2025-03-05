@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Automate guest check-ins, check-outs, and support with WhatsApp AI for short-term rentals.">
+    <meta name="keywords" content="WhatsApp AI, rental automation, check-in assistant, vacation rental, Airbnb automation">
+    <title>Viste AI - Automate Your Short-Term Rentals</title>
+    <script src="https://cdn.tailwindcss.com/"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="styles.css" />
+
+    <link rel="alternate" hreflang="en" href="https://viste.ai/" />
+    <link rel="alternate" hreflang="es" href="https://viste.ai/index-es.html" />
+  </head>
+  <body id="body" class="bg-gradient-to-r from-green-50 via-white to-green-50 scroll-smooth">
+  <header>
+    <!-- Navbar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white shadow-md">
+      <div class="flex items-center">
+        <img
+          src="./images/Messaging Business AI Assistant (3).png"
+          alt="Viste AI Logo"
+          class="h-11 w-auto mr-2"
+        />
+        <!-- <span class="text-lg font-bold text-gray-900">Viste AI</span> -->
+      </div>
+      <ul class="hidden md:flex space-x-8">
+        <li><a href="#body" class="text-gray-800 hover:underline">Inicio</a></li>
+        <li>
+          <a href="#features" class="text-gray-800 hover:underline">Características</a>
+        </li>
+        <li>
+          <a href="#pricing" class="text-gray-800 hover:underline">Precios</a>
+        </li>
+        <li>
+          <a href="#cta" class="text-gray-800 hover:underline">Contáctanos</a>
+        </li>
+      </ul>
+      <div class="hidden md:flex space-x-4">
+        <!-- <button class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
+          Get Started
+        </button> -->
+        <button
+          class="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
+          onclick="window.location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
+        >
+          Schedule a Demo
+        </button>
+        <select class="language-switcher">
+            <option value="en">EN</option>
+            <option value="es" selected>ES</option>
+        </select>
+      </div>
+      <button
+        class="md:hidden text-gray-700 focus:outline-none"
+        id="menu-toggle"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div
+      class="hidden fixed w-full flex flex-col space-y-4 px-6 py-4 pt-8 bg-white shadow-md md:hidden mt-16 z-10"
+      id="mobile-menu"
+    >
+      <a href="#body" class="text-gray-800 hover:underline">Inicio</a>
+      <a href="#features" class="text-gray-800 hover:underline">Características</a>
+      <a href="#pricing" class="text-gray-800 hover:underline">Precios</a>
+      <a href="#cta" class="text-gray-800 hover:underline">Contáctanos</a>
+      <!-- <button class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
+        Get Started
+      </button> -->
+      <button
+        class="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
+        onclick="window.location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
+      >
+        Agenda una Demo
+      </button>
+        <select class="language-switcher w-12">
+            <option value="en">EN</option>
+            <option value="es" selected>ES</option>
+        </select>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="md:px-9 pb-12 pt-28 md:pt-36">
+      <div
+        class="flex flex-col md:flex-row items-center justify-between container mx-auto px-6 md:px-12 lg:px-24"
+      >
+        <!-- Text Content -->
+        <div class="md:w-1/2 space-y-4">
+          <h1 class="text-4xl font-bold text-gray-700 leading-snug text-center md:text-left">
+            ¿Eres anfitrión? Automatiza tu negocio de alquiler a través de WhatsApp y relájate
+          </h1>
+          <p class="text-gray-600 text-xl">
+            💡 El Check-in & Atención al huésped es <strong>GRATIS</strong> por tiempo limitado.
+          </p>
+          <p class="text-gray-600 text-xl">
+            🚀 Responde automáticamente el 100% de los mensajes de huéspedes.
+          </p>
+          <p class="text-gray-600 text-xl mb-10">
+            💰 Gana más con upsells y reduce las preguntas innecesarias.
+          </p>
+          <div class="flex justify-center md:justify-normal text-xl md:text-xl pt-4">
+          <a
+              href="https://wa.me/message/5IYX266Z5KPKK1"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg shadow-lg transition cta-button"
+            >
+              <i class="fab fa-whatsapp text-lg mr-2"></i>
+              Chatea con nosotros
+            </a></div>
+        </div>
+
+        <!-- Hero Image -->
+        <div class="mt-8 md:mt-0 md:w-1/2 flex justify-center">
+          <img
+            src="./images/travel.png"
+            alt="Hero Image"
+            class="w-full max-w-md h-80 md:h-auto rounded-lg shadow-lg object-cover"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo Video Section -->
+    <section id="demo-video" class="pb-16 lg:my-10 my-2">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <div class="text-center mb-10">
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-700 mb-4">
+            🚀 Viste AI en Acción
+          </h2>
+          <p class="text-2xl md:text-3xl text-gray-600">
+            Mira cómo nuestra tecnología mejora tu gestión de alquileres:
+          </p>
+        </div>
+
+        <div class="flex flex-col lg:flex-row items-center lg:gap-4 gap-16">
+          <!-- Video Embed Section -->
+          <div class="w-full lg:max-w-5xl">
+            <div class="rounded-sm overflow-hidden">
+              <!-- <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/k6B0pn6fXLU?si=4onQ0r6G0J4FJ6hL"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe> -->
+              <div class="flex items-center">
+                <img
+                  src="./images/traveler.png"
+                  alt=""
+                  class="w-full h-auto max-w-md rounded-lg"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature Highlights -->
+          <div class="w-full lg:w-2/2 text-center lg:text-left">
+            <ul class="space-y-4 text-lg md:text-xl md:grid lg:gap-10">
+              <li class="flex items-center gap-4">
+                <div class="text-indigo-500">
+                  <i class="fas fa-plane-departure fa-2x h-10 w-10"></i>
+                </div>
+                <span class="text-xl md:text-2xl text-left text-gray-600"
+                  >Información de check-ins y viajes.</span
+                >
+              </li>
+              <li class="flex items-center gap-4">
+                <div class="text-green-500">
+                  <i class="fas fa-tools fa-2x h-10 w-10"></i>
+                </div>
+                <span class="text-xl md:text-2xl text-left text-gray-600">Solución de problemas automática.</span>
+              </li>
+              <li class="flex items-center gap-4">
+                <div class="text-yellow-500">
+                  <i class="fas fa-comments fa-2x h-10 w-10"></i>
+                </div>
+                <span class="text-xl md:text-2xl text-left text-gray-600"
+                  >Respuestas en múltiples idiomas.</span
+                >
+              </li>
+              <li class="flex items-center gap-4">
+                <div class="text-red-500">
+                  <i class="fas fa-arrow-up fa-2x h-10 w-10"></i>
+                </div>
+                <span class="text-xl md:text-2xl text-left text-gray-600"
+                  >Aumento de ingresos con upsells.</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pain Points Section -->
+    <section id="features" class="lg:py-16 py-4 fade-in">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <h2 class="text-4xl font-bold text-gray-800">
+            ¿Por qué los anfitriones necesitan un asistente de IA?
+          </h2>
+          <p class="text-3xl text-gray-600 mt-4">¿Tienes problemas con?</p>
+        </div>
+
+        <!-- Pain Points List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Pain Point 1 -->
+          <div class="flex items-start p-6 rounded-lg bg-indigo-50">
+            <div class="flex-shrink-0">
+              <i class="fas fa-globe text-indigo-600 text-3xl"></i>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-xl font-semibold text-gray-800">
+                Comunicación con huéspedes 24/7
+              </h3>
+              <p class="text-gray-600 mt-2">
+                Responde de inmediato a las consultas de los huéspedes, mejorando su experiencia y reduciendo tu carga de trabajo.
+              </p>
+            </div>
+          </div>
+
+          <!-- Pain Point 2 -->
+          <div class="flex items-start p-6 rounded-lg bg-yellow-50">
+            <div class="flex-shrink-0">
+              <i class="fas fa-key text-yellow-600 text-3xl"></i>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-xl font-semibold text-gray-800">
+                Gestión automatizada del check-in
+              </h3>
+              <p class="text-gray-600 mt-2">
+                Simplifica el proceso de check-in y proporciona información de viaje esencial sin complicaciones.
+              </p>
+            </div>
+          </div>
+
+          <!-- Pain Point 3 -->
+          <div class="flex items-start p-6 rounded-lg bg-green-100">
+            <div class="flex-shrink-0">
+              <i class="fas fa-money-bill text-green-600 text-3xl"></i>
+            </div>
+            <div class="ml-4">
+              <h3 class="text-xl font-semibold text-gray-800">
+                Aumento de ingresos con ventas adicionales
+              </h3>
+              <p class="text-gray-600 mt-2">
+                Genera más ingresos con oportunidades de upselling personalizadas, como check-outs tardíos y experiencias locales.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solution Section -->
+        <div
+          class="mt-6 p-10 rounded-lg bg-gradient-to-r from-green-900 to-green-700 shadow-lg"
+        >
+          <h3 class="text-4xl font-extrabold text-center text-white">
+            💡 Desbloquea el poder de Viste AI Assistant
+          </h3>
+          <ul
+            class="text-lg text-white mt-6 list-inside space-y-4 max-w-3xl mx-auto"
+          >
+            <li class="flex items-center">
+              <span class="text-2xl mr-2">✅</span>
+              <span
+                >Automatiza hasta el 100% de la mensajería con tus huéspedes.</span
+              >
+            </li>
+            <li class="flex items-center">
+              <span class="text-2xl mr-2">✅</span>
+              <span
+                >Gestiona pagos, check-ins y escalaciones con facilidad.</span
+              >
+            </li>
+            <li class="flex items-center">
+              <span class="text-2xl mr-2">✅</span>
+              <span
+                >Maximiza tus ingresos con oportunidades de ventas adicionales inteligentes.</span
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-------------------------------- FEATURE SECTION ---------------------------->
+    <!-- How It Works Section -->
+
+    <section id="how-it-works" class="py-16 fade-in">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <h3
+            class="text-lg font-bold uppercase text-green-700 tracking-wider my-5"
+          >
+            CÓMO FUNCIONA
+          </h3>
+          <h2 class="text-3xl md:text-5xl font-bold text-gray-700">
+            3 Sencillos Pasos para Comenzar
+          </h2>
+          <p class="text-gray-600 text-xl mt-4">
+            Automatiza tu negocio de alquiler en solo tres pasos fáciles.
+          </p>
+        </div>
+
+        <!-- Steps Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <!-- Step 1 -->
+          <div
+            class="flex flex-col items-center text-center p-8 rounded-lg transition-all duration-300"
+          >
+            <div
+              class="flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-indigo-400 to-indigo-600 text-white rounded-full mb-6"
+            >
+              <i class="fas fa-link text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-700">
+              🚀 Conectar & Configurar
+            </h3>
+            <p class="text-gray-600 text-lg mt-4">
+              Conecta fácilmente WhatsApp, Viste AI y tus propiedades. Reserva una llamada rápida de 15 minutos para comenzar.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div
+            class="flex flex-col items-center text-center p-8 rounded-lg transition-all duration-300"
+          >
+            <div
+              class="flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-yellow-400 to-yellow-600 text-white rounded-full mb-6"
+            >
+              <i class="fas fa-robot text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-700">🤖Mensajería con IA</h3>
+            <p class="text-gray-600 text-lg mt-4">
+              Tu asistente de IA gestiona la comunicación con los huéspedes 24/7 para check-ins, pagos, soporte y ventas adicionales.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div
+            class="flex flex-col items-center text-center p-8 rounded-lg transition-all duration-300"
+          >
+            <div
+              class="flex items-center justify-center w-20 h-20 bg-gradient-to-tr from-green-400 to-green-600 text-white rounded-full mb-6"
+            >
+              <i class="fas fa-euro-sign text-4xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-gray-700">
+              💸 Automatización de Check-in Gratis & Sin Esfuerzo
+            </h3>
+            <p class="text-gray-600 text-lg mt-4">
+              Un gran servicio no debería tener un costo. Nuestro asistente de check-in es <strong>GRATIS</strong>, siempre disponible cuando lo necesites.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Benefits Section -->
+    <section id="key-benefits" class="py-16 fade-in">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <h3
+            class="text-lg font-bold uppercase text-green-700 tracking-wide my-5"
+          >
+            Key Benefits
+          </h3>
+          <h2 class="text-3xl md:text-5xl font-bold text-gray-700">
+            Por qué los anfitriones aman Viste AI
+          </h2>
+        </div>
+
+        <!-- Benefits Grid -->
+        <div class="flex flex-wrap gap-8 justify-center">
+        <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"> -->
+          <!-- Benefit 1 -->
+          <div
+            class="flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg benefit-card"
+          >
+            <div
+              class="flex items-center justify-center w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full mb-6"
+            >
+              <i class="fas fa-comments text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white">
+              Mensajería automatizada
+            </h3>
+            <p class="text-white text-lg mt-4">
+              AI responde instantáneamente a preguntas sobre check-ins, recomendaciones locales y preguntas frecuentes.
+            </p>
+          </div>
+
+          <!-- Benefit 2 -->
+          <div
+            class="flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg benefit-card"
+          >
+            <div
+              class="flex items-center justify-center w-16 h-16 bg-yellow-100 text-yellow-600 rounded-full mb-6"
+            >
+              <i class="fas fa-language text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white">
+              Mensajería multilingüe
+            </h3>
+            <p class="text-white text-lg mt-4">
+              Los huéspedes reciben respuestas en WhatsApp en su idioma nativo al instante.
+            </p>
+          </div>
+
+          <!-- Benefit 3 -->
+          <div
+            class="flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg benefit-card"
+          >
+            <div
+              class="flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-6"
+            >
+              <i class="fas fa-chart-line text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white">
+              Mayor rentabilidad con upsells
+            </h3>
+            <p class="text-white text-lg mt-4">
+              Ofrece automáticamente check-outs tardíos, alquileres de autos y otros servicios.
+            </p>
+          </div>
+
+          <!-- Benefit 4 -->
+          <div
+            class="flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg benefit-card"
+          >
+            <div
+              class="flex items-center justify-center w-16 h-16 bg-red-100 text-red-600 rounded-full mb-6"
+            >
+              <i class="fas fa-tools text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white">
+              Resolución de problemas sin estrés
+            </h3>
+            <p class="text-white text-lg mt-4">
+              AI maneja problemas comunes y escala situaciones urgentes de manera fluida.
+            </p>
+          </div>
+
+          <!-- Benefit 5 -->
+          <div
+            class="flex flex-col items-center text-center bg-gray-800 p-6 rounded-lg shadow-lg benefit-card"
+          >
+            <div
+              class="flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-6"
+            >
+              <i class="fas fa-sync text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-semibold text-white">Compatible con tu Channel Manager.</h3>
+            <p class="text-white text-lg mt-4">
+              Haznos saber que Channel Manager Utilizas
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-16 bg-gray-50 fade-in">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <h3 class="text-lg font-bold uppercase text-green-700 tracking-wide">
+            Pricing Plans
+          </h3>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-700">
+            🚀 Diseñado para Anfitriones de Alquiler a Corto Plazo
+          </h2>
+          <p class="text-lg text-gray-600 mt-4">
+            Comienza con <strong>Smart Host</strong> gratis o escala con la automatización impulsada por IA para anfitriones en crecimiento.
+          </p>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Card 1: Smart Host -->
+          <div class="bg-white rounded-lg shadow-lg p-6 text-center viste-price-card">
+            <h4 class="text-xl font-bold text-gray-800 mb-4">
+              🏡 Viste Smart Check-In
+            </h4>
+            <p class="text-4xl font-extrabold text-gray-800 mb-2">€0</p>
+            <p class="text-sm text-gray-500 mb-6">Free</p>
+            <ul class="text-left space-y-4 mb-6">
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Check-in & Check-out automatizado por WhatsApp
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Acuerdo de huésped en línea y recopilación de ID
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Recordatorios previos al check-in y check-out
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Automatización básica de soporte (sin IA, sin escalación)
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Para anfitriones con más de 20 propiedades.
+              </li>
+            </ul>
+            <div class="cta-wrapper">
+                <!-- WhatsApp CTA Button -->
+                <a
+                href="https://wa.me/message/5IYX266Z5KPKK1"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition"
+                >
+                <i class="fab fa-whatsapp text-lg mr-2"></i>
+                Get Started
+                </a>
+            </div>
+          </div>
+
+          <!-- Card 2: Super Assistant -->
+          <!-- Card: Super Assistant -->
+          <div class="bg-white rounded-lg shadow-lg p-6 text-center viste-price-card">
+            <h4 class="text-xl font-bold text-gray-800 mb-4">
+              🦸‍♂️✨ Viste AI Assistant
+            </h4>
+            <p class="text-lg font-bold text-gray-700 mb-6">
+              Mensajería de huéspedes con IA
+            </p>
+
+            <!-- Features List -->
+            <ul class="text-left space-y-4 mb-6">
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Asistente gratuito de Check-in & Check-out para todos los anfitriones
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Mensajería con IA & soporte multilingüe 24/7
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Integración con WhatsApp & automatización de pagos
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Solución de problemas y escalación
+              </li>
+            </ul>
+
+            <!-- Limited Access Message -->
+            <p class="text-gray-700 font-semibold mb-4">
+              🔹 <strong>Apertura limitada</strong> – Aplica para unirte al programa de acceso anticipado.
+            </p>
+            <p class="text-gray-600 text-sm mb-6">
+              💡 We’re onboarding select hosts who want to streamline guest
+              communication and automate operations <strong>FREE</strong>. Get
+              in line and be among the first to revolutionize your rental
+              management.
+            </p>
+
+            <div class="cta-wrapper">
+                <!-- WhatsApp CTA Button -->
+                <a
+                href="https://wa.me/message/5IYX266Z5KPKK1"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition"
+                >
+                <i class="fab fa-whatsapp text-lg mr-2"></i>
+                Empezar Ahora
+                </a>
+            </div>
+          </div>
+
+          <!-- <div class="bg-white rounded-lg shadow-lg p-6 text-center">
+            <h4 class="text-xl font-bold text-gray-800 mb-4">
+              🦸‍♂️✨ Super Assistant
+            </h4>
+            <p class="text-lg font-bold text-gray-700 mb-6">
+              AI-Powered Guest Messaging
+            </p>
+            <ul class="text-left space-y-4 mb-6">
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                AI Guest Messaging & 24/7 Multilingual Support
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                WhatsApp Integration & Payment Automation
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Troubleshooting & Escalation
+              </li>
+            </ul>
+            <div class="text-left text-sm text-gray-600 mb-6">
+              <h5 class="font-bold text-gray-800 mb-2">Apartments Managed:</h5>
+              <p>6-10 Apartments: <strong>€3.99 Per Booking</strong></p>
+              <p>11-20 Apartments: <strong>€2.99 Per Booking</strong></p>
+              <p>21-50 Apartments: <strong>€1.99 Per Booking</strong></p>
+              <p>51+ Apartments: <strong>€0.99 Per Booking</strong></p>
+            </div>
+            <p class="text-gray-600 mb-4 text-sm">
+              🔹 Best for: Hosts ready to automate guest communication while
+              maintaining high response rates.
+            </p>
+            <a
+              href="https://wa.me/message/5IYX266Z5KPKK1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button
+                class="bg-gray-700 text-white py-2 px-4 rounded-lg hover:bg-gray-600"
+              >
+                Join Now
+              </button>
+            </a>
+          </div> -->
+
+          <!-- Card 3: Revenue-Share Plan -->
+          <!-- Revenue-Boosting Services -->
+          <div
+            class="bg-gray-800 rounded-lg text-white shadow-lg p-6 text-center viste-price-card"
+          >
+            <h4 class="text-xl font-bold mb-4">💰 Servicios Adicionales para Aumentar Ingresos</h4>
+            <p class="text-lg font-bold mb-6">
+              Mejora la experiencia del huésped sin esfuerzo.
+            </p>
+
+            <!-- Features List -->
+            <ul class="text-left space-y-4 mb-6">
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Upsells automáticos y ofertas personalizadas
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Exclusive Local Services for Your Guests
+              </li>
+              <li class="flex items-center">
+                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                Mayor satisfacción y reservas repetidas
+              </li>
+            </ul>
+
+            <!-- Services List -->
+            <div class="text-left text-sm text-gray-300 mb-6">
+              <h5 class="font-bold mb-2">Lo que gestionamos por ti:</h5>
+              <p>🕐 Late Check-Out & Early Check-In</p>
+              <p>✈️ Transporte al aeropuerto & traslados</p>
+              <p>🏙️ Tours por la ciudad & experiencias locales</p>
+              <p>🏡 Limpieza & servicios bajo demanda</p>
+            </div>
+
+            <p class="text-gray-300 mb-4 text-sm">
+              💡 Boost your guest experience effortlessly – we handle it all.
+            </p>
+
+            <div class="cta-wrapper">
+                <!-- WhatsApp CTA Button -->
+                <a
+                href="https://wa.me/message/5IYX266Z5KPKK1"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg transition"
+                >
+                <i class="fab fa-whatsapp text-lg mr-2"></i>
+                Únete Ahora
+                </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Why This Works Section -->
+        <div class="mt-12 text-center">
+          <div class="inline-block mx-auto text-left">
+            <h3 class="text-xl font-bold text-gray-800 mb-6 text-center">
+                ¿Por qué funciona para ti?
+            </h3>
+            <ul class="text-gray-700 space-y-2 inline-block mx-auto text-center">
+                <li>
+                Plan Smart Host es gratis – Sin riesgo, fácil de empezar.
+                </li>
+                <li>La IA reduce preguntas de huéspedes en un 80% – Ahorra tiempo.</li>
+                <li>
+                Opción de compartir ingresos en upsells – Ganancia adicional.
+                </li>
+                <li>Escala con el crecimiento de tu negocio – Sin costos iniciales.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mt-12">
+          <a
+            href="https://wa.me/message/5IYX266Z5KPKK1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button
+              class="bg-gray-900 text-white py-3 px-6 rounded-lg text-lg font-bold hover:bg-gray-800"
+            >
+              🚀 Empieza Hoy
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="py-16 bg-gray-900 text-gray-200 fade-in">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <h3 class="text-lg font-bold uppercase text-green-500 tracking-wide">
+            How It Works
+          </h3>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-white">
+            Simplifica la comunicación con los huéspedes en 5 pasos
+          </h2>
+          <p class="text-lg text-gray-400 mt-4">
+            Optimiza tu proceso de alojamiento y deja que la IA se encargue del resto.
+          </p>
+        </div>
+
+        <!-- Steps Section -->
+        <div class="flex flex-wrap gap-10 justify-center">
+        <!-- <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"> -->
+          <!-- Step 1 -->
+          <div
+            class="relative bg-gray-800 shadow-lg rounded-lg overflow-hidden transform transition hover:-translate-y-2 viste-step"
+          >
+            <div class="absolute top-0 left-0 h-1 w-full bg-green-500"></div>
+            <div class="p-6">
+              <div class="flex items-center justify-center mb-4">
+                <span
+                  class="bg-white text-gray-900 font-bold text-lg rounded-full h-12 w-12 flex items-center justify-center"
+                >
+                  1
+                </span>
+              </div>
+              <h4 class="text-2xl font-bold text-white mb-2">
+                El huésped reserva el apartamento
+              </h4>
+              <p class="text-gray-400 mb-4">
+                (Airbnb, Booking, etc.) → Mensaje de WhatsApp enviado
+              </p>
+              <ul class="space-y-2 text-gray-300">
+                <li>✅ Se envía un mensaje de check-in personalizado</li>
+                <li>✅ Incluye confirmación de pago y firma de contrato</li>
+                <li>✅ Todo se hace a través de WhatsApp, sin necesidad de aplicaciones</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div
+            class="relative bg-gray-800 shadow-lg rounded-lg overflow-hidden transform transition hover:-translate-y-2 viste-step"
+          >
+            <div class="absolute top-0 left-0 h-1 w-full bg-green-500"></div>
+            <div class="p-6">
+              <div class="flex items-center justify-center mb-4">
+                <span
+                  class="bg-white text-gray-900 font-bold text-lg rounded-full h-12 w-12 flex items-center justify-center"
+                >
+                  2
+                </span>
+              </div>
+              <h4 class="text-2xl font-bold text-white mb-2">
+                Check-in en línea y pago
+              </h4>
+              <p class="text-gray-400 mb-4">
+                El contrato y la verificación se gestionan de forma fluida.
+              </p>
+              <ul class="space-y-2 text-gray-300">
+                <li>✅ Sin intercambio manual de información</li>
+                <li>✅ Los huéspedes completan todo en un solo lugar</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div
+            class="relative bg-gray-800 shadow-lg rounded-lg overflow-hidden transform transition hover:-translate-y-2 viste-step"
+          >
+            <div class="absolute top-0 left-0 h-1 w-full bg-green-500"></div>
+            <div class="p-6">
+              <div class="flex items-center justify-center mb-4">
+                <span
+                  class="bg-white text-gray-900 font-bold text-lg rounded-full h-12 w-12 flex items-center justify-center"
+                >
+                  3
+                </span>
+              </div>
+              <h4 class="text-2xl font-bold text-white mb-2">
+                Asistencia con IA
+              </h4>
+              <p class="text-gray-400 mb-4">
+               La IA resuelve el 80% de las consultas, ahorrando tiempo a los anfitriones.
+              </p>
+              <ul class="space-y-2 text-gray-300">
+                <li>✅ Maneja direcciones, WiFi, recomendaciones, etc.</li>
+                <li>✅ Disponible 24/7 para las necesidades de los huéspedes</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div
+            class="relative bg-gray-800 shadow-lg rounded-lg overflow-hidden transform transition hover:-translate-y-2 viste-step"
+          >
+            <div class="absolute top-0 left-0 h-1 w-full bg-green-500"></div>
+            <div class="p-6">
+              <div class="flex items-center justify-center mb-4">
+                <span
+                  class="bg-white text-gray-900 font-bold text-lg rounded-full h-12 w-12 flex items-center justify-center"
+                >
+                  4
+                </span>
+              </div>
+              <h4 class="text-2xl font-bold text-white mb-2">
+                Escalación a humanos (opcional)
+              </h4>
+              <p class="text-gray-400 mb-4">
+                ¿Un problema más complejo? Escala la consulta a soporte humano.
+              </p>
+              <ul class="space-y-2 text-gray-300">
+                <li>
+                  ✅ Opción de gestionarlo tú mismo o que nuestro equipo lo maneje
+                </li>
+                <li>✅ Resolución rápida para satisfacción del huésped</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div
+            class="relative bg-gray-800 shadow-lg rounded-lg overflow-hidden transform transition hover:-translate-y-2 viste-step"
+          >
+            <div class="absolute top-0 left-0 h-1 w-full bg-green-500"></div>
+            <div class="p-6">
+              <div class="flex items-center justify-center mb-4">
+                <span
+                  class="bg-white text-gray-900 font-bold text-lg rounded-full h-12 w-12 flex items-center justify-center"
+                >
+                  5
+                </span>
+              </div>
+              <h4 class="text-2xl font-bold text-white mb-2">
+                Check-out automatizado y upsells
+              </h4>
+              <p class="text-gray-400 mb-4">
+                Monetiza las interacciones con los huéspedes sin esfuerzo.
+              </p>
+              <ul class="space-y-2 text-gray-300">
+                <li>✅ Los huéspedes reciben recordatorios de check-out</li>
+                <li>
+                  ✅ Ofrece upsells como transporte, tours y check-out tardío
+                </li>
+                <li>✅ Gana comisiones en las compras de los huéspedes</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center mt-16">
+          <a
+            href="https://wa.me/message/5IYX266Z5KPKK1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button
+              class="bg-white text-gray-900 py-3 px-8 rounded-lg text-lg font-bold hover:bg-gray-100 transition"
+            >
+              🚀 Get Started Today!
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 fade-in">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <!-- Header -->
+        <div class="text-center mb-12">
+          <h3 class="text-lg font-bold uppercase text-green-700 tracking-wide">
+            Testimonials
+          </h3>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-700">
+            Lo que dicen nuestros clientes
+          </h2>
+        </div>
+
+        <!-- Testimonials Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Testimonial 1 -->
+          <div class="bg-gray-50 rounded-lg shadow-md p-6">
+            <p class="text-lg text-gray-700 italic mb-4">
+              "Viste IA ha reducido mis mensajes manuales en un 80%. ¡Es un salvavidas!"
+            </p>
+            <div class="flex items-center">
+              <div
+                class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-xl"
+              >
+                M
+              </div>
+              <div class="ml-4">
+                <p class="font-bold text-gray-700">Maria G.</p>
+                <p class="text-sm text-gray-600">Superhost</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="bg-gray-50 rounded-lg shadow-md p-6">
+            <p class="text-lg text-gray-700 italic mb-4">
+              "Gracias a Viste IA, gano más con upsells de late check-out."
+            </p>
+            <div class="flex items-center">
+              <div
+                class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-xl"
+              >
+                C
+              </div>
+              <div class="ml-4">
+                <p class="font-bold text-gray-800">Carlos L.</p>
+                <p class="text-sm text-gray-500">Property Manager</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="bg-gray-50 rounded-lg shadow-md p-6">
+            <p class="text-lg text-gray-700 italic mb-4">
+              "Reduje mi tiempo de atención al huésped en un 80% y sin costo inicial."
+            </p>
+            <div class="flex items-center">
+              <div
+                class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-xl"
+              >
+                A
+              </div>
+
+              <div class="ml-4">
+                <p class="font-bold text-gray-800">Ana</p>
+                <p class="text-sm text-gray-500">Property Manager</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 4 -->
+          <div class="bg-gray-50 rounded-lg shadow-md p-6">
+            <p class="text-lg text-gray-700 italic mb-4">
+              "Los upsells cubrieron mi inversión en IA. A los huéspedes les encanta recibir respuestas inmediatas."
+            </p>
+            <div class="flex items-center">
+              <div
+                class="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 font-bold text-xl"
+              >
+                C
+              </div>
+              <div class="ml-4">
+                <p class="font-bold text-gray-800">Carlos</p>
+                <p class="text-sm text-gray-500">Superhost</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section id="cta" class="py-16 m-10 rounded-lg bg-gray-800 text-white fade-in">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24 text-center">
+        <!-- Main Heading -->
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          🚀 ¡Comienza hoy mismo!
+        </h2>
+        <p class="text-lg md:text-xl mb-8">
+          Únete a nuestro programa de acceso anticipado y revoluciona la gestión de tu alquiler.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div
+          class="flex flex-col md:flex-row justify-center items-center gap-4"
+        >
+          <!-- Sign Up Button -->
+          <a
+            href="https://wa.me/message/5IYX266Z5KPKK1"
+            class="bg-green-500 font-bold py-3 px-8 rounded-lg shadow-lg hover:bg-green-600 transition duration-300 cta-button"
+          >
+            Únete Gratis
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-16 bg-gray-50 fade-in">
+      <div class="container mx-auto px-6 md:px-12 lg:px-24">
+        <!-- Heading -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">
+          Preguntas Frecuentes
+        </h2>
+        <p class="text-gray-600 text-lg mb-8">
+          Got questions? We’ve got answers! If you don’t see your question
+          below, feel free to contact us.
+        </p>
+
+        <!-- FAQ Items -->
+        <div class="space-y-4">
+          <!-- Question 1 -->
+          <details class="group border-b border-gray-200">
+            <summary
+              class="flex justify-between items-center py-4 text-lg font-medium text-gray-800 cursor-pointer"
+            >
+              ¿Necesito instalar una aplicación?
+              <span
+                class="transition-transform duration-300 group-open:rotate-180"
+              >
+                &#x25BC;
+              </span>
+            </summary>
+            <p class="text-gray-600 text-base leading-relaxed">
+              No, todo funciona en WhatsApp.
+            </p>
+          </details>
+
+          <!-- Question 2 -->
+          <details class="group border-b border-gray-200">
+            <summary
+              class="flex justify-between items-center py-4 text-lg font-medium text-gray-800 cursor-pointer"
+            >
+                ¿Qué pasa si un huésped necesita ayuda personal?
+              <span
+                class="transition-transform duration-300 group-open:rotate-180"
+              >
+                &#x25BC;
+              </span>
+            </summary>
+            <p class="text-gray-600 text-base leading-relaxed">
+              Puedes escalarlo a soporte humano.
+            </p>
+          </details>
+
+          <!-- Question 3 -->
+          <details class="group border-b border-gray-200">
+            <summary
+              class="flex justify-between items-center py-4 text-lg font-medium text-gray-800 cursor-pointer"
+            >
+              ¿Puedo usar esto para propiedades fuera de Icnea?
+              <span
+                class="transition-transform duration-300 group-open:rotate-180"
+              >
+                &#x25BC;
+              </span>
+            </summary>
+            <p class="text-gray-600 text-base leading-relaxed">
+              Sí, es compatible con cualquier gestión.
+            </p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!---------------------- TEAM SECTION ---------------------->
+    <!-- Team Section -->
+    <section class="py-12 px-4 fade-in">
+      <div class="max-w-7xl mx-auto">
+        <h3
+          class="text-lg font-bold uppercase text-green-700 tracking-wide text-center"
+        >
+          Team Members
+        </h3>
+        <h1 class="text-5xl font-bold text-gray-700 text-center pb-14">
+          Meet the Experts Behind Viste AI
+        </h1>
+        <!-- Grid for team members -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Team Member 1 -->
+          <div class="text-center">
+            <img
+              src="./images/yon.png"
+              alt="Yon"
+              class="h-32 w-40 md:w-full md:h-64 object-cover object-top mx-auto"
+            />
+            <h3 class="text-xl font-semibold text-gray-700 mt-4">
+              Yon Wallace
+            </h3>
+            <p class="text-gray-500 text-lg">CEO</p>
+            <p class="mt-2 text-gray-600 text-lg">
+              CEO, experto en tecnología y medios.
+            </p>
+          </div>
+
+          <!-- Team Member 2 -->
+          <div class="text-center">
+            <img
+              src="./images/Pedro.png"
+              alt="Pedro"
+              class="h-32 w-40 md:w-full md:h-64 object-cover object-top mx-auto"
+            />
+            <h3 class="text-xl font-semibold text-gray-700 mt-4">
+              Pedro de Castro
+            </h3>
+            <p class="text-gray-500 text-lg">CBDO</p>
+            <p class="mt-2 text-gray-600 text-lg">
+              CBDO, experto en bienes raíces y hospitalidad.
+            </p>
+          </div>
+
+          <!-- Team Member 3 -->
+          <div class="text-center">
+            <img
+              src="./images/Nafees.png"
+              alt="Nafees"
+              class="h-32 w-40 md:w-full md:h-64 object-cover object-top mx-auto"
+            />
+            <h3 class="text-xl font-semibold text-gray-700 mt-4">
+              Nafees Akbarali
+            </h3>
+            <p class="text-gray-500 text-lg">Board Advisor</p>
+            <p class="mt-2 text-gray-600 text-lg">
+              Asesor, experto en IA y Big Data.
+            </p>
+          </div>
+
+          <!-- Team Member 4 -->
+          <div class="text-center">
+            <img
+              src="./images/SILVIA.jpg"
+              alt="Silvia"
+              class="h-32 w-40 md:w-full md:h-64 object-cover object-top mx-auto"
+            />
+            <h3 class="text-xl font-semibold text-gray-700 mt-4">
+              Silvia Candamil
+            </h3>
+            <p class="text-gray-500 text-lg">Board Advisor</p>
+            <p class="mt-2 text-gray-600 text-lg">
+              Asesora, inversora global en bienes raíces.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WhatsApp Floating Button -->
+    <a
+      href="https://wa.me/message/5IYX266Z5KPKK1"
+      target="_blank"
+      aria-label="Chat with us"
+      title="Chat with us"
+      class="heartbeat fixed bottom-5 h-16 w-16 right-5 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg flex items-center justify-center z-50 transition"
+    >
+      <i class="fab fa-whatsapp text-4xl"></i>
+    </a>
+
+    <!-- Footer Section -->
+    <footer class="text-dark py-8 mt-16">
+      <div class="max-w-6xl mx-auto px-4">
+        <!-- Grid layout -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-8 border-b border-gray-300 pb-6"
+        >
+          <!-- Quick Links -->
+          <div>
+            <h3 class="text-lg font-semibold text-dark mb-4">Quick Links</h3>
+            <ul>
+              <li><a href="#features" class="hover:underline">Features</a></li>
+              <li><a href="#pricing" class="hover:underline">Pricing</a></li>
+              <li>
+                <a href="./term-and-condition-es.html" class="hover:underline"
+                  >Términos y Condiciones</a
+                >
+              </li>
+              <li>
+                <a href="./privacy-policy-es.html" class="hover:underline"
+                  >Política de Privacidad</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Social Icons -->
+          <div>
+            <h3 class="text-lg font-semibold text-dark mb-4">Follow Us</h3>
+            <div class="flex space-x-4">
+              <a href="https://wa.me" target="_blank" class="text-green-500">
+                <i class="fab fa-whatsapp text-2xl"></i>
+              </a>
+              <a
+                href="https://linkedin.com"
+                target="_blank"
+                class="text-green-500"
+              >
+                <i class="fab fa-linkedin text-2xl"></i>
+              </a>
+              <a
+                href="https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t"
+                target="_blank"
+                class="text-green-500"
+              >
+                <i class="far fa-calendar-alt text-2xl"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Call-to-Action -->
+          <div>
+            <h3 class="text-lg font-semibold text-dark mb-4">Empieza Hoy</h3>
+            <p>Únete a nuestro programa de acceso anticipado y revoluciona la gestión de tus alquileres.</p>
+            <a
+              href="mailto:support@viste.ai"
+              class="text-green-400 hover:underline"
+            >
+              support@viste.ai
+            </a>
+          </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="text-right mt-6 text-sm">
+          <p>© 2025 Viste AI. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Language Detection -->
+    <script src="scripts/language.js"></script>
+
+    <script>
+      // Mobile menu toggle
+      document.getElementById("menu-toggle").addEventListener("click", () => {
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenu.classList.toggle("hidden");
+      });
+    </script>
+    <script src="scripts/animations.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".language-switcher").forEach((langSwitch) => {
+                langSwitch.value = 'es';
+                langSwitch.change();
+            });
+        });
+    </script>
+  </body>
+</html>
