@@ -31,3 +31,11 @@
         <priority>0.5</priority>
     </url>
 </urlset>
+ <url>
+    <loc>https://vist.ai/guestterms/en/</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://vist.ai/guestterms/es/</loc>
+    <changefreq>monthly</changefreq>
+  </url>

@@ -174,3 +174,43 @@ h1 {
     flex-basis: calc(33.333333% - 2.25rem);
   }
 }
+:root {
+  --terms-primary: #0070f3;
+  --terms-bg: #f9f9f9;
+  --terms-text: #333;
+  --terms-font: 'Inter', sans-serif;
+}
+
+body.terms-page {
+  background: var(--terms-bg);
+  color: var(--terms-text);
+  font-family: var(--terms-font);
+  padding: 2rem;
+  line-height: 1.6;
+}
+
+body.terms-page header,
+body.terms-page footer {
+  text-align: center;
+}
+
+body.terms-page header h1 {
+  color: var(--terms-primary);
+  margin-bottom: 1rem;
+}
+
+body.terms-page main {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+body.terms-page pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+body.terms-page footer p {
+  margin-top: 2rem;
+  font-size: 0.9em;
+  color: #666;
+}
