@@ -214,3 +214,19 @@ body.terms-page footer p {
   font-size: 0.9em;
   color: #666;
 }
+.cookie-banner {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  z-index: 1000;
+}
+.cookie-banner a { color: #0070f3; text-decoration: underline; margin: 0 0.5rem; }
+.cookie-banner button {
+  background: #0070f3; color: #fff; border: none;
+  padding: 0.5rem 1rem; margin-left: 1rem;
+  cursor: pointer; border-radius: 3px;
+}
