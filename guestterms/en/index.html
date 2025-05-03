@@ -1,93 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Read Viste.ai’s Terms & Conditions for our AI-powered check-in assistant.">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Viste.ai Terms & Conditions">
   <meta name="keywords" content="Viste.ai, Terms & Conditions, Freshlanding, GDPR">
-  <title>Viste.ai Terms &amp; Conditions</title>
+  <title>Viste.ai – Terms & Conditions</title>
 
   <!-- Favicons -->
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png">
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon_48x48.png">
+  <link rel="icon" href="/favicon_16x16.png" sizes="16x16" type="image/png">
+  <link rel="icon" href="/favicon_32x32.png" sizes="32x32" type="image/png">
+  <link rel="icon" href="/favicon_48x48.png" sizes="48x48" type="image/png">
 
-  <!-- Tailwind & Custom Styles -->
+  <!-- Tailwind + Typography plugin -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css">
-  <link rel="stylesheet" href="/styles.css">
+  <link
+    href="https://unpkg.com/@tailwindcss/typography@0.5.9/dist/typography.min.css"
+    rel="stylesheet"
+  />
+  <!-- Your custom styles (includes .terms-page rules) -->
+  <link rel="stylesheet" href="/styles.css" />
 
   <!-- Alternate languages -->
   <link rel="alternate" hreflang="en" href="https://viste.ai/guestterms/en/">
   <link rel="alternate" hreflang="es" href="https://viste.ai/guestterms/es/">
 </head>
-<body class="terms-page">
+<body class="bg-gradient-to-r from-green-50 via-white to-green-50">
 
-  <header class="py-8 text-center">
-    <h1 class="text-4xl font-bold text-secondary">Terms &amp; Conditions</h1>
-    <p class="mt-2 space-x-4">
-      <a class="underline" href="/">Home</a>
-      <a class="underline" href="/guestterms/en/">English</a> |
-      <a class="underline" href="/guestterms/es/">Español</a>
-    </p>
+  <!-- NAVBAR -->
+  <nav class="bg-white shadow-md fixed w-full z-50">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="flex items-center">
+        <img src="/images/messaging-business-ai-assistant-3.png" alt="Viste.ai Logo" class="h-10">
+      </a>
+      <ul class="hidden md:flex space-x-8 text-gray-700">
+        <li><a href="/" class="hover:underline">Home</a></li>
+        <li><a href="/#features" class="hover:underline">Features</a></li>
+        <li><a href="/#pricing" class="hover:underline">Pricing</a></li>
+        <li><a href="/#cta" class="hover:underline">Contact Us</a></li>
+      </ul>
+      <div class="hidden md:flex space-x-4">
+        <button onclick="location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
+                class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800">
+          Schedule a Demo
+        </button>
+        <select onchange="location = this.value" class="border rounded px-2">
+          <option value="/guestterms/en/" selected>EN</option>
+          <option value="/guestterms/es/">ES</option>
+        </select>
+      </div>
+      <button id="menu-toggle" class="md:hidden p-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden bg-white shadow-md">
+      <a href="/" class="block px-6 py-2 hover:bg-gray-100">Home</a>
+      <a href="/#features" class="block px-6 py-2 hover:bg-gray-100">Features</a>
+      <a href="/#pricing" class="block px-6 py-2 hover:bg-gray-100">Pricing</a>
+      <a href="/#cta" class="block px-6 py-2 hover:bg-gray-100">Contact Us</a>
+      <button onclick="location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
+              class="w-full text-left px-6 py-2 hover:bg-gray-100">Schedule a Demo</button>
+      <select onchange="location = this.value" class="w-full border px-6 py-2">
+        <option value="/guestterms/en/" selected>EN</option>
+        <option value="/guestterms/es/">ES</option>
+      </select>
+    </div>
+  </nav>
+  <div class="h-24"></div> <!-- spacer for fixed navbar -->
+
+  <!-- HEADER -->
+  <header class="container mx-auto px-6 text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-gray-800 mb-4">Terms &amp; Conditions</h1>
+    <nav class="text-lg space-x-4">
+      <a href="/" class="underline">Home</a>
+      <a href="/guestterms/en/" class="underline">English</a> |
+      <a href="/guestterms/es/" class="underline">Español</a>
+    </nav>
   </header>
 
-  <main class="prose prose-lg mx-auto px-4">
+  <!-- MAIN CONTENT -->
+  <main class="container mx-auto px-6 prose prose-lg prose-green">
     <p><strong>Effective Date:</strong> May 2, 2025<br>
     <strong>Last Updated:</strong> May 2, 2025</p>
 
-    <h2 id="introduction">1. Introduction</h2>
+    <h2>1. Introduction</h2>
     <p>
       Viste.ai (“we,” “us,” “our”) provides an AI-powered check-in assistant service in partnership with Freshlanding for short-term rentals in Málaga. By using our WhatsApp-based check-in service, you agree to these Terms &amp; Conditions, including the Data Protection provisions below.
     </p>
 
-    <h2 id="service-overview">2. Service Overview</h2>
+    <h2>2. Service Overview</h2>
     <ul>
       <li><strong>Purpose:</strong> Streamline your arrival via a secure Guest App link for uploading IDs, e-signature, and receiving door codes.</li>
       <li><strong>Eligibility:</strong> You must be at least 18 years old and have a valid booking with Freshlanding.</li>
     </ul>
 
-    <h2 id="user-obligations">3. User Obligations</h2>
+    <h2>3. User Obligations</h2>
     <ul>
       <li>Provide accurate personal data when prompted.</li>
       <li>Use the service lawfully and respectfully.</li>
       <li>Do not share your Guest App link or access codes with unauthorized third parties.</li>
     </ul>
 
-    <h2 id="intellectual-property">4. Intellectual Property</h2>
+    <h2>4. Intellectual Property</h2>
     <p>
       All content, trademarks, and software used in the Viste check-in assistant are owned or licensed by Viste.ai. You may not reproduce or distribute any part of the service without our express permission.
     </p>
 
-    <h2 id="limitation-of-liability">5. Limitation of Liability</h2>
+    <h2>5. Limitation of Liability</h2>
     <p>
       Viste.ai provides the check-in assistant “as is” and disclaims all warranties. We are not liable for indirect, incidental, or consequential damages arising from your use of the service.
     </p>
 
-    <h2 id="data-protection">6. Data Protection &amp; GDPR Compliance</h2>
-
-    <h3 id="data-controller">6.1 Data Controller</h3>
+    <h2>6. Data Protection &amp; GDPR Compliance</h2>
+    <h3>6.1 Data Controller</h3>
     <p>
       Viste.ai (acting on behalf of Freshlanding)<br>
       Calle Trinidad Grund 10, 29003 Málaga, Spain<br>
       Email: <a href="mailto:privacy@viste.is">privacy@viste.is</a>
     </p>
-
-    <h3 id="personal-data">6.2 Personal Data We Collect</h3>
+    <h3>6.2 Personal Data We Collect</h3>
     <ul>
       <li><strong>Identity &amp; Booking:</strong> Name, reservation dates, arrival time.</li>
       <li><strong>Check-in Data:</strong> ID/passport scan, e-signature, guest names.</li>
       <li><strong>Communication Logs:</strong> WhatsApp chat history.</li>
     </ul>
-
-    <h3 id="purposes-legal-bases">6.3 Purposes &amp; Legal Bases</h3>
+    <h3>6.3 Purposes &amp; Legal Bases</h3>
     <ol>
       <li><strong>Perform the Contract</strong> (Art. 6(1)(b) GDPR): Complete your online check-in and provide access codes.</li>
       <li><strong>Legal Compliance</strong> (Art. 6(1)(c)): Fulfil Spanish traveler registration requirements.</li>
       <li><strong>Legitimate Interests</strong> (Art. 6(1)(f)): Provide and improve our customer support.</li>
     </ol>
-
-    <h3 id="data-sharing">6.4 Data Sharing &amp; Recipients</h3>
+    <h3>6.4 Data Sharing &amp; Recipients</h3>
     <p>We do not sell or share your personal data with third-party marketers. Data may be shared with:</p>
     <ul>
       <li>Icnea API — to manage your booking and Guest App link.</li>
@@ -97,18 +144,15 @@
     <p>
       We also use OpenAI models (GPT-3.5 Turbo for check-in FAQs and GPT-4 for concierge upsells), but we never send any personal data to OpenAI. Instead, our backend injects anonymized status flags and template placeholders (e.g. “Payment Pending,” “ID Verified”) so no PII leaves our secure systems.
     </p>
-
-    <h3 id="international-transfers">6.5 International Transfers</h3>
+    <h3>6.5 International Transfers</h3>
     <p>No transfers outside the European Economic Area are made without appropriate safeguards.</p>
-
-    <h3 id="data-retention">6.6 Data Retention</h3>
+    <h3>6.6 Data Retention</h3>
     <ul>
       <li>Check-in Data &amp; ID scans: Deleted 24 hours after your check-out.</li>
       <li>Chat logs: Deleted 90 days after your departure.</li>
       <li>Legal Holds: Data required by law is retained only as necessary.</li>
     </ul>
-
-    <h3 id="your-rights">6.7 Your Rights</h3>
+    <h3>6.7 Your Rights</h3>
     <p>Under GDPR, you have the right to:</p>
     <ul>
       <li>Access your data (Art. 15)</li>
@@ -118,26 +162,35 @@
       <li>Object to processing (Art. 21)</li>
       <li>Data portability (Art. 20)</li>
       <li>Withdraw consent (Art. 7)</li>
-      <li>Lodge a complaint with the Spanish DPA: <a target="_blank" href="https://www.aepd.es">www.aepd.es</a></li>
+      <li>Lodge a complaint with the Spanish DPA: <a href="https://www.aepd.es" target="_blank">www.aepd.es</a></li>
     </ul>
     <p>To exercise any right, email <a href="mailto:privacy@viste.is">privacy@viste.is</a>.</p>
-
-    <h3 id="security-measures">6.8 Security Measures</h3>
+    <h3>6.8 Security Measures</h3>
     <p>
       We employ industry-standard safeguards (encryption at rest &amp; in transit, strict access controls) to protect your data.
     </p>
-
-    <h3 id="updates-to-policy">6.9 Updates to This Policy</h3>
+    <h3>6.9 Updates to This Policy</h3>
     <p>
       We may update these provisions at any time. Continued use of our service after posting the revised policy constitutes acceptance of the changes.
     </p>
   </main>
 
-  <footer class="py-8 text-center text-sm space-y-1">
-    <p><a class="underline" href="/">← Back to Viste.ai</a></p>
-    <p>&copy; 2025 Viste.ai. All rights reserved.</p>
-    <p><a class="underline" href="/privacy-policy/">Privacy Policy</a></p>
+  <!-- FOOTER -->
+  <footer class="mt-16 bg-white py-8">
+    <div class="container mx-auto px-6 text-center text-gray-600 space-y-2">
+      <a href="/" class="underline">← Back to Viste.ai</a><br>
+      <span>© 2025 Viste.ai. All rights reserved.</span><br>
+      <a href="/privacy-policy/" class="underline">Privacy Policy</a>
+    </div>
   </footer>
 
+  <script>
+    // Mobile menu toggle
+    document.getElementById('menu-toggle')
+      .addEventListener('click', () =>
+        document.getElementById('mobile-menu')
+          .classList.toggle('hidden')
+      );
+  </script>
 </body>
 </html>
