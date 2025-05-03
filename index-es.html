@@ -1,102 +1,144 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Automate guest check-ins, check-outs, and support with WhatsApp AI for short-term rentals.">
-    <meta name="keywords" content="WhatsApp AI, rental automation, check-in assistant, vacation rental, Airbnb automation">
-    <title>Viste AI - Automate Your Short-Term Rentals</title>
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
-    <script src="https://cdn.tailwindcss.com/"></script>
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"/>
+    <title>Viste AI – Automatiza tus alquileres</title>
+    <meta
+      name="description"
+      content="Automatiza check-ins, check-outs y soporte con WhatsApp AI para alquileres vacacionales."
+    />
+    <meta
+      name="keywords"
+      content="WhatsApp AI, automatización alquileres, asistente check-in, Airbnb"
+    />
+
+    <!-- FAVICONS -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon_16x16.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon_32x32.png"
+    />
+
+    <!-- STYLES & ICONS -->
+    <script src="https://cdn.tailwindcss.com" defer></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+      rel="stylesheet"
+      integrity="sha512-…"
+      crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="/styles.css" />
 
+    <!-- ALTERNATE LANGUAGES -->
     <link rel="alternate" hreflang="en" href="https://viste.ai/" />
-    <link rel="alternate" hreflang="es" href="https://viste.ai/index-es.html" />
+    <link
+      rel="alternate"
+      hreflang="es"
+      href="https://viste.ai/index-es.html"
+    />
   </head>
-  <body id="body" class="bg-gradient-to-r from-green-50 via-white to-green-50 scroll-smooth">
-  <header>
-    <!-- Navbar -->
-    <nav class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white shadow-md">
-      <div class="flex items-center">
-        <img
-          src="/images/messaging-business-ai-assistant-3-.png"
-          alt="Viste AI Logo"
-          class="h-11 w-auto mr-2"
-        />
-        <!-- <span class="text-lg font-bold text-gray-900">Viste AI</span> -->
-      </div>
-      <ul class="hidden md:flex space-x-8">
-        <li><a href="#body" class="text-gray-800 hover:underline">Inicio</a></li>
-        <li>
-          <a href="#features" class="text-gray-800 hover:underline">Características</a>
-        </li>
-        <li>
-          <a href="#pricing" class="text-gray-800 hover:underline">Precios</a>
-        </li>
-        <li>
-          <a href="#cta" class="text-gray-800 hover:underline">Contáctanos</a>
-        </li>
-      </ul>
-      <div class="hidden md:flex space-x-4">
-        <!-- <button class="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-md">
-          Get Started
-        </button> -->
-        <button
-          class="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
-          onclick="window.location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
-        >
-          Schedule a Demo
-        </button>
-        <select class="language-switcher">
+
+  <body
+    id="body"
+    class="bg-gradient-to-r from-green-50 via-white to-green-50 scroll-smooth"
+  >
+    <!-- COOKIE BANNER -->
+    <div
+      id="cookie-banner"
+      class="fixed bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 text-center z-50 hidden"
+    >
+      Usamos cookies para mejorar tu experiencia.
+      <a
+        href="/cookie-policy/es/"
+        class="underline text-green-400 mx-2"
+        >Saber más</a
+      >
+      <button
+        id="accept-cookies"
+        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+      >
+        Aceptar
+      </button>
+    </div>
+
+    <!-- NAVBAR -->
+    <header>
+      <nav
+        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-md"
+      >
+        <div class="flex items-center">
+          <a href="/" class="inline-block">
+            <img
+              src="/images/logo.png"
+              alt="Viste AI Logo"
+              class="h-11 w-auto mr-2"
+            />
+          </a>
+        </div>
+
+        <ul class="hidden md:flex space-x-8">
+          <li><a href="#body" class="text-gray-800 hover:underline">Inicio</a></li>
+          <li>
+            <a href="#features" class="text-gray-800 hover:underline"
+              >Características</a
+            >
+          </li>
+          <li>
+            <a href="#pricing" class="text-gray-800 hover:underline"
+              >Precios</a
+            >
+          </li>
+          <li>
+            <a href="#cta" class="text-gray-800 hover:underline"
+              >Contáctanos</a
+            >
+          </li>
+        </ul>
+
+        <div class="hidden md:flex items-center space-x-4">
+          <button
+            class="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
+            onclick="window.location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
+          >
+            Agenda una Demo
+          </button>
+          <select
+            class="language-switcher border border-gray-300 rounded p-1 text-gray-700"
+          >
             <option value="en">EN</option>
             <option value="es" selected>ES</option>
-        </select>
-      </div>
-      <button
-        class="md:hidden text-gray-700 focus:outline-none"
-        id="menu-toggle"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+          </select>
+        </div>
+
+        <button
+          class="md:hidden text-gray-700 focus:outline-none"
+          id="menu-toggle"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
-    </nav>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </nav>
+    </header>
 
     <!-- Mobile Menu -->
     <div
