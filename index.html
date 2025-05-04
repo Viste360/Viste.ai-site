@@ -3,49 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Viste AI – Automate Your Short-Term Rentals</title>
+    <title>Viste AI – Automate Your Short‑Term Rentals</title>
     <meta
       name="description"
-      content="Automate guest check-ins, check-outs, and support with WhatsApp AI for short-term rentals."
+      content="Automate guest check‑ins, check‑outs, and support with WhatsApp AI for short‑term rentals."
     />
     <meta
       name="keywords"
-      content="WhatsApp AI, rental automation, check-in assistant, Airbnb automation"
+      content="WhatsApp AI, rental automation, check‑in assistant, vacation rental, Airbnb automation"
     />
-
+  
     <!-- FAVICONS -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon_48x48.png" />
+  
+    <!-- TAILWIND & YOUR CSS -->
     <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon_16x16.png"
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
     />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon_32x32.png"
-    />
-
-    <!-- STYLES & ICONS -->
-    <script src="https://cdn.tailwindcss.com" defer></script>
+    <link rel="stylesheet" href="/styles.css" />
+  
+    <!-- FONT AWESOME ICONS -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
       rel="stylesheet"
-      integrity="sha512-…"
+      integrity="sha512-dyZ88n1VHI1Gz+2Gk6WBebM6ntCgI7VJmT4K7UUpf1G0tVt3YWn6a4E2cZ3+UuhpQ+1gP2Y6bkxk5G1QYfK7Gw=="
       crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     />
-    <link rel="stylesheet" href="/styles.css" />
-
+  
     <!-- ALTERNATE LANGUAGES -->
     <link rel="alternate" hreflang="en" href="https://viste.ai/" />
-    <link
-      rel="alternate"
-      hreflang="es"
-      href="https://viste.ai/index-es.html"
-    />
-  </head>
-
+    <link rel="alternate" hreflang="es" href="https://viste.ai/index-es.html" />
+  </head>  
   <body
     id="body"
     class="bg-gradient-to-r from-green-50 via-white to-green-50 scroll-smooth"
@@ -55,8 +47,10 @@
     <header>
       <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-md transition-all">
         <div class="flex items-center">
-          <a href="/" class="inline-block">
-            <img src="/images/logo.png" alt="Viste AI Logo" class="h-11 w-auto mr-4" />
+          <a href="/" class="flex items-center">
+            <img src="/images/logo.png"
+                 alt="Viste AI Logo"
+                 class="h-12 md:h-16 w-auto mr-4">
           </a>
         </div>
     
@@ -1313,107 +1307,30 @@
         </div>
       </div>
     </footer>
-      <!-- COOKIE BANNER -->
-      <div
-      id="cookie-banner"
-      class="fixed bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 text-center z-50 hidden"
-    >
+    <!-- … your <footer> here … -->
+
+    <!-- COOKIE BANNER (one only!) -->
+    <div id="cookie-banner"
+         class="hidden fixed bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 text-center z-50">
       We use cookies to enhance your experience.
-      <a
-        href="/cookie-policy/en/"
-        class="underline text-green-400 mx-2"
-        >Learn more</a
-      >
-      <button
-        id="accept-cookies"
-        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-      >
+      <a href="/cookie-policy/en/" class="underline text-green-400 mx-2">Learn more</a>
+      <button id="accept-cookies" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
         Accept
       </button>
     </div>
 
-    <!-- Language Detection -->
-    <script src="scripts/language.js"></script>
+    <!-- your other scripts -->
+    <script src="/scripts/language.js"></script>
+    <script src="/scripts/animations.js"></script>
+    <script src="/scripts/cookie.js" defer></script>
 
+    <!-- scroll‑listener -->
     <script>
-      // Mobile menu toggle
-      document.getElementById("menu-toggle").addEventListener("click", () => {
-        const mobileMenu = document.getElementById("mobile-menu");
-        mobileMenu.classList.toggle("hidden");
+      const nav = document.getElementById('mainNav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) nav.classList.add('scrolled');
+        else nav.classList.remove('scrolled');
       });
     </script>
-    <script src="scripts/animations.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".language-switcher").forEach((langSwitch) => {
-                langSwitch.value = 'en';
-                langSwitch.change();
-            });
-        });
-    </script>
-<script src="/scripts/cookie.js" defer></script>
-<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 text-center z-50 hidden">
-  We use cookies to enhance your experience. <a href="/cookie-policy/en/" class="underline text-green-400 mx-2">Learn more</a> <button id="accept-cookies" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Accept</button>
-</div>
-<script src="/scripts/cookie.js" defer></script>
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:#fff;padding:1rem;text-align:center;z-index:9999;">
-  We use cookies to enhance your experience. 
-  <a href="/cookie-policy/en/" style="color:#1da851;text-decoration:underline;margin:0 .5rem;">Learn more</a>
-  <button id="accept-cookies" style="background:#1da851;color:#fff;border:none;padding:.5rem 1rem;cursor:pointer;border-radius:3px;margin-left:1rem;">Accept</button>
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:#fff;padding:1rem;text-align:center;z-index:9999;">
-  We use cookies to enhance your experience. 
-  <a href="/cookie-policy/en/" style="color:#1da851;text-decoration:underline;margin:0 .5rem;">Learn more</a>
-  <button id="accept-cookies" style="background:#1da851;color:#fff;border:none;padding:.5rem 1rem;cursor:pointer;border-radius:3px;margin-left:1rem;">Accept</button>
-<script src="/scripts/cookie.js" defer></script></div></div><script src="/scripts/cookie.js" defer></script><script src="/scripts/cookie.js" defer></script>  </body>
-</html>
-
-<script src="/scripts/cookie.js" defer></script>
-<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 text-center z-50 hidden">
-  We use cookies to enhance your experience. <a href="/cookie-policy/en/" class="underline text-green-400 mx-2">Learn more</a> <button id="accept-cookies" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Accept</button>
-</div>
-<script src="/scripts/cookie.js" defer></script>
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:#fff;padding:1rem;text-align:center;z-index:9999;">
-  We use cookies to enhance your experience. 
-  <a href="/cookie-policy/en/" style="color:#1da851;text-decoration:underline;margin:0 .5rem;">Learn more</a>
-  <button id="accept-cookies" style="background:#1da851;color:#fff;border:none;padding:.5rem 1rem;cursor:pointer;border-radius:3px;margin-left:1rem;">Accept</button>
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:#fff;padding:1rem;text-align:center;z-index:9999;">
-  We use cookies to enhance your experience. 
-  <a href="/cookie-policy/en/" style="color:#1da851;text-decoration:underline;margin:0 .5rem;">Learn more</a>
-  <button id="accept-cookies" style="background:#1da851;color:#fff;border:none;padding:.5rem 1rem;cursor:pointer;border-radius:3px;margin-left:1rem;">Accept</button>
-<script src="/scripts/cookie.js" defer></script></div></div><script src="/scripts/cookie.js" defer></script><script src="/scripts/cookie.js" defer></script>  <!-- COOKIE BANNER LOGIC: place this before </body> -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const banner = document.getElementById('cookie-banner');
-      const btn    = document.getElementById('accept-cookies');
-      if (!localStorage.getItem('cookiesAccepted')) {
-        banner.style.display = 'block';
-      }
-      btn.onclick = () => {
-        localStorage.setItem('cookiesAccepted', 'true');
-        banner.remove();
-      };
-    });
-  </script>
-<script src="/scripts/cookie.js" defer></script>
-<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 text-center z-50 hidden">
-  We use cookies to enhance your experience. <a href="/cookie-policy/en/" class="underline text-green-400 mx-2">Learn more</a> <button id="accept-cookies" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Accept</button>
-</div>
-<script src="/scripts/cookie.js" defer></script>
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:#fff;padding:1rem;text-align:center;z-index:9999;">
-  We use cookies to enhance your experience. 
-  <a href="/cookie-policy/en/" style="color:#1da851;text-decoration:underline;margin:0 .5rem;">Learn more</a>
-  <button id="accept-cookies" style="background:#1da851;color:#fff;border:none;padding:.5rem 1rem;cursor:pointer;border-radius:3px;margin-left:1rem;">Accept</button>
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(0,0,0,0.8);color:#fff;padding:1rem;text-align:center;z-index:9999;">
-  We use cookies to enhance your experience. 
-  <a href="/cookie-policy/en/" style="color:#1da851;text-decoration:underline;margin:0 .5rem;">Learn more</a>
-  <button id="accept-cookies" style="background:#1da851;color:#fff;border:none;padding:.5rem 1rem;cursor:pointer;border-radius:3px;margin-left:1rem;">Accept</button>
-<script src="/scripts/cookie.js" defer></script></div></div><script src="/scripts/cookie.js" defer></script><script src="/scripts/cookie.js" defer></script></body>
-<script>
-  const nav = document.getElementById('mainNav');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
-  });
-</script>
-</body>
+  </body>
 </html>
