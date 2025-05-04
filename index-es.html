@@ -56,49 +56,38 @@
         class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-md"
       >
         <div class="flex items-center">
-          <a href="/" class="inline-block">
+          <a href="/index-es.html" class="inline-block">
             <img
               src="/images/logo.png"
-              alt="Viste AI Logo"
-              class="h-16 w-auto mr-2"
+              alt="Logotipo de Viste AI"
+              class="h-11 w-auto mr-2 transition-all duration-300 ease-in-out"
+              id="navbar-logo"
             />
           </a>
         </div>
-
+    
         <ul class="hidden md:flex space-x-8">
           <li><a href="#body" class="text-gray-800 hover:underline">Inicio</a></li>
-          <li>
-            <a href="#features" class="text-gray-800 hover:underline"
-              >Características</a
-            >
-          </li>
-          <li>
-            <a href="#pricing" class="text-gray-800 hover:underline"
-              >Precios</a
-            >
-          </li>
-          <li>
-            <a href="#cta" class="text-gray-800 hover:underline"
-              >Contáctanos</a
-            >
-          </li>
+          <li><a href="#features" class="text-gray-800 hover:underline">Características</a></li>
+          <li><a href="#pricing" class="text-gray-800 hover:underline">Precios</a></li>
+          <li><a href="#cta" class="text-gray-800 hover:underline">Contáctanos</a></li>
         </ul>
-
+    
         <div class="hidden md:flex items-center space-x-4">
           <button
             class="px-4 py-2 bg-gray-900 text-white rounded-md hover:bg-gray-800"
             onclick="window.location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
           >
-            Agenda una Demo
+            Programar una Demo
           </button>
           <select
             class="language-switcher border border-gray-300 rounded p-1 text-gray-700"
           >
-            <option value="en">EN</option>
             <option value="es" selected>ES</option>
+            <option value="en">EN</option>
           </select>
         </div>
-
+    
         <button
           class="md:hidden text-gray-700 focus:outline-none"
           id="menu-toggle"
@@ -119,7 +108,7 @@
           </svg>
         </button>
       </nav>
-    </header>
+    </header>    
 
     <!-- Mobile Menu -->
     <div
