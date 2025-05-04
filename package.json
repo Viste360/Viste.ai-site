@@ -1,0 +1,18 @@
+{
+  "name": "viste.ai-site",
+  "version": "1.0.0",
+  "description": "Automate guest check‑ins, check‑outs & support with WhatsApp AI",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./styles.css -o ./public/styles.css --minify",
+    "watch:css": "npx tailwindcss -i ./styles.css -o ./public/styles.css --watch"
+  },
+  "dependencies": {
+    "browserslist": "^4.24.5",
+    "caniuse-lite": "^1.0.30001716"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.1.5",
+    "postcss": "^8.5.3",
+    "autoprefixer": "^10.4.21"
+  }
+}

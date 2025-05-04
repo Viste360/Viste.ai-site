@@ -1,14 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Force navbar logo to 2.75rem (h‑11) on load */
+/* clamp initial logo size */
 #navbar-logo {
-    height: 2.75rem !important;
-    transition: height 0.3s ease-in-out;
+    height: 2.75rem !important;    /* same as h‑11 */
+    transition: height 0.3s ease;
   }
-  
-  /* If you have a “scrolled” class toggled on the nav, shrink further */
-  nav.scrolled #navbar-logo {
-    height: 2rem !important; /* Tailwind h‑8 equivalent */
+  /* once scrolled, shrink it further */
+  #mainNav.scrolled #navbar-logo {
+    height: 2rem !important;       /* same as h‑8 */
   }
   

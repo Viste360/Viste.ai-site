@@ -52,15 +52,14 @@
   >
     <!-- NAVBAR -->
     <header>
-      <nav
-        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-md"
-      >
+      <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-md transition-all">
         <div class="flex items-center">
-          <a href="/index-es.html" class="inline-block">
+          <a href="/" class="inline-block">
             <img
+              id="navbar-logo"
               src="/images/logo.png"
-              alt="Logotipo de Viste AI"
-              class="w-auto mr-2 transition-all duration-300 ease-in-out"
+              alt="Viste AI Logo"
+              class="w-auto mr-2"
               id="navbar-logo"
             />
           </a>
@@ -1338,4 +1337,12 @@
   <a href="/cookie-policy/en/" style="color:#1da851;text-decoration:underline;margin:0 .5rem;">Learn more</a>
   <button id="accept-cookies" style="background:#1da851;color:#fff;border:none;padding:.5rem 1rem;cursor:pointer;border-radius:3px;margin-left:1rem;">Accept</button>
 <script src="/scripts/cookie.js" defer></script></div><script src="/scripts/cookie.js" defer></script><script src="/scripts/cookie.js" defer></script>  </body>
+<script>
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+</script>
+</body>
 </html>
