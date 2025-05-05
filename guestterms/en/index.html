@@ -1,46 +1,57 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title> Térms and Conditions</title>
-  <meta name="description" content="Viste.ai Terms & Conditions">
-  <meta name="keywords" content="Viste.ai, Terms & Conditions, Freshlanding, GDPR">
-  <title>Viste.ai – Terms &amp; Conditions</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Terms &amp; Conditions</title>
+  <meta name="description" content="Viste.ai Terms & Conditions" />
+  <meta name="keywords" content="Viste.ai, Terms & Conditions, Freshlanding, GDPR" />
 
   <!-- FAVICONS -->
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png" />
 
-  <!-- TAILWIND AS CSS (immediate) -->
+  <!-- TAILWIND & YOUR CSS -->
+  <script src="https://cdn.tailwindcss.com" defer></script>
+  <link rel="stylesheet" href="/styles.css" />
+
+  <!-- FONT AWESOME ICONS -->
   <link
-    href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
     rel="stylesheet"
-  /><link rel="stylesheet" href="/styles.css" />
-
-  <!-- FONT AWESOME -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  />
 
   <!-- ALTERNATE LANGUAGES -->
-  <link rel="alternate" hreflang="en" href="/guestterms/en/">
-  <link rel="alternate" hreflang="es" href="/guestterms/es/">
+  <link rel="alternate" hreflang="en" href="https://viste.ai/guestterms/en/" />
+  <link rel="alternate" hreflang="es" href="https://viste.ai/guestterms/es/" />
 </head>
 
 <body class="bg-gradient-to-r from-green-50 via-white to-green-50">
 
   <!-- NAVBAR -->
   <header>
-    <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-md">
+    <nav
+      id="mainNav"
+      class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-md"
+    >
       <a href="/" class="flex items-center">
-        <img src="/images/logo.png" alt="Viste AI Logo" class="h-12 w-auto mr-2">
+        <img
+          src="/images/logo.png"
+          alt="Viste AI Logo"
+          class="h-12 w-auto"
+        />
       </a>
+
       <ul class="hidden md:flex space-x-6">
         <li><a href="/" class="text-gray-700 hover:text-gray-900">Home</a></li>
         <li><a href="/guestterms/es/" class="text-gray-700 hover:text-gray-900">Español</a></li>
       </ul>
+
       <div class="hidden md:flex space-x-4">
-        <button onclick="location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
-                class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800">
+        <button
+          onclick="location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
+          class="bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800"
+        >
           Schedule a Demo
         </button>
         <select onchange="location = this.value" class="border rounded px-2">
@@ -48,13 +59,29 @@
           <option value="/guestterms/es/">ES</option>
         </select>
       </div>
+
       <button id="menu-toggle" class="md:hidden p-2">
-        <i class="fas fa-bars text-gray-800"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+             viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
       </button>
     </nav>
-    <div class="h-24"></div> <!-- spacer for fixed navbar -->
+    <div class="h-24"></div> <!-- spacer -->
   </header>
 
+  <!-- PAGE TITLE -->
+  <main class="container mx-auto px-6 text-center mt-12">
+    <h1 class="text-4xl font-extrabold text-gray-800 mb-4">Terms &amp; Conditions</h1>
+    <nav class="text-lg space-x-4">
+      <a href="/" class="underline">Home</a>
+      <span>|</span>
+      <a href="/guestterms/en/" class="underline">English</a>
+      <span>|</span>
+      <a href="/guestterms/es/" class="underline">Español</a>
+    </nav>
+  </main>
   <!-- MAIN CONTENT -->
   <main class="container mx-auto px-6 prose prose-lg prose-green">
     <p><strong>Effective Date:</strong> May 2, 2025<br>
