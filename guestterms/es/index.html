@@ -2,42 +2,39 @@
 <html lang="es" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Viste.ai – Términos y Condiciones</title>
   <meta name="description" content="Viste.ai Términos y Condiciones">
   <meta name="keywords" content="Viste.ai, Términos y Condiciones, Freshlanding, RGPD">
-  <title>Viste.ai – Términos y Condiciones</title>
 
-  <!-- Favicons -->
-  <link rel="icon" href="/favicon_16x16.png" sizes="16x16" type="image/png">
-  <link rel="icon" href="/favicon_32x32.png" sizes="32x32" type="image/png">
-  <link rel="icon" href="/favicon_48x48.png" sizes="48x48" type="image/png">
+  <!-- FAVICONS -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon_16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon_32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon_48x48.png">
 
-  <!-- Tailwind + Typography plugin -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    href="https://unpkg.com/@tailwindcss/typography@0.5.9/dist/typography.min.css"
-    rel="stylesheet"
-  />
-  <!-- Your custom styles (includes .terms-page rules) -->
-  <link rel="stylesheet" href="/styles.css" />
+  <!-- TAILWIND & YOUR CSS -->
+  <script src="https://cdn.tailwindcss.com" defer></script>
+  <link rel="stylesheet" href="/styles.css">
 
-  <!-- Alternate languages -->
-  <link rel="alternate" hreflang="en" href="https://viste.ai/guestterms/en/">
-  <link rel="alternate" hreflang="es" href="https://viste.ai/guestterms/es/">
+  <!-- FONT AWESOME -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <!-- ALTERNATE LANGUAGES -->
+  <link rel="alternate" hreflang="es" href="/guestterms/es/">
+  <link rel="alternate" hreflang="en" href="/guestterms/en/">
 </head>
 <body class="bg-gradient-to-r from-green-50 via-white to-green-50">
 
   <!-- NAVBAR -->
-  <nav class="bg-white shadow-md fixed w-full z-50">
-    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+  <header>
+    <nav id="mainNav" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-md">
       <a href="/" class="flex items-center">
-        <img src="/images/messaging-business-ai-assistant-3.png" alt="Viste.ai Logo" class="h-10">
+        <img src="/images/logo.png" alt="Viste.ai Logo" class="h-12 w-auto mr-2">
+        <span class="text-xl font-semibold text-gray-800">Viste AI</span>
       </a>
-      <ul class="hidden md:flex space-x-8 text-gray-700">
-        <li><a href="/" class="hover:underline">Inicio</a></li>
-        <li><a href="/#features" class="hover:underline">Características</a></li>
-        <li><a href="/#pricing" class="hover:underline">Precios</a></li>
-        <li><a href="/#cta" class="hover:underline">Contáctanos</a></li>
+      <ul class="hidden md:flex space-x-6">
+        <li><a href="/" class="text-gray-700 hover:text-gray-900">Inicio</a></li>
+        <li><a href="/guestterms/en/" class="text-gray-700 hover:text-gray-900">English</a></li>
       </ul>
       <div class="hidden md:flex space-x-4">
         <button onclick="location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
@@ -50,30 +47,14 @@
         </select>
       </div>
       <button id="menu-toggle" class="md:hidden p-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-             viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"/>
-        </svg>
+        <i class="fas fa-bars text-gray-800"></i>
       </button>
-    </div>
-    <div id="mobile-menu" class="hidden bg-white shadow-md">
-      <a href="/" class="block px-6 py-2 hover:bg-gray-100">Inicio</a>
-      <a href="/#features" class="block px-6 py-2 hover:bg-gray-100">Características</a>
-      <a href="/#pricing" class="block px-6 py-2 hover:bg-gray-100">Precios</a>
-      <a href="/#cta" class="block px-6 py-2 hover:bg-gray-100">Contáctanos</a>
-      <button onclick="location.href='https://calendar.google.com/calendar/u/0?cid=eW9uLndhbGxhY2VAdmlzdGUzNjAuY29t'"
-              class="w-full text-left px-6 py-2 hover:bg-gray-100">Agenda una Demo</button>
-      <select onchange="location = this.value" class="w-full border px-6 py-2">
-        <option value="/guestterms/en/">EN</option>
-        <option value="/guestterms/es/" selected>ES</option>
-      </select>
-    </div>
-  </nav>
-  <div class="h-24"></div> <!-- spacer for fixed navbar -->
+    </nav>
+    <div class="h-24"></div> <!-- spacer for fixed navbar -->
+  </header>
 
   <!-- HEADER -->
-  <header class="container mx-auto px-6 text-center mb-12">
+  <header class="container mx-auto px-6 text-center mb-12 mt-6">
     <h1 class="text-4xl font-extrabold text-gray-800 mb-4">Términos y Condiciones</h1>
     <nav class="text-lg space-x-4">
       <a href="/" class="underline">Inicio</a>
@@ -175,8 +156,8 @@
     </p>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="mt-16 bg-white py-8">
+<!-- FOOTER -->
+<footer class="mt-16 bg-white py-8">
     <div class="container mx-auto px-6 text-center text-gray-600 space-y-2">
       <a href="/" class="underline">← Volver a Viste.ai</a><br>
       <span>© 2025 Viste.ai. Todos los derechos reservados.</span><br>
@@ -184,12 +165,42 @@
     </div>
   </footer>
 
+  <!-- COOKIE BANNER -->
+  <div id="cookie-banner"
+       class="fixed bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 text-center z-50 hidden">
+    We use cookies to enhance your experience.
+    <a href="/cookie-policy/es/" class="underline text-green-400 mx-2">Más información</a>
+    <button id="accept-cookies" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded ml-2">
+      Aceptar
+    </button>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="/scripts/language.js"></script>
+  <script src="/scripts/animations.js"></script>
+  <script src="/scripts/cookie.js" defer></script>
   <script>
-    document.getElementById('menu-toggle')
-      .addEventListener('click', () =>
-        document.getElementById('mobile-menu')
-          .classList.toggle('hidden')
-      );
+    // Navbar scroll behavior
+    document.addEventListener('scroll', () => {
+      const nav = document.getElementById('mainNav');
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    // Cookie banner logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const banner = document.getElementById('cookie-banner');
+      const btn    = document.getElementById('accept-cookies');
+      if (!localStorage.getItem('cookiesAccepted')) banner.classList.remove('hidden');
+      btn.onclick = () => {
+        localStorage.setItem('cookiesAccepted', 'true');
+        banner.remove();
+      };
+    });
   </script>
-<script src="/scripts/cookie.js" defer></script></body>
+</body>
 </html>
