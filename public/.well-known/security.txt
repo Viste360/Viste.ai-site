@@ -1,0 +1,5 @@
+Contact: mailto:security@viste.ai
+Preferred-Languages: en, es
+Canonical: https://viste.ai/.well-known/security.txt
+Policy: https://viste.ai/security
+Expires: 2027-08-02T23:59:59.000Z

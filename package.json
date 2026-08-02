@@ -1,18 +1,42 @@
 {
-  "name": "viste.ai-site",
-  "version": "1.0.0",
-  "description": "Automate guest check‑ins, check‑outs & support with WhatsApp AI",
+  "name": "viste-ai-global",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Premium bilingual website for Viste.ai AI implementation and automation services",
   "scripts": {
-    "build:css": "npx tailwindcss -i ./styles.css -o ./public/styles.css --minify",
-    "watch:css": "npx tailwindcss -i ./styles.css -o ./public/styles.css --watch"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "check:links": "node scripts/check-links.mjs",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run check:links && npm run build"
   },
   "dependencies": {
-    "browserslist": "^4.24.5",
-    "caniuse-lite": "^1.0.30001716"
+    "@supabase/supabase-js": "2.111.0",
+    "next": "16.2.12",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3"
   },
   "devDependencies": {
-    "tailwindcss": "^4.1.5",
-    "postcss": "^8.5.3",
-    "autoprefixer": "^10.4.21"
+    "@axe-core/playwright": "4.11.0",
+    "@playwright/test": "1.62.1",
+    "@types/node": "24.10.4",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "16.2.12",
+    "typescript": "^5.9.3",
+    "vitest": "4.1.10"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "overrides": {
+    "postcss": "8.5.25",
+    "sharp": "0.35.3"
   }
 }

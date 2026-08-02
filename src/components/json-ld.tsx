@@ -1,0 +1,2 @@
+import {siteUrl} from "@/content/site";
+export function JsonLd(){const data={"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":`${siteUrl}/#organization`,name:"Viste.ai",url:siteUrl,email:"hello@viste.ai",description:"AI implementation and automation for established businesses."},{"@type":"WebSite","@id":`${siteUrl}/#website`,url:siteUrl,name:"Viste.ai",publisher:{"@id":`${siteUrl}/#organization`},inLanguage:["en","es"]}]};return <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(data).replace(/</g,"\\u003c")}}/>}
