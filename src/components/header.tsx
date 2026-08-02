@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { contactPath, labels, navigation } from "@/content/site";
 import { Logo } from "./logo";
+import { MobileNavigation } from "./mobile-navigation";
 
 export function Header({ locale }: { locale: "en" | "es" }) {
   const other = locale === "en" ? "/es" : "/";
@@ -10,6 +11,6 @@ export function Header({ locale }: { locale: "en" | "es" }) {
       {navigation[locale].map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}
     </nav>
     <div className="header-actions"><Link className="language" href={other} hrefLang={locale === "en" ? "es" : "en"}>{labels[locale].language}</Link><Link className="button button-small" href={contactPath[locale]}>{labels[locale].contact}</Link></div>
-    <details className="mobile-nav"><summary>{labels[locale].menu}</summary><div>{navigation[locale].map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}<Link href={other}>{labels[locale].language}</Link><Link href={contactPath[locale]}>{labels[locale].contact}</Link></div></details>
+    <MobileNavigation locale={locale} />
   </div></header>;
 }
