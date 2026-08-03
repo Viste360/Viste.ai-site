@@ -2,7 +2,6 @@ name: Quality
 on:
   pull_request:
   push:
-    branches: [main, rebuild/viste-ai-global]
 jobs:
   check:
     runs-on: ubuntu-latest

@@ -300,9 +300,9 @@ export const industries: CatalogItem[] = [
     metrics: { en: ["Processing cycle", "Exception closure", "Data accuracy", "Service response"], es: ["Ciclo de proceso", "Cierre de excepciones", "Precisión de datos", "Respuesta de servicio"] },
   },
   {
-    id: "retail",
-    path: { en: "/industries/retail-multi-location", es: "/es/sectores/retail-multilocal" },
-    title: { en: "Retail and Multi-location Businesses", es: "Retail y Empresas Multilocal" },
+    id: "multi-location",
+    path: { en: "/industries/multi-location-businesses", es: "/es/sectores/empresas-multilocal" },
+    title: { en: "Multi-location Businesses", es: "Empresas Multilocal" },
     description: { en: "Give distributed teams consistent answers, clearer operating signals and better customer handoffs.", es: "Ofrece a equipos distribuidos respuestas coherentes, señales operativas claras y mejores traspasos." },
     problem: { en: "Locations handle the same questions and exceptions differently while central teams struggle to see patterns.", es: "Cada ubicación gestiona preguntas y excepciones de forma distinta y el equipo central no ve los patrones." },
     approach: { en: ["Standardise approved knowledge", "Connect customer and operational channels", "Route exceptions to accountable teams", "Aggregate comparable site metrics"], es: ["Estandarizar conocimiento aprobado", "Conectar canales de cliente y operación", "Enrutar excepciones", "Agregar métricas comparables por ubicación"] },

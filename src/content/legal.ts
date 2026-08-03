@@ -1,4 +1,5 @@
 import type { PageDefinition } from "./types";
+import { publicConfig } from "@/lib/public-config";
 
 const effective = "2 August 2026";
 const vigente = "2 de agosto de 2026";
@@ -13,9 +14,9 @@ export const legalPages: PageDefinition[] = [
       { title: "Information we collect", paragraphs: ["When you contact us, we may receive your name, work email, company, role, country, phone number and the information you choose to provide about your business need. We also process limited technical and security data needed to operate and protect the website."], bullets: ["Enquiry and correspondence data", "Consent and form-submission records", "Essential security and diagnostic events", "Analytics data only after consent, when analytics is enabled"] },
       { title: "Why we use it", paragraphs: ["We use enquiry data to respond, assess fit, prepare a requested conversation or proposal, keep appropriate business records and protect the service. We do not sell personal information or use public-form data to train AI models."] },
       { title: "Processors, transfers and retention", paragraphs: ["Website hosting is provided through Vercel. Lead storage and email delivery may use Supabase and a configured email provider. These services may process data in other countries under their contractual safeguards. We retain enquiries only as long as reasonably needed for the relationship, legal obligations and security; routine unqualified enquiries should be reviewed for deletion after 24 months."] },
-      { title: "Your choices and rights", paragraphs: ["Depending on where you live, you may have rights to access, correct, delete, restrict or object to processing, withdraw consent, or complain to a data-protection authority. Email privacy@viste.ai. We may need to verify your identity before acting."] },
+      { title: "Your choices and rights", paragraphs: [`Depending on where you live, you may have rights to access, correct, delete, restrict or object to processing, withdraw consent, or complain to a data-protection authority. Email ${publicConfig.legalOperator.privacyContact}. We may need to verify your identity before acting.`] },
       { title: "Important scope", paragraphs: ["Do not submit passwords, payment-card details, special-category information or confidential client data through the public form. This notice does not claim an unverified corporate registration or office address; contracting-entity details must appear in the relevant commercial agreement."] },
-    ], cta: { label: "Ask a privacy question", href: "mailto:privacy@viste.ai", note: "Please do not include sensitive information." },
+    ], cta: { label: "Ask a privacy question", href: `mailto:${publicConfig.legalOperator.privacyContact}`, note: "Please do not include sensitive information." },
   },
   {
     id: "privacy-es", locale: "es", path: "/es/privacidad", alternatePath: "/privacy",
@@ -26,9 +27,9 @@ export const legalPages: PageDefinition[] = [
       { title: "Información que recopilamos", paragraphs: ["Al contactar, podemos recibir nombre, email profesional, empresa, cargo, país, teléfono y la información que decidas aportar. También tratamos datos técnicos y de seguridad limitados para operar y proteger el sitio."], bullets: ["Datos de consulta y correspondencia", "Registros de consentimiento y envío", "Eventos esenciales de seguridad y diagnóstico", "Analítica solo con consentimiento, cuando esté habilitada"] },
       { title: "Para qué la utilizamos", paragraphs: ["Usamos los datos para responder, evaluar el encaje, preparar una conversación o propuesta solicitada, mantener registros adecuados y proteger el servicio. No vendemos datos personales ni usamos formularios públicos para entrenar modelos de IA."] },
       { title: "Proveedores, transferencias y conservación", paragraphs: ["Vercel aloja el sitio. Supabase y un proveedor de email configurado pueden gestionar registros y mensajes. Pueden tratar datos en otros países con sus garantías contractuales. Conservamos consultas solo mientras sea razonablemente necesario; las no cualificadas deberían revisarse para borrado tras 24 meses."] },
-      { title: "Tus opciones y derechos", paragraphs: ["Según tu lugar de residencia, puedes solicitar acceso, rectificación, supresión, limitación u oposición, retirar consentimiento o reclamar ante una autoridad. Escribe a privacy@viste.ai. Podemos verificar tu identidad."] },
+      { title: "Tus opciones y derechos", paragraphs: [`Según tu lugar de residencia, puedes solicitar acceso, rectificación, supresión, limitación u oposición, retirar consentimiento o reclamar ante una autoridad. Escribe a ${publicConfig.legalOperator.privacyContact}. Podemos verificar tu identidad.`] },
       { title: "Alcance importante", paragraphs: ["No envíes contraseñas, tarjetas, categorías especiales ni datos confidenciales de clientes. Este aviso no inventa un registro mercantil o domicilio no verificado; la entidad contratante debe constar en el acuerdo comercial."] },
-    ], cta: { label: "Consultar sobre privacidad", href: "mailto:privacy@viste.ai", note: "No incluyas información sensible." },
+    ], cta: { label: "Consultar sobre privacidad", href: `mailto:${publicConfig.legalOperator.privacyContact}`, note: "No incluyas información sensible." },
   },
   {
     id: "terms-en", locale: "en", path: "/terms", alternatePath: "/es/terminos",
@@ -63,9 +64,9 @@ export const legalPages: PageDefinition[] = [
     lead: "The site works without advertising cookies. Optional analytics remain off unless you choose to allow them.",
     sections: [
       { title: "Essential storage", paragraphs: ["We use local browser storage to remember your cookie choice and may use short-lived security mechanisms required for forms and administration. These are necessary for the requested function."] },
-      { title: "Optional analytics", paragraphs: ["If analytics is configured and you consent, Google Analytics may collect page and device information to help us understand site use. It stays disabled before consent. You can reject it and still use the site."] },
+      { title: "Optional analytics", paragraphs: ["If you consent, Vercel Web Analytics and Speed Insights may collect limited page, device and performance information to help us understand use and Core Web Vitals. Google Analytics is used only when separately configured. Optional measurement stays disabled before consent, and you can reject it without losing site access."] },
       { title: "Change your choice", paragraphs: ["Use the Cookie settings control in the footer to reopen the choice. Clearing browser storage also resets the preference."] },
-    ], cta: { label: "Privacy questions", href: "mailto:privacy@viste.ai", note: "Contact us if the controls do not behave as described." },
+    ], cta: { label: "Privacy questions", href: `mailto:${publicConfig.legalOperator.privacyContact}`, note: "Contact us if the controls do not behave as described." },
   },
   {
     id: "cookies-es", locale: "es", path: "/es/cookies", alternatePath: "/cookies",
@@ -74,9 +75,8 @@ export const legalPages: PageDefinition[] = [
     lead: "El sitio funciona sin cookies publicitarias. La analítica opcional no se activa sin tu permiso.",
     sections: [
       { title: "Almacenamiento esencial", paragraphs: ["Usamos almacenamiento local para recordar tu elección y podemos usar mecanismos breves de seguridad necesarios para formularios y administración."] },
-      { title: "Analítica opcional", paragraphs: ["Si se configura y aceptas, Google Analytics puede recoger información de páginas y dispositivo para entender el uso. Permanece desactivado antes del consentimiento. Puedes rechazarlo sin perder acceso."] },
+      { title: "Analítica opcional", paragraphs: ["Si aceptas, Vercel Web Analytics y Speed Insights pueden recoger información limitada de página, dispositivo y rendimiento para entender el uso y las Core Web Vitals. Google Analytics solo se usa si se configura por separado. La medición opcional permanece desactivada antes del consentimiento y puedes rechazarla sin perder acceso."] },
       { title: "Cambiar tu elección", paragraphs: ["Usa Configurar cookies en el pie para abrir de nuevo el control. Borrar el almacenamiento del navegador también restablece la preferencia."] },
-    ], cta: { label: "Consultas de privacidad", href: "mailto:privacy@viste.ai", note: "Contacta si los controles no funcionan como se describe." },
+    ], cta: { label: "Consultas de privacidad", href: `mailto:${publicConfig.legalOperator.privacyContact}`, note: "Contacta si los controles no funcionan como se describe." },
   },
 ];
-

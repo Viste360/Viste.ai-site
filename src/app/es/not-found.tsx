@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound() { return <main className="not-found shell"><p className="eyebrow">404 / No encontrado</p><h1>Esta página ya no está aquí.</h1><p>Visita el nuevo sitio de Viste.ai o cuéntanos qué estabas buscando.</p><div className="button-row"><Link className="button" href="/es">Ir al inicio</Link><Link className="button button-ghost" href="/es/contacto">Contactar</Link></div></main>; }

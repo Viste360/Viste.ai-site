@@ -1,1 +1,12 @@
-import type { MetadataRoute } from "next";import { siteUrl } from "@/content/site";export default function robots():MetadataRoute.Robots{const preview=process.env.VERCEL_ENV&&process.env.VERCEL_ENV!=="production";return preview?{rules:{userAgent:"*",disallow:"/"}}:{rules:[{userAgent:"*",allow:"/",disallow:["/admin","/api/"]}],sitemap:`${siteUrl}/sitemap.xml`,host:siteUrl}}
+import type { MetadataRoute } from "next";
+import { siteUrl } from "@/content/site";
+
+export default function robots(): MetadataRoute.Robots {
+  const preview = process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production";
+  if (preview) return { rules: { userAgent: "*", disallow: "/" } };
+  return {
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api/"] }],
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
+  };
+}
