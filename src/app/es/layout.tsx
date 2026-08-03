@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { LocaleRoot } from "@/components/locale-root";
 import { siteUrl } from "@/content/site";
+import { displayFont } from "../fonts";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -13,5 +14,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = { themeColor: "#071415", colorScheme: "dark" };
 
 export default function SpanishLayout({ children }: { children: React.ReactNode }) {
-  return <LocaleRoot locale="es">{children}</LocaleRoot>;
+  return <LocaleRoot locale="es" bodyClassName={displayFont.variable}>{children}</LocaleRoot>;
 }
