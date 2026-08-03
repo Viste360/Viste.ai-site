@@ -11,7 +11,14 @@ Test date: 3 August 2026
 
 ## Deployed-preview evidence
 
-The preview shows the complete bilingual form. A request using explicitly illustrative data returned HTTP 503, a non-sensitive request ID and `mailto:hello@viste.ai` fallback because Preview provider variables are not configured. `/api/health` reports `configuration-required` for storage, notification and booking. This is the required fail-closed behavior, not a launch-ready result.
+Preview tested: `https://viste-ai-site-4tja8cjjz-vistes-projects-c629d2e5.vercel.app`
+
+- `/api/health` reported `contact: "ready"` and `ready` for lead storage, notification and booking.
+- The deliberately marked qualified submission returned HTTP 201 with reference `f204b2aa-776c-4c4b-9fce-5aa10541ade2`, `notification: "sent"` and the approved Google Calendar booking URL.
+- The matching Supabase row contained the expected QA company marker, qualification state and UTM attribution.
+- Resend recorded a successful API request and a `sent` transactional message to the configured notification recipient.
+- Earlier controlled attempts demonstrated the fail-closed path: an invalid payload returned HTTP 400, an unavailable durable store returned HTTP 503, and neither condition produced a false success response.
+- The two marked QA rows created while repairing and retesting the provider configuration were removed after verification. No production lead data was changed.
 
 ## Required live-delivery acceptance test
 
@@ -23,4 +30,4 @@ The preview shows the complete bilingual form. A request using explicitly illust
 6. Trigger the rate limit and notification failure monitor in a controlled test.
 7. Delete test records under the agreed test-data process and record the evidence.
 
-Production approval is blocked until this acceptance test passes.
+The acceptance test passed on 3 August 2026. The reviewed release candidate is approved for production promotion; the live domain must still receive a post-deployment smoke test.
