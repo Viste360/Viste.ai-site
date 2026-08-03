@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { contactPath, labels, navigation } from "@/content/site";
 import { Logo } from "./logo";
+import { LanguageLink } from "./language-link";
 
 type Locale = "en" | "es";
 
@@ -39,7 +40,6 @@ export function MobileNavigation({ locale }: { locale: Locale }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const other = locale === "en" ? "/es" : "/";
   const languageCode = locale === "en" ? "ES" : "EN";
 
   useEffect(() => {
@@ -121,9 +121,9 @@ export function MobileNavigation({ locale }: { locale: Locale }) {
           })}
         </nav>
         <div className="mobile-menu-footer">
-          <Link className="mobile-menu-language" href={other} hrefLang={locale === "en" ? "es" : "en"} onClick={() => close(false)} tabIndex={open ? 0 : -1}>
+          <LanguageLink className="mobile-menu-language" locale={locale} onClick={() => close(false)} tabIndex={open ? 0 : -1}>
             <span>{copy[locale].language}</span><strong>{languageCode}</strong>
-          </Link>
+          </LanguageLink>
           <Link className="button mobile-menu-cta" href={contactPath[locale]} onClick={() => close(false)} tabIndex={open ? 0 : -1}>{labels[locale].contact}<span aria-hidden="true">↗</span></Link>
         </div>
       </div>

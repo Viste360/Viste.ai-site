@@ -1,5 +1,6 @@
 import { industries, services, solutions, catalogItemToPage } from "./catalog";
 import type { Locale, PageDefinition, Section } from "./types";
+import { publicConfig } from "@/lib/public-config";
 
 const contact = { en: "/contact", es: "/es/contacto" } as const;
 
@@ -172,10 +173,10 @@ const staticPages: PageDefinition[] = [
     eyebrow: "About Viste.ai",
     title: "Senior-led AI implementation with operational discipline",
     description: "Viste.ai helps established businesses identify, build and operate useful AI systems with measurable outcomes and human control.",
-    lead: "We are repositioning Viste.ai’s practical automation experience into a global implementation company focused on the work inside real businesses.",
+    lead: "Viste.ai is a senior-led AI implementation company that works directly with established businesses to diagnose operational friction, build controlled systems and make those systems work in day-to-day operations.",
     sections: [
       { title: "What we believe", paragraphs: ["The strongest AI work starts with a business process, not a technology shopping list. Good systems make ownership, evidence, permissions and exceptions visible."], bullets: ["Business understanding before technology", "Paid discovery before major implementation", "Human ownership of consequential decisions", "Measurement and improvement after launch"] },
-      { title: "How we show up", paragraphs: ["Viste.ai combines a personal, senior-led approach with the ability to work across countries and systems. We do not claim offices or local teams where they have not been verified."] },
+      { title: "How we operate", paragraphs: ["Senior practitioners stay close to discovery, architecture, implementation and operating handover. We work across countries and systems without inflating the team, geography or credentials behind an engagement."] },
       { title: "Proof, handled responsibly", paragraphs: ["We publish client work, testimonials, results and partnerships only when evidence and permission exist. Until then, we explain our capability through transparent Solution Blueprints."] },
     ],
     cta: { label: "Tell us where work gets stuck", href: contact.en, note: "We will be candid about fit, risk and the right first step." },
@@ -188,10 +189,10 @@ const staticPages: PageDefinition[] = [
     eyebrow: "Sobre Viste.ai",
     title: "Implementación de IA dirigida por perfiles senior y disciplina operativa",
     description: "Viste.ai ayuda a empresas consolidadas a identificar, construir y operar sistemas de IA útiles, medibles y con control humano.",
-    lead: "Convertimos la experiencia práctica de Viste.ai en automatización en una empresa global de implementación centrada en el trabajo real de las organizaciones.",
+    lead: "Viste.ai es una empresa de implementación de IA dirigida por perfiles senior. Trabajamos directamente con empresas consolidadas para diagnosticar fricción operativa, construir sistemas controlados e integrarlos en la operación diaria.",
     sections: [
       { title: "Lo que creemos", paragraphs: ["La mejor IA empieza por un proceso de negocio, no por una lista de tecnologías. Un buen sistema hace visibles responsables, evidencia, permisos y excepciones."], bullets: ["Entender el negocio antes que la tecnología", "Diagnóstico de pago antes de una gran implementación", "Responsabilidad humana en decisiones relevantes", "Medición y mejora después del lanzamiento"] },
-      { title: "Cómo trabajamos", paragraphs: ["Combinamos un enfoque personal y senior con capacidad para trabajar entre países y sistemas. No afirmamos tener oficinas o equipos locales donde no se ha verificado."] },
+      { title: "Cómo operamos", paragraphs: ["Los perfiles senior permanecen cerca del diagnóstico, la arquitectura, la implementación y el traspaso operativo. Trabajamos entre países y sistemas sin exagerar el equipo, la presencia geográfica o las credenciales de un proyecto."] },
       { title: "Pruebas con responsabilidad", paragraphs: ["Publicamos clientes, testimonios, resultados y alianzas solo con evidencia y permiso. Mientras tanto, explicamos nuestras capacidades mediante Diseños de Solución transparentes."] },
     ],
     cta: { label: "Cuéntanos dónde se atasca el trabajo", href: contact.es, note: "Seremos claros sobre encaje, riesgo y el primer paso adecuado." },
@@ -209,7 +210,7 @@ const staticPages: PageDefinition[] = [
       { title: "Design principles", paragraphs: ["We define who can access what, which sources are approved, what the system may do, when it must stop and how a person takes over."], bullets: ["Least-privilege access", "Approved and traceable sources", "Human review for consequential actions", "Logging, monitoring and exception ownership"] },
       { title: "Data and vendors", paragraphs: ["Every client implementation requires its own data-flow, processor, regional, retention, API and contractual review. Website lead data is handled separately from client-project data."] },
       { title: "Claims and assurance", paragraphs: ["We avoid absolute security claims. Certifications, penetration tests, availability commitments and regulatory statements apply only when specifically documented for the relevant system or engagement."] },
-      { title: "Report a concern", paragraphs: ["For a website or security concern, contact security@viste.ai. Do not send credentials, confidential client data or exploit details through the public contact form."] },
+      { title: "Report a concern", paragraphs: [`For a website or security concern, contact ${publicConfig.legalOperator.securityContact}. Do not send credentials, confidential client data or exploit details through the public contact form.`] },
     ],
     cta: { label: "Discuss your requirements", href: contact.en, note: "Security and oversight are scoped during discovery, not added at the end." },
   }),
@@ -226,7 +227,7 @@ const staticPages: PageDefinition[] = [
       { title: "Principios", paragraphs: ["Definimos quién accede a qué, qué fuentes están aprobadas, qué puede hacer el sistema, cuándo debe detenerse y cómo interviene una persona."], bullets: ["Acceso de mínimo privilegio", "Fuentes aprobadas y trazables", "Revisión humana en acciones relevantes", "Registro, monitorización y responsables de excepciones"] },
       { title: "Datos y proveedores", paragraphs: ["Cada implementación requiere su propia revisión de flujos, proveedores, regiones, retención, API y contratos. Los datos de contacto web se separan de los datos de proyecto."] },
       { title: "Afirmaciones y garantías", paragraphs: ["Evitamos afirmaciones absolutas. Certificaciones, pruebas, disponibilidad y declaraciones regulatorias solo aplican cuando están documentadas para el sistema o proyecto."] },
-      { title: "Comunicar un problema", paragraphs: ["Para cuestiones de seguridad del sitio, escribe a security@viste.ai. No envíes credenciales, datos confidenciales ni detalles de explotación mediante el formulario público."] },
+      { title: "Comunicar un problema", paragraphs: [`Para cuestiones de seguridad del sitio, escribe a ${publicConfig.legalOperator.securityContact}. No envíes credenciales, datos confidenciales ni detalles de explotación mediante el formulario público.`] },
     ],
     cta: { label: "Hablar sobre requisitos", href: contact.es, note: "Seguridad y supervisión se definen durante el diagnóstico, no al final." },
   }),

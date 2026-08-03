@@ -1,7 +1,8 @@
 import { createHash, randomUUID } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
-import { contactSchema } from "@/lib/contact";
+import { contactSchema, qualifiesForBooking, type ContactInput } from "@/lib/contact";
+import { publicConfig } from "@/lib/public-config";
 
 const attempts = new Map<string, { count: number; reset: number }>();
 const runtimeSalt = process.env.CONTACT_IP_SALT || randomUUID();
@@ -10,7 +11,7 @@ const deliveryTimeoutMs = 8_000;
 
 type DeliveryResult = { channel: "supabase" | "resend"; outcome: "delivered" | "failed" | "unconfigured" };
 
-function isLimited(key: string) {
+function isMemoryLimited(key: string) {
   const now = Date.now();
   if (attempts.size > 1_000) {
     for (const [storedKey, value] of attempts) if (value.reset < now) attempts.delete(storedKey);
@@ -50,24 +51,49 @@ function validOrigin(request: NextRequest) {
   }
 }
 
-async function storeLead(input: ReturnType<typeof contactSchema.parse>, id: string, receivedAt: string, ipHash: string): Promise<DeliveryResult> {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKey = process.env.SUPABASE_SECRET_KEY;
-  if (!supabaseUrl || !serviceKey) return { channel: "supabase", outcome: "unconfigured" };
+function supabaseAdmin() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const secret = process.env.SUPABASE_SECRET_KEY;
+  return url && secret
+    ? createClient(url, secret, { auth: { persistSession: false, autoRefreshToken: false } })
+    : null;
+}
+
+async function isDatabaseLimited(ipHash: string) {
+  const supabase = supabaseAdmin();
+  if (!supabase) return false;
+  try {
+    const { data, error } = await supabase.rpc("check_contact_rate_limit", {
+      p_key_hash: ipHash,
+      p_window_seconds: 900,
+      p_max_attempts: 5,
+    });
+    return !error && data === false;
+  } catch {
+    return false;
+  }
+}
+
+async function storeLead(input: ContactInput, id: string, receivedAt: string, ipHash: string, qualified: boolean): Promise<DeliveryResult> {
+  const supabase = supabaseAdmin();
+  if (!supabase) return { channel: "supabase", outcome: "unconfigured" };
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), deliveryTimeoutMs);
   try {
-    const supabase = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
     const { error } = await supabase.from("leads").insert({
       id,
       name: input.name,
       email: input.email,
       company: input.company,
-      role: input.role || null,
-      country: input.country || null,
-      phone: input.phone || null,
-      challenge: input.challenge,
+      role: input.role,
+      country: input.country,
+      company_website: input.companyWebsite,
+      preferred_language: input.preferredLanguage,
+      workflow: input.workflow,
+      systems: input.systems,
+      desired_outcome: input.desiredOutcome,
+      challenge: [input.workflow, `Systems: ${input.systems}`, `Desired outcome: ${input.desiredOutcome}`].join("\n\n"),
       budget: input.budget,
       timeline: input.timeline,
       locale: input.locale,
@@ -78,7 +104,10 @@ async function storeLead(input: ReturnType<typeof contactSchema.parse>, id: stri
       utm_source: input.utmSource || null,
       utm_medium: input.utmMedium || null,
       utm_campaign: input.utmCampaign || null,
+      utm_term: input.utmTerm || null,
+      utm_content: input.utmContent || null,
       ip_hash: ipHash,
+      qualified_for_booking: qualified,
       status: "new",
     }).abortSignal(controller.signal);
     return { channel: "supabase", outcome: error ? "failed" : "delivered" };
@@ -89,7 +118,7 @@ async function storeLead(input: ReturnType<typeof contactSchema.parse>, id: stri
   }
 }
 
-async function notifyTeam(input: ReturnType<typeof contactSchema.parse>, id: string, receivedAt: string): Promise<DeliveryResult> {
+async function notifyTeam(input: ContactInput, id: string, receivedAt: string, qualified: boolean): Promise<DeliveryResult> {
   const apiKey = process.env.RESEND_API_KEY;
   const notificationEmail = process.env.CONTACT_NOTIFICATION_EMAIL;
   if (!apiKey || !notificationEmail) return { channel: "resend", outcome: "unconfigured" };
@@ -105,21 +134,29 @@ async function notifyTeam(input: ReturnType<typeof contactSchema.parse>, id: str
         from: process.env.CONTACT_FROM_EMAIL || "Viste.ai Website <website@viste.ai>",
         to: [notificationEmail],
         reply_to: input.email,
-        subject: `New Viste.ai enquiry — ${safeText(input.company)}`,
+        subject: `${qualified ? "Qualified" : "New"} Viste.ai enquiry — ${safeText(input.company)}`,
         text: [
           `Reference: ${id}`,
           `Received: ${receivedAt}`,
+          `Qualified for booking: ${qualified ? "yes" : "no"}`,
           `Name: ${safeText(input.name)}`,
-          `Email: ${safeText(input.email)}`,
+          `Work email: ${safeText(input.email)}`,
           `Company: ${safeText(input.company)}`,
           `Role: ${safeText(input.role)}`,
+          `Website: ${safeText(input.companyWebsite)}`,
           `Country: ${safeText(input.country)}`,
-          `Phone: ${safeText(input.phone)}`,
+          `Preferred language: ${input.preferredLanguage}`,
           `Budget: ${input.budget}`,
           `Timeline: ${input.timeline}`,
           "",
-          "Challenge:",
-          safeText(input.challenge),
+          "Workflow:",
+          safeText(input.workflow),
+          "",
+          "Systems:",
+          safeText(input.systems),
+          "",
+          "Desired outcome:",
+          safeText(input.desiredOutcome),
         ].join("\n"),
       }),
     });
@@ -150,33 +187,42 @@ export async function POST(request: NextRequest) {
   if (!parsed.success) return response({ error: "Please review the required fields" }, 400, requestId);
 
   const input = parsed.data;
-  if (input.website || Date.now() - input.startedAt < 2_500) {
+  if (input.faxNumber || Date.now() - input.startedAt < 2_500) {
     console.info(JSON.stringify({ event: "contact_spam_ignored", requestId }));
     return response({ ok: true }, 200, requestId);
   }
 
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";
   const ipHash = createHash("sha256").update(`${runtimeSalt}:${ip}`).digest("hex");
-  if (isLimited(ipHash)) {
+  if (isMemoryLimited(ipHash) || await isDatabaseLimited(ipHash)) {
     console.warn(JSON.stringify({ event: "contact_rate_limited", requestId }));
     return response({ error: "Too many attempts" }, 429, requestId);
   }
 
   const id = randomUUID();
   const receivedAt = new Date().toISOString();
+  const qualified = qualifiesForBooking(input);
   const deliveries = await Promise.all([
-    storeLead(input, id, receivedAt, ipHash),
-    notifyTeam(input, id, receivedAt),
+    storeLead(input, id, receivedAt, ipHash, qualified),
+    notifyTeam(input, id, receivedAt, qualified),
   ]);
-  const delivered = deliveries.some(({ outcome }) => outcome === "delivered");
+  const stored = deliveries.find(({ channel }) => channel === "supabase")?.outcome === "delivered";
+  const notified = deliveries.find(({ channel }) => channel === "resend")?.outcome === "delivered";
   console.info(JSON.stringify({
     event: "contact_delivery",
     requestId,
     reference: id,
+    qualified,
     durationMs: Date.now() - startedAt,
     channels: Object.fromEntries(deliveries.map(({ channel, outcome }) => [channel, outcome])),
   }));
 
-  if (!delivered) return response({ error: "Contact service is not configured", fallback: "mailto:hello@viste.ai" }, 503, requestId);
-  return response({ ok: true, reference: id }, 201, requestId);
+  if (!stored) return response({ error: "We could not securely store this enquiry", fallback: "mailto:hello@viste.ai" }, 503, requestId);
+  return response({
+    ok: true,
+    reference: id,
+    qualified,
+    notification: notified ? "sent" : "monitoring-required",
+    bookingUrl: qualified ? publicConfig.bookingUrl : undefined,
+  }, 201, requestId);
 }

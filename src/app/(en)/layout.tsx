@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
-import { Header } from "@/components/header";
-import { Footer } from "@/components/footer";
-import { CookieConsent } from "@/components/cookie-consent";
+import { LocaleRoot } from "@/components/locale-root";
 import { siteUrl } from "@/content/site";
-import "./globals.css";
+import { displayFont } from "../fonts";
+import "../globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -14,8 +13,6 @@ export const metadata: Metadata = {
 };
 export const viewport: Viewport = { themeColor: "#071415", colorScheme: "dark" };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><a className="skip-link" href="#content">Skip to content</a><LocaleFrame>{children}</LocaleFrame><CookieConsent /></body></html>;
+export default function EnglishLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <LocaleRoot locale="en" bodyClassName={displayFont.variable}>{children}</LocaleRoot>;
 }
-
-function LocaleFrame({children}:{children:React.ReactNode}) { return <><div id="en-frame"><Header locale="en" /><div id="content">{children}</div><Footer locale="en" /></div></>; }

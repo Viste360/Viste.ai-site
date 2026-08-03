@@ -1,0 +1,22 @@
+name: Production monitor
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify production pages and indexing contract
+        run: |
+          curl --fail --silent --show-error --retry 2 https://viste.ai/ > /dev/null
+          curl --fail --silent --show-error --retry 2 https://viste.ai/es > /dev/null
+          curl --fail --silent --show-error --retry 2 https://viste.ai/sitemap.xml > /dev/null
+          curl --fail --silent --show-error --retry 2 https://viste.ai/robots.txt > /dev/null
+      - name: Verify lead-delivery configuration
+        run: |
+          response="$(curl --fail --silent --show-error --retry 2 https://viste.ai/api/health)"
+          node -e 'const body=JSON.parse(process.argv[1]); if(body.status!=="ok"||body.contact!=="ready") { console.error(body); process.exit(1) }' "$response"
