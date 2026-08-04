@@ -11,12 +11,13 @@ export const metadata: Metadata = {
   applicationName: "Viste.ai",
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon_32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon_16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.svg?v=viste-20260804", type: "image/svg+xml" },
+      { url: "/favicon_32x32.png?v=viste-20260804", sizes: "32x32", type: "image/png" },
+      { url: "/favicon_16x16.png?v=viste-20260804", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico?v=viste-20260804", sizes: "32x32", type: "image/x-icon" },
     ],
-    shortcut: "/favicon_32x32.png",
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon.ico?v=viste-20260804",
+    apple: [{ url: "/apple-touch-icon.png?v=viste-20260804", sizes: "180x180", type: "image/png" }],
   },
 };
 export const viewport: Viewport = { themeColor: "#071415", colorScheme: "dark" };
