@@ -160,8 +160,16 @@ test("contact form exposes every qualification field and a tested booking succes
   await page.getByLabel("Indicative budget").selectOption("10k-30k");
   await page.getByRole("checkbox").check();
   await page.getByRole("button", { name: "Send secure enquiry" }).click();
-  await expect(page.getByRole("heading", { name: "Thank you. Your enquiry was delivered securely." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Thank you — we’ve received your enquiry." })).toBeVisible();
+  await expect(page.getByText("We’ll review it and get back to you shortly.")).toBeVisible();
   await expect(page.getByRole("link", { name: "Book the conversation" })).toHaveAttribute("href", "https://booking.example.com/viste");
+});
+
+test("contact form explains incomplete fields instead of appearing unresponsive", async ({ page }) => {
+  await page.goto("/contact");
+  await page.getByRole("button", { name: "Send secure enquiry" }).click();
+  await expect(page.locator(".form-error")).toContainText("Please review the highlighted fields");
+  await expect(page.getByLabel("Name")).toBeFocused();
 });
 
 test("contact API validates failure states without exposing details", async ({ request }) => {
