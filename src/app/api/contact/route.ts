@@ -187,9 +187,13 @@ export async function POST(request: NextRequest) {
   if (!parsed.success) return response({ error: "Please review the required fields" }, 400, requestId);
 
   const input = parsed.data;
-  if (input.faxNumber || Date.now() - input.startedAt < 2_500) {
+  if (input.faxNumber) {
     console.info(JSON.stringify({ event: "contact_spam_ignored", requestId }));
-    return response({ ok: true }, 200, requestId);
+    return response({ ok: true, reference: randomUUID(), qualified: false }, 202, requestId);
+  }
+
+  if (Date.now() - input.startedAt < 2_500) {
+    console.info(JSON.stringify({ event: "contact_fast_submission", requestId }));
   }
 
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0] || "unknown";

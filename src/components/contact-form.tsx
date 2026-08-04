@@ -6,15 +6,21 @@ import { useRef, useState } from "react";
 
 type Success = { reference: string; qualified: boolean; bookingUrl?: string };
 
+function contactRequestId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") return crypto.randomUUID();
+  return `contact_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+}
+
 export function ContactForm({ locale }: { locale: "en" | "es" }) {
   const [state, setState] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [success, setSuccess] = useState<Success | null>(null);
-  const [startedAt, setStartedAt] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+  const startedAt = useRef(0);
   const trackedStart = useRef(false);
   const es = locale === "es";
 
   function startForm() {
-    if (!startedAt) setStartedAt(Date.now());
+    if (!startedAt.current) startedAt.current = Date.now();
     if (!trackedStart.current) {
       trackedStart.current = true;
       track("Contact Form Started", { locale });
@@ -23,26 +29,39 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setState("sending");
     const formElement = event.currentTarget;
+
+    setErrorMessage("");
+    if (!formElement.checkValidity()) {
+      setState("idle");
+      setErrorMessage(es
+        ? "Revisa los campos marcados. Te llevaremos al primero que necesita atención."
+        : "Please review the highlighted fields. We’ll take you to the first one that needs attention.");
+      formElement.reportValidity();
+      formElement.querySelector<HTMLElement>(":invalid")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+    setState("sending");
     const form = new FormData(formElement);
     const payload = Object.fromEntries(form.entries());
     const query = new URLSearchParams(location.search);
     const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 12_000);
+    const timeout = window.setTimeout(() => controller.abort(), 25_000);
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "content-type": "application/json",
-          "x-contact-request-id": crypto.randomUUID(),
+          "x-contact-request-id": contactRequestId(),
         },
         signal: controller.signal,
         body: JSON.stringify({
           ...payload,
           consent: payload.consent === "on",
-          startedAt: startedAt || Date.now() - 3_000,
+          startedAt: startedAt.current || Date.now() - 3_000,
           locale,
           sourceUrl: location.href,
           referrer: document.referrer,
@@ -53,16 +72,22 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
           utmContent: query.get("utm_content") || "",
         }),
       });
-      if (!response.ok) {
+      const result = await response.json().catch(() => null) as Success | null;
+      if (!response.ok || !result || typeof result.reference !== "string") {
+        setErrorMessage(es
+          ? "No pudimos entregar la consulta. Inténtalo de nuevo o escribe a hello@viste.ai."
+          : "We couldn’t deliver your enquiry. Please try again or email hello@viste.ai.");
         setState("error");
         return;
       }
-      const result = await response.json() as Success;
       setSuccess(result);
       setState("success");
       formElement.reset();
       track("Contact Form Submitted", { locale, qualified: result.qualified });
-    } catch {
+    } catch (error) {
+      setErrorMessage(error instanceof DOMException && error.name === "AbortError"
+        ? (es ? "La conexión tardó demasiado. Inténtalo de nuevo; tus datos no se han duplicado." : "The connection took too long. Please try again; your details have not been duplicated.")
+        : (es ? "No pudimos entregar la consulta. Inténtalo de nuevo o escribe a hello@viste.ai." : "We couldn’t deliver your enquiry. Please try again or email hello@viste.ai."));
       setState("error");
     } finally {
       window.clearTimeout(timeout);
@@ -73,17 +98,16 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
     return <div className="form-success" role="status" aria-live="polite">
       <span>✓</span>
       <p className="eyebrow">{es ? `Referencia ${success.reference.slice(0, 8)}` : `Reference ${success.reference.slice(0, 8)}`}</p>
-      <h2>{es ? "Gracias. Tu consulta se ha enviado de forma segura." : "Thank you. Your enquiry was delivered securely."}</h2>
-      <p>{success.qualified
-        ? (es ? "El contexto encaja con una conversación de alcance. Puedes reservar el siguiente paso ahora." : "Your context fits a scoping conversation. You can book the next step now.")
-        : (es ? "Una persona senior revisará el contexto y responderá con el siguiente paso más útil." : "A senior practitioner will review the context and respond with the most useful next step.")}</p>
+      <h2>{es ? "Gracias — hemos recibido tu consulta." : "Thank you — we’ve received your enquiry."}</h2>
+      <p>{es ? "La revisaremos y te responderemos en breve." : "We’ll review it and get back to you shortly."}</p>
+      {success.qualified ? <p>{es ? "También puedes reservar directamente una conversación de alcance." : "You can also book a scoping conversation directly."}</p> : null}
       {success.qualified && success.bookingUrl
         ? <a className="button" href={success.bookingUrl} target="_blank" rel="noreferrer" onClick={() => track("Qualified Booking Opened", { locale })}>{es ? "Reservar conversación" : "Book the conversation"}</a>
         : <a className="button button-ghost" href="mailto:hello@viste.ai">{es ? "Añadir contexto por email" : "Add context by email"}</a>}
     </div>;
   }
 
-  return <form className="contact-form" aria-busy={state === "sending"} onFocusCapture={startForm} onSubmit={submit}>
+  return <form className="contact-form" aria-busy={state === "sending"} noValidate onFocusCapture={startForm} onSubmit={submit}>
     <div className="form-grid">
       <label>{es ? "Nombre" : "Name"}<input name="name" required minLength={2} autoComplete="name" /></label>
       <label>{es ? "Email profesional" : "Work email"}<input name="email" type="email" required autoComplete="email" /></label>
@@ -102,8 +126,9 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
     </div>
     <label className="consent"><input type="checkbox" name="consent" required /><span>{es ? <>Acepto que Viste.ai use estos datos para responder y cualificar mi consulta según el <Link href="/es/privacidad">aviso de privacidad</Link>.</> : <>I agree that Viste.ai may use this information to respond to and qualify my enquiry under the <Link href="/privacy">privacy notice</Link>.</>}</span></label>
     <label className="honeypot" aria-hidden="true">Fax number<input name="faxNumber" tabIndex={-1} autoComplete="off" /></label>
-    {state === "error" ? <p className="form-error" role="alert">{es ? "No pudimos entregar la consulta de forma segura. Inténtalo de nuevo o escribe a hello@viste.ai." : "We could not securely deliver the enquiry. Try again or email hello@viste.ai."}</p> : null}
-    <button className="button" disabled={state === "sending"}>{state === "sending" ? (es ? "Enviando…" : "Sending…") : (es ? "Enviar consulta segura" : "Send secure enquiry")}</button>
+    {errorMessage ? <p className="form-error" role="alert">{errorMessage}</p> : null}
+    <button className="button" type="submit" disabled={state === "sending"}>{state === "sending" ? (es ? "Enviando de forma segura…" : "Sending securely…") : (es ? "Enviar consulta segura" : "Send secure enquiry")}</button>
+    {state === "sending" ? <p className="form-status" role="status" aria-live="polite">{es ? "Guardando tu consulta y notificando al equipo…" : "Saving your enquiry and notifying the team…"}</p> : null}
     <p className="fine">{es ? "No envíes contraseñas, datos de pago ni información confidencial de clientes." : "Do not include passwords, payment data or confidential client information."}</p>
   </form>;
 }

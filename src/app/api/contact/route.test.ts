@@ -90,7 +90,16 @@ describe("contact API", () => {
   it("silently accepts a honeypot submission without delivery", async () => {
     const { POST } = await import("./route");
     const response = await POST(request({ ...validContact, faxNumber: "spam" }, "203.0.113.23"));
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(202);
+    expect(await response.json()).toEqual(expect.objectContaining({ ok: true, reference: expect.any(String), qualified: false }));
     expect(mocks.insert).not.toHaveBeenCalled();
+  });
+
+  it("delivers a valid fast autofill submission instead of dropping it", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, status: 200 }));
+    const { POST } = await import("./route");
+    const response = await POST(request({ ...validContact, startedAt: Date.now() }, "203.0.113.25"));
+    expect(response.status).toBe(201);
+    expect(mocks.insert).toHaveBeenCalledOnce();
   });
 });
