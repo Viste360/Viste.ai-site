@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="132" viewBox="0 0 320 132" role="img" aria-labelledby="title desc">
+  <title id="title">Viste.ai</title>
+  <desc id="desc">Viste.ai brand mark and wordmark for Google Workspace</desc>
+  <defs>
+    <linearGradient id="viste-workspace-gradient" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#3998ff"/>
+      <stop offset="1" stop-color="#52f2cf"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#viste-workspace-gradient)" stroke-linecap="round" stroke-width="14">
+    <path d="M27 91 37 67"/>
+    <path d="M48 87 61 36"/>
+    <path d="M71 69 79 45"/>
+  </g>
+  <text x="101" y="82" fill="#061213" font-family="Arial, Helvetica, sans-serif" font-size="49" font-weight="700" letter-spacing="-2.4">viste<tspan fill="#28cbb0">.ai</tspan></text>
+</svg>
