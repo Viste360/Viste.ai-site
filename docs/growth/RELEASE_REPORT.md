@@ -1,9 +1,10 @@
 # Demand engine v1 release report
 
-Status: publication approved; final production deployment and verification in progress.
+Status: published to production and verified.
 Date: 2026-08-09
 
 Preview: https://viste-ai-site-b5molv9xb-vistes-projects-c629d2e5.vercel.app
+Production: https://viste.ai
 Booking page: https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3ycX4aDZ5mGc3cgsdAHyoSgwDcDZ0wN0zsbRJZG2rZF-SmAodwG5cZrwTgANET6svtEZ7dsLQ8
 
 ## Public preview assets
@@ -33,21 +34,24 @@ All six new routes received human publication approval on 2026-08-09. `publishAp
 - `npm run test:e2e`: 92/92 passed across desktop Chromium and the mobile project.
 - Accessibility: no serious or critical axe violations on the tested homepage, contact, demo, diagnostic and ROI templates.
 - Metadata: unique titles/descriptions, canonical and reciprocal hreflang checks passed for both locales.
-- Index control: all six growth routes return `noindex,nofollow` and remain outside the sitemap while `publishApproved` is false.
+- Index control: all six growth routes return `index, follow` in production, use the expected canonical URLs and appear in the production sitemap. Non-production Vercel previews remain `noindex` by design.
 - Visual review: Spanish diagnostic and calculator inspected at 1440 × 1000, 834 × 1112 and 390 × 844; no browser warnings or errors were recorded.
 - Screenshots: `/tmp/viste-growth-diagnostic-desktop.png`, `/tmp/viste-growth-diagnostic-step-desktop.png`, `/tmp/viste-growth-diagnostic-mobile.png`, `/tmp/viste-growth-diagnostic-controls-mobile.png`, `/tmp/viste-growth-diagnostic-tablet.png`, `/tmp/viste-growth-roi-form-desktop.png` and `/tmp/viste-growth-roi-results-desktop.png`.
-- Vercel Preview build: passed and generated 95 pages. No production deployment, domain assignment or DNS change was made.
+- Vercel Preview build: passed and generated 95 pages.
 - Lighthouse homepage: performance 91, accessibility 100, best practices 100; FCP 1.6 s, LCP 2.7 s, TBT 30 ms and CLS 0.
 - Lighthouse contact page: performance 96, accessibility 100, best practices 100; FCP 1.6 s, LCP 1.8 s, TBT 30 ms and CLS 0.033.
 - Lighthouse SEO is 66 on both audited Preview URLs because the private Preview is intentionally blocked from indexing. The principal performance opportunity is initial document latency at roughly 0.8 seconds; this is not a release blocker.
 - `chrome-devtools-mcp` is configured on the Codex host. Codex loads newly added MCP servers after restart, so the same Preview was audited immediately with the official Lighthouse CLI during this task.
 - End-to-end booking test: `hello@viste.ai` received the Google verification code; the appointment was confirmed; the calendar invitation and Google Meet details arrived by email; the temporary appointment was cancelled; and Google confirmed that the cancellation email was sent to all guests.
+- Production deployment `dpl_C8WLwKsumXErbhwbWqjvGsToV4nJ` completed successfully and was assigned to `https://viste.ai`; no DNS records were changed.
+- Production homepage Lighthouse: performance 98, accessibility 100, best practices 100 and SEO 100; FCP 1.5 s, LCP 1.5 s, TBT 30 ms and CLS 0.
+- Production contact-page Lighthouse: performance 99, accessibility 100, best practices 100 and SEO 100; FCP 1.4 s, LCP 1.7 s, TBT 30 ms and CLS 0.
+- Production health endpoint reports contact, lead storage, notification and booking as ready. The English and Spanish contact pages both link to the public Google Appointment Schedule.
 
-## Manual decisions before production publication
+## Post-launch operating note
 
-1. Confirm the desired cancellation/rescheduling policy in Google Calendar; the current schedule uses Google's standard booking controls and no custom cancellation policy.
-2. Re-run the full quality gate and inspect the production deployment after publication.
+Confirm the desired cancellation/rescheduling policy in Google Calendar when convenient; the live schedule currently uses Google's standard booking controls and no custom cancellation policy.
 
 ## Rollback
 
-The changes are additive and remain on a non-production branch. Revert the release commit or promote the prior Vercel deployment. Do not remove the safety tag `pre-viste-global-rebuild-2026-08-02` or the branch `archive/legacy-hospitality-site`.
+The changes are additive and remain available on `codex/production-readiness`. Revert the release commit or promote the prior Vercel deployment if rollback is required. Do not remove the safety tag `pre-viste-global-rebuild-2026-08-02` or the branch `archive/legacy-hospitality-site`.
