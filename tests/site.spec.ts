@@ -3,14 +3,16 @@ import { expect, test } from "@playwright/test";
 import { insights } from "../src/content/insights";
 import { legalPages } from "../src/content/legal";
 import { allPages } from "../src/content/pages";
+import { growthPairs } from "../src/content/growth";
 import { legacyRedirects } from "../src/config/redirects";
 
-const coreRoutes = ["/", "/es", "/services/ai-opportunity-sprint", "/es/servicios/sprint-oportunidades-ia", "/solutions/whatsapp-sales-service-control", "/es/soluciones/control-ventas-servicio-whatsapp", "/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo", "/industries/hospitality-property", "/es/sectores/hospitalidad-propiedades", "/insights/choose-first-ai-use-case", "/es/recursos/elegir-primer-caso-uso-ia", "/privacy", "/es/privacidad", "/contact", "/es/contacto"];
+const coreRoutes = ["/", "/es", "/ai-for-my-business", "/es/ia-para-mi-negocio", "/tools/ai-automation-roi-calculator", "/es/herramientas/calculadora-roi-automatizacion-ia", "/questions", "/es/preguntas", "/services/ai-opportunity-sprint", "/es/servicios/sprint-oportunidades-ia", "/solutions/whatsapp-sales-service-control", "/es/soluciones/control-ventas-servicio-whatsapp", "/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo", "/industries/hospitality-property", "/es/sectores/hospitalidad-propiedades", "/insights/choose-first-ai-use-case", "/es/recursos/elegir-primer-caso-uso-ia", "/privacy", "/es/privacidad", "/contact", "/es/contacto"];
 const publicPairs = [
   ["/", "/es"],
   ["/contact", "/es/contacto"],
   ["/insights", "/es/recursos"],
   ["/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo"],
+  ...growthPairs,
   ...allPages.filter((page) => page.locale === "en").map((page) => [page.path, page.alternatePath]),
   ...legalPages.filter((page) => page.locale === "en").map((page) => [page.path, page.alternatePath]),
   ...insights.map((insight) => [insight.path.en, insight.path.es]),
@@ -26,7 +28,7 @@ for (const route of coreRoutes) test(`${route} renders without browser errors`, 
   expect(errors).toEqual([]);
 });
 
-for (const route of ["/", "/contact", "/solutions/whatsapp-sales-service-control/demo", "/es"]) test(`${route} has no serious accessibility violations`, async ({ page }) => {
+for (const route of ["/", "/contact", "/solutions/whatsapp-sales-service-control/demo", "/es", "/es/ia-para-mi-negocio", "/es/herramientas/calculadora-roi-automatizacion-ia"]) test(`${route} has no serious accessibility violations`, async ({ page }) => {
   await page.goto(route);
   const consent = page.getByRole("button", { name: /Essential only|Solo esenciales/ });
   if (await consent.isVisible()) await consent.click();
@@ -110,10 +112,24 @@ test("sitemap and robots expose the production crawl contract", async ({ request
   expect(sitemap).toContain("https://viste.ai/industries/multi-location-businesses");
   expect(sitemap).toContain("hreflang=\"es\"");
   expect(sitemap).not.toContain("privacy-policy.html");
+  expect(sitemap).toContain("https://viste.ai/ai-for-my-business");
+  expect(sitemap).toContain("https://viste.ai/es/ia-para-mi-negocio");
+  expect(sitemap).toContain("https://viste.ai/tools/ai-automation-roi-calculator");
+  expect(sitemap).toContain("https://viste.ai/es/herramientas/calculadora-roi-automatizacion-ia");
+  expect(sitemap).toContain("https://viste.ai/questions");
+  expect(sitemap).toContain("https://viste.ai/es/preguntas");
   const robots = await (await request.get("/robots.txt")).text();
   expect(robots).toContain("Allow: /");
   expect(robots).toContain("Disallow: /admin");
   expect(robots).toContain("Sitemap: https://viste.ai/sitemap.xml");
+});
+
+test("approved growth assets are indexable in production builds", async ({ request }) => {
+  for (const [english, spanish] of growthPairs) for (const path of [english, spanish]) {
+    const response = await request.get(path);
+    expect(response.status(), path).toBe(200);
+    expect(await response.text(), path).toContain('name="robots" content="index, follow"');
+  }
 });
 
 test("structured data is valid JSON and covers supported visible content", async ({ page }) => {
@@ -170,6 +186,55 @@ test("contact form explains incomplete fields instead of appearing unresponsive"
   await page.getByRole("button", { name: "Send secure enquiry" }).click();
   await expect(page.locator(".form-error")).toContainText("Please review the highlighted fields");
   await expect(page.getByLabel("Name")).toBeFocused();
+});
+
+test("opportunity diagnostic shows transparent value before contact capture", async ({ page }) => {
+  await page.goto("/es/ia-para-mi-negocio#diagnostic-es");
+  const diagnostic = page.locator(".diagnostic");
+  await expect(diagnostic.locator('input[type="email"]')).toHaveCount(0);
+  await page.getByLabel("Atención al cliente").check();
+  await page.getByRole("button", { name: "Continuar" }).click();
+  await page.getByLabel("Las solicitudes esperan o quedan sin respuesta").check();
+  await page.getByRole("button", { name: "Continuar" }).click();
+  await page.getByLabel("Cada día").check();
+  await page.getByRole("button", { name: "Continuar" }).click();
+  await page.getByLabel("WhatsApp").check();
+  await page.getByLabel("CRM").check();
+  await page.getByRole("button", { name: "Continuar" }).click();
+  await page.getByLabel("Historial de conversaciones o tickets").check();
+  await page.getByRole("button", { name: "Continuar" }).click();
+  await page.getByLabel("Una persona puede revisar antes de actuar").check();
+  await page.getByRole("button", { name: "Continuar" }).click();
+  await page.getByLabel("Responder más rápido").check();
+  await page.getByRole("button", { name: "Ver mi resultado preliminar" }).click();
+  await expect(page.getByRole("heading", { name: "Candidato para operaciones de cliente y WhatsApp" })).toBeVisible();
+  await expect(page.getByText("no una puntuación científica", { exact: false })).toBeVisible();
+  await expect(page.getByRole("link", { name: /Ver servicio relacionado/ })).toHaveAttribute("href", "/es/servicios/atencion-cliente-whatsapp");
+});
+
+test("ROI planner uses user inputs and exposes three scenarios", async ({ page }) => {
+  await page.goto("/es/herramientas/calculadora-roi-automatizacion-ia");
+  await page.getByLabel("Personas que intervienen en cada tarea").fill("2");
+  await page.getByLabel("Minutos por tarea y persona").fill("30");
+  await page.getByLabel("Tareas al mes").fill("100");
+  await page.getByLabel("Coste horario completo").fill("50");
+  await page.getByLabel("Tasa actual de error o reproceso (%)").fill("10");
+  await page.getByLabel("Parte del trabajo que podría recibir asistencia (%)").fill("80");
+  await page.getByLabel("Coste único de implementación").fill("10000");
+  await page.getByLabel("Coste operativo mensual").fill("200");
+  await page.getByLabel("Base", { exact: true }).fill("50");
+  await page.getByRole("button", { name: "Calcular escenarios de planificación" }).click();
+  await expect(page.getByText("110 horas", { exact: true })).toBeVisible();
+  await expect(page.getByText("5 meses", { exact: true })).toBeVisible();
+  await expect(page.getByText("La capacidad liberada solo se convierte en ahorro de caja", { exact: false })).toBeVisible();
+});
+
+test("contact page provides a calendar path or an honest form fallback", async ({ page }) => {
+  await page.goto("/contact");
+  const booking = page.locator(".contact-layout .booking-cta .button");
+  await expect(booking).toBeVisible();
+  const href = await booking.getAttribute("href");
+  expect(href === "#contact-form" || href?.startsWith("https://")).toBe(true);
 });
 
 test("contact API validates failure states without exposing details", async ({ request }) => {

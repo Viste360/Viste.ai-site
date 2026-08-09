@@ -1,4 +1,5 @@
 import { insights } from "@/content/insights";
+import { growthPairs } from "@/content/growth";
 import { legalPages } from "@/content/legal";
 import { allPages } from "@/content/pages";
 
@@ -7,6 +8,7 @@ const pairs: [string, string][] = [
   ["/contact", "/es/contacto"],
   ["/insights", "/es/recursos"],
   ["/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo"],
+  ...growthPairs,
   ...allPages.filter((page) => page.locale === "en").map((page) => [page.path, page.alternatePath] as [string, string]),
   ...legalPages.filter((page) => page.locale === "en").map((page) => [page.path, page.alternatePath] as [string, string]),
   ...insights.map((insight) => [insight.path.en, insight.path.es] as [string, string]),

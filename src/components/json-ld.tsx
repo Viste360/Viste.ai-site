@@ -1,4 +1,5 @@
 import type { Insight, Locale, PageDefinition } from "@/content/types";
+import type { GrowthPage } from "@/content/growth";
 import { insightMinutes, insightSources } from "@/content/insight-meta";
 import { siteUrl } from "@/content/site";
 import { approvedFounder, publicConfig } from "@/lib/public-config";
@@ -86,6 +87,26 @@ export function PageJsonLd({ page }: { page: PageDefinition }) {
     graph.push(organization(), person() as JsonObject);
   }
   return <Script data={{ "@context": "https://schema.org", "@graph": graph }} />;
+}
+
+export function GrowthPageJsonLd({ page }: { page: GrowthPage }) {
+  return <Script data={{
+    "@context": "https://schema.org",
+    "@graph": [
+      breadcrumbs(page.path, page.title, page.locale),
+      {
+        "@type": "WebPage",
+        "@id": `${new URL(page.path, siteUrl)}#webpage`,
+        name: page.title,
+        description: page.description,
+        url: new URL(page.path, siteUrl).toString(),
+        inLanguage: page.locale,
+        dateModified: page.lastReviewed,
+        isPartOf: { "@id": `${siteUrl}/#website` },
+        publisher: { "@id": `${siteUrl}/#organization` },
+      },
+    ],
+  }} />;
 }
 
 export function ArticleJsonLd({ insight, locale }: { insight: Insight; locale: Locale }) {

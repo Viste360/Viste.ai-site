@@ -6,7 +6,7 @@ import "../globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "Viste.ai — Implementación de IA para empresas consolidadas", template: "%s | Viste.ai" },
+  title: { default: "Implementación y automatización de IA para empresas | Viste.ai", template: "%s | Viste.ai" },
   description: "Viste.ai diseña e implementa sistemas de IA controlados para empresas consolidadas: diagnóstico, automatización, conocimiento, operaciones de cliente y datos.",
   applicationName: "Viste.ai",
   icons: {

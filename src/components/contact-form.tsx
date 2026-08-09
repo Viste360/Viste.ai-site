@@ -1,8 +1,8 @@
 "use client";
 
-import { track } from "@vercel/analytics";
 import Link from "next/link";
 import { useRef, useState } from "react";
+import { trackEvent } from "@/lib/analytics";
 
 type Success = { reference: string; qualified: boolean; bookingUrl?: string };
 
@@ -23,7 +23,7 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
     if (!startedAt.current) startedAt.current = Date.now();
     if (!trackedStart.current) {
       trackedStart.current = true;
-      track("Contact Form Started", { locale });
+      trackEvent("lead_form_started", { locale });
     }
   }
 
@@ -83,7 +83,7 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
       setSuccess(result);
       setState("success");
       formElement.reset();
-      track("Contact Form Submitted", { locale, qualified: result.qualified });
+      trackEvent("lead_submitted", { locale, qualified: result.qualified });
     } catch (error) {
       setErrorMessage(error instanceof DOMException && error.name === "AbortError"
         ? (es ? "La conexión tardó demasiado. Inténtalo de nuevo; tus datos no se han duplicado." : "The connection took too long. Please try again; your details have not been duplicated.")
@@ -102,12 +102,12 @@ export function ContactForm({ locale }: { locale: "en" | "es" }) {
       <p>{es ? "La revisaremos y te responderemos en breve." : "We’ll review it and get back to you shortly."}</p>
       {success.qualified ? <p>{es ? "También puedes reservar directamente una conversación de alcance." : "You can also book a scoping conversation directly."}</p> : null}
       {success.qualified && success.bookingUrl
-        ? <a className="button" href={success.bookingUrl} target="_blank" rel="noreferrer" onClick={() => track("Qualified Booking Opened", { locale })}>{es ? "Reservar conversación" : "Book the conversation"}</a>
+        ? <a className="button" href={success.bookingUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent("content_cta_clicked", { locale, source: "qualified_form", destination: "booking_calendar" })}>{es ? "Reservar conversación" : "Book the conversation"}</a>
         : <a className="button button-ghost" href="mailto:hello@viste.ai">{es ? "Añadir contexto por email" : "Add context by email"}</a>}
     </div>;
   }
 
-  return <form className="contact-form" aria-busy={state === "sending"} noValidate onFocusCapture={startForm} onSubmit={submit}>
+  return <form className="contact-form" id="contact-form" aria-busy={state === "sending"} noValidate onFocusCapture={startForm} onSubmit={submit}>
     <div className="form-grid">
       <label>{es ? "Nombre" : "Name"}<input name="name" required minLength={2} autoComplete="name" /></label>
       <label>{es ? "Email profesional" : "Work email"}<input name="email" type="email" required autoComplete="email" /></label>
