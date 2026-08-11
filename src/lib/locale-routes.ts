@@ -6,6 +6,7 @@ import { allPages } from "@/content/pages";
 const pairs: [string, string][] = [
   ["/", "/es"],
   ["/contact", "/es/contacto"],
+  ["/advisor", "/es/asesor"],
   ["/insights", "/es/recursos"],
   ["/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo"],
   ...growthPairs,

@@ -14,6 +14,11 @@ export const analyticsEvents = [
   "lead_submitted",
   "whatsapp_clicked",
   "email_summary_requested",
+  "advisor_viewed",
+  "advisor_started",
+  "advisor_step_completed",
+  "advisor_brief_viewed",
+  "advisor_handoff_started",
 ] as const;
 
 export type AnalyticsEvent = (typeof analyticsEvents)[number];

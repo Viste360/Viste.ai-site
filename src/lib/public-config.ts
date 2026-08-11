@@ -16,6 +16,7 @@ function safePublicUrl(value: string | undefined) {
 
 export const publicConfig = {
   bookingUrl: safePublicUrl(process.env.NEXT_PUBLIC_BOOKING_URL),
+  turnstileSiteKey: clean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY),
   legalOperator: {
     companyName: clean(process.env.NEXT_PUBLIC_LEGAL_COMPANY_NAME),
     companyNumber: clean(process.env.NEXT_PUBLIC_LEGAL_COMPANY_NUMBER),

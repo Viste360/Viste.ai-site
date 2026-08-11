@@ -6,10 +6,11 @@ import { allPages } from "../src/content/pages";
 import { growthPairs } from "../src/content/growth";
 import { legacyRedirects } from "../src/config/redirects";
 
-const coreRoutes = ["/", "/es", "/ai-for-my-business", "/es/ia-para-mi-negocio", "/tools/ai-automation-roi-calculator", "/es/herramientas/calculadora-roi-automatizacion-ia", "/questions", "/es/preguntas", "/services/ai-opportunity-sprint", "/es/servicios/sprint-oportunidades-ia", "/solutions/whatsapp-sales-service-control", "/es/soluciones/control-ventas-servicio-whatsapp", "/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo", "/industries/hospitality-property", "/es/sectores/hospitalidad-propiedades", "/insights/choose-first-ai-use-case", "/es/recursos/elegir-primer-caso-uso-ia", "/privacy", "/es/privacidad", "/contact", "/es/contacto"];
+const coreRoutes = ["/", "/es", "/advisor", "/es/asesor", "/ai-for-my-business", "/es/ia-para-mi-negocio", "/tools/ai-automation-roi-calculator", "/es/herramientas/calculadora-roi-automatizacion-ia", "/questions", "/es/preguntas", "/services/ai-opportunity-sprint", "/es/servicios/sprint-oportunidades-ia", "/solutions/whatsapp-sales-service-control", "/es/soluciones/control-ventas-servicio-whatsapp", "/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo", "/industries/hospitality-property", "/es/sectores/hospitalidad-propiedades", "/insights/choose-first-ai-use-case", "/es/recursos/elegir-primer-caso-uso-ia", "/privacy", "/es/privacidad", "/contact", "/es/contacto"];
 const publicPairs = [
   ["/", "/es"],
   ["/contact", "/es/contacto"],
+  ["/advisor", "/es/asesor"],
   ["/insights", "/es/recursos"],
   ["/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo"],
   ...growthPairs,
@@ -28,7 +29,7 @@ for (const route of coreRoutes) test(`${route} renders without browser errors`, 
   expect(errors).toEqual([]);
 });
 
-for (const route of ["/", "/contact", "/solutions/whatsapp-sales-service-control/demo", "/es", "/es/ia-para-mi-negocio", "/es/herramientas/calculadora-roi-automatizacion-ia"]) test(`${route} has no serious accessibility violations`, async ({ page }) => {
+for (const route of ["/", "/contact", "/advisor", "/solutions/whatsapp-sales-service-control/demo", "/es", "/es/asesor", "/es/ia-para-mi-negocio", "/es/herramientas/calculadora-roi-automatizacion-ia"]) test(`${route} has no serious accessibility violations`, async ({ page }) => {
   await page.goto(route);
   const consent = page.getByRole("button", { name: /Essential only|Solo esenciales/ });
   if (await consent.isVisible()) await consent.click();
@@ -212,6 +213,42 @@ test("opportunity diagnostic shows transparent value before contact capture", as
   await expect(page.getByRole("link", { name: /Ver servicio relacionado/ })).toHaveAttribute("href", "/es/servicios/atencion-cliente-whatsapp");
 });
 
+test("VIS_010 discloses AI, adapts progressively and delivers value before contact capture", async ({ page }) => {
+  await page.route("**/api/opportunities", async (route) => route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true, reference: "b1234567-b123-c123-d123-e12345678900", intent: "SALES_CRM", score: 82, priority: "P1_PRIORITY", confidence: 0.91, risk: "LOW", stage: "QUALIFIED", service: { label: "Sales and CRM Automation", href: "/services/sales-crm-automation" }, nextAction: "Diagnostic session with a senior practitioner", missingInformation: [], bookingUrl: "https://booking.example.com/viste" }) }));
+  await page.goto("/advisor?utm_source=search&gclid=test-click-id");
+  await expect(page.getByText("I’m the Viste.ai Opportunity Advisor, an AI assistant.", { exact: false })).toBeVisible();
+  await expect(page.locator('input[type="email"]')).toHaveCount(0);
+  await page.getByLabel("Which workflow should work better?").fill("Our sales team loses qualified leads because CRM follow-up is inconsistent.");
+  await page.getByRole("button", { name: "Continue" }).click();
+  await page.getByLabel("How does the work happen today?").fill("Leads arrive by email and staff manually copy each record into HubSpot CRM.");
+  await page.getByLabel("Who is affected?").fill("Eight sales representatives");
+  await page.getByLabel("How often does it happen?").selectOption("high");
+  await page.getByRole("button", { name: "Continue" }).click();
+  await page.getByLabel("What business impact does the current process create?").fill("Slow response loses qualified conversations and makes pipeline reporting incomplete.");
+  await page.getByLabel("What measurable outcome should change?").fill("Complete every qualified follow-up within one working day.");
+  await page.getByRole("button", { name: "Continue" }).click();
+  await page.getByLabel("Which systems and channels are involved?").fill("HubSpot CRM, shared email and web forms");
+  await page.getByLabel("How ready are the approved data or knowledge sources?").selectOption("high");
+  await page.getByRole("button", { name: "Continue" }).click();
+  await page.getByLabel("Is there a named process owner?").selectOption("high");
+  await page.getByLabel("Can the relevant stakeholders participate?").selectOption("high");
+  await page.getByLabel("When does a decision matter?").selectOption("thirty_days");
+  await page.getByLabel("How ready is the organisation to fund a scoped next step?").selectOption("high");
+  await page.getByRole("button", { name: "Continue" }).click();
+  await expect(page.getByRole("heading", { name: "Preliminary Opportunity Brief" })).toBeVisible();
+  await expect(page.getByText("/100", { exact: false }).first()).toBeVisible();
+  await expect(page.locator('input[type="email"]')).toHaveCount(0);
+  await page.getByRole("button", { name: "Prepare the human handoff" }).click();
+  await page.getByLabel("Name").fill("Test Person");
+  await page.getByLabel("Work email").fill("test@example.com");
+  await page.getByLabel("Company").fill("Example Ltd");
+  await page.getByLabel("Country / region").fill("Spain");
+  await page.getByRole("checkbox").check();
+  await page.getByRole("button", { name: "Send my Opportunity Brief" }).click();
+  await expect(page.getByRole("heading", { name: "Your Opportunity Brief is ready for human review." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Book a confirmed discovery session" })).toHaveAttribute("href", "https://booking.example.com/viste");
+});
+
 test("ROI planner uses user inputs and exposes three scenarios", async ({ page }) => {
   await page.goto("/es/herramientas/calculadora-roi-automatizacion-ia");
   await page.getByLabel("Personas que intervienen en cada tarea").fill("2");
@@ -245,6 +282,13 @@ test("contact API validates failure states without exposing details", async ({ r
   expect(invalid.status()).toBe(400);
 });
 
+test("opportunity analytics accepts only allowlisted privacy-safe events", async ({ request }) => {
+  const invalid = await request.post("/api/analytics/opportunity", { data: { sessionId: crypto.randomUUID(), event: "free_text_message", locale: "en", path: "/advisor" } });
+  expect(invalid.status()).toBe(400);
+  const valid = await request.post("/api/analytics/opportunity", { data: { sessionId: crypto.randomUUID(), event: "advisor_started", locale: "en", step: 0, intent: "SALES_CRM", path: "/advisor", utmSource: "search", utmMedium: "organic", utmCampaign: "operations" } });
+  expect([202, 204]).toContain(valid.status());
+});
+
 test("security headers protect every page template", async ({ request }) => {
   for (const path of ["/", "/es", "/contact", "/solutions/whatsapp-sales-service-control/demo"]) {
     const headers = (await request.get(path)).headers();
@@ -254,6 +298,7 @@ test("security headers protect every page template", async ({ request }) => {
     expect(headers["permissions-policy"]).toContain("camera=()");
     expect(headers["content-security-policy"]).toContain("frame-ancestors 'none'");
     expect(headers["content-security-policy"]).toContain("object-src 'none'");
+    expect(headers["content-security-policy"]).toContain("https://challenges.cloudflare.com");
   }
 });
 
@@ -268,6 +313,8 @@ test("health endpoint reports a non-secret operational state", async ({ request 
     leadStorage: expect.stringMatching(/ready|configuration-required/),
     notification: expect.stringMatching(/ready|configuration-required/),
     booking: expect.stringMatching(/ready|configuration-required/),
+    botProtection: expect.stringMatching(/ready|layered-basic|configuration-error/),
+    opportunityReporting: expect.stringMatching(/ready-after-migration|configuration-required/),
   }));
   expect(body.release).toBeTruthy();
 });
