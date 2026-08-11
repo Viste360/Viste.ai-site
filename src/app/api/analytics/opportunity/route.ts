@@ -12,7 +12,7 @@ const schema = z.object({
   locale: z.enum(["en", "es"]),
   step: z.number().int().min(0).max(6).optional(),
   intent: z.string().max(40).optional(),
-  path: z.enum(["/advisor", "/es/asesor"]),
+  path: z.string().trim().startsWith("/").max(300),
   utmSource: z.string().max(120).default(""),
   utmMedium: z.string().max(120).default(""),
   utmCampaign: z.string().max(120).default(""),

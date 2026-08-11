@@ -213,40 +213,30 @@ test("opportunity diagnostic shows transparent value before contact capture", as
   await expect(page.getByRole("link", { name: /Ver servicio relacionado/ })).toHaveAttribute("href", "/es/servicios/atencion-cliente-whatsapp");
 });
 
-test("VIS_010 discloses AI, adapts progressively and delivers value before contact capture", async ({ page }) => {
+test("VIS_010 opens in the corner, asks two prompts and delivers value before contact capture", async ({ page }) => {
   await page.route("**/api/opportunities", async (route) => route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true, reference: "b1234567-b123-c123-d123-e12345678900", intent: "SALES_CRM", score: 82, priority: "P1_PRIORITY", confidence: 0.91, risk: "LOW", stage: "QUALIFIED", service: { label: "Sales and CRM Automation", href: "/services/sales-crm-automation" }, nextAction: "Diagnostic session with a senior practitioner", missingInformation: [], bookingUrl: "https://booking.example.com/viste" }) }));
-  await page.goto("/advisor?utm_source=search&gclid=test-click-id");
-  await expect(page.getByText("I’m the Viste.ai Opportunity Advisor, an AI assistant.", { exact: false })).toBeVisible();
+  await page.goto("/");
+  await expect(page.getByRole("dialog", { name: "Viste Opportunity Advisor" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Ask Viste" }).click();
+  await expect(page.getByRole("dialog", { name: "Viste Opportunity Advisor" })).toBeVisible();
+  await expect(page.getByText("Hi — I’m the Viste Advisor.")).toBeVisible();
   await expect(page.locator('input[type="email"]')).toHaveCount(0);
-  await page.getByLabel("Which workflow should work better?").fill("Our sales team loses qualified leads because CRM follow-up is inconsistent.");
-  await page.getByRole("button", { name: "Continue" }).click();
-  await page.getByLabel("How does the work happen today?").fill("Leads arrive by email and staff manually copy each record into HubSpot CRM.");
-  await page.getByLabel("Who is affected?").fill("Eight sales representatives");
-  await page.getByLabel("How often does it happen?").selectOption("high");
-  await page.getByRole("button", { name: "Continue" }).click();
-  await page.getByLabel("What business impact does the current process create?").fill("Slow response loses qualified conversations and makes pipeline reporting incomplete.");
-  await page.getByLabel("What measurable outcome should change?").fill("Complete every qualified follow-up within one working day.");
-  await page.getByRole("button", { name: "Continue" }).click();
-  await page.getByLabel("Which systems and channels are involved?").fill("HubSpot CRM, shared email and web forms");
-  await page.getByLabel("How ready are the approved data or knowledge sources?").selectOption("high");
-  await page.getByRole("button", { name: "Continue" }).click();
-  await page.getByLabel("Is there a named process owner?").selectOption("high");
-  await page.getByLabel("Can the relevant stakeholders participate?").selectOption("high");
-  await page.getByLabel("When does a decision matter?").selectOption("thirty_days");
-  await page.getByLabel("How ready is the organisation to fund a scoped next step?").selectOption("high");
-  await page.getByRole("button", { name: "Continue" }).click();
-  await expect(page.getByRole("heading", { name: "Preliminary Opportunity Brief" })).toBeVisible();
-  await expect(page.getByText("/100", { exact: false }).first()).toBeVisible();
+  await page.getByLabel("What’s the issue?").fill("Our sales team loses qualified leads because CRM follow-up is inconsistent.");
+  await page.getByRole("button", { name: "Send" }).click();
+  await page.getByLabel("What would a good result look like?").fill("Complete every qualified follow-up within one working day and keep the CRM updated.");
+  await page.getByRole("button", { name: "Send" }).click();
+  await expect(page.getByText("A sensible starting point")).toBeVisible();
+  await expect(page.getByText(/\d+\/100/)).toBeVisible();
   await expect(page.locator('input[type="email"]')).toHaveCount(0);
-  await page.getByRole("button", { name: "Prepare the human handoff" }).click();
+  await page.getByRole("button", { name: "Ask Viste to review" }).click();
   await page.getByLabel("Name").fill("Test Person");
   await page.getByLabel("Work email").fill("test@example.com");
   await page.getByLabel("Company").fill("Example Ltd");
   await page.getByLabel("Country / region").fill("Spain");
   await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Send my Opportunity Brief" }).click();
-  await expect(page.getByRole("heading", { name: "Your Opportunity Brief is ready for human review." })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Book a confirmed discovery session" })).toHaveAttribute("href", "https://booking.example.com/viste");
+  await page.getByRole("button", { name: "Send for review" }).click();
+  await expect(page.getByText("Your brief is with Viste.")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Diagnostic session with a senior practitioner" })).toHaveAttribute("href", "https://booking.example.com/viste");
 });
 
 test("ROI planner uses user inputs and exposes three scenarios", async ({ page }) => {

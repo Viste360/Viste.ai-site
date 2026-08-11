@@ -1,14 +1,32 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
+import { OpportunityChat } from "./opportunity-chat";
 
 export function AdvisorLauncher({ locale }: { locale: "en" | "es" }) {
   const pathname = usePathname();
   const advisorPath = locale === "es" ? "/es/asesor" : "/advisor";
-  if (pathname === advisorPath || pathname.startsWith("/admin")) return null;
-  return <Link className="advisor-launcher" href={advisorPath} aria-label={locale === "es" ? "Encuentra el punto de partida adecuado para IA" : "Find the right AI starting point"}>
-    <span aria-hidden="true">✦</span>
-    {locale === "es" ? "Encuentra tu punto de partida" : "Find the right AI starting point"}
-  </Link>;
+  const [open, setOpen] = useState(pathname === advisorPath);
+  const [hasOpened, setHasOpened] = useState(pathname === advisorPath);
+  const dialogId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => { if (event.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
+
+  if (pathname.startsWith("/admin")) return null;
+  const label = locale === "es" ? "Habla con Viste" : "Ask Viste";
+  return <div className={`advisor-widget${open ? " is-open" : ""}`}>
+    {hasOpened ? <aside id={dialogId} className="advisor-panel" role="dialog" aria-modal="false" aria-label={locale === "es" ? "Asesor de oportunidades de Viste" : "Viste Opportunity Advisor"} hidden={!open}>
+      <header><div><span aria-hidden="true">✦</span><div><strong>{locale === "es" ? "Asesor de Viste" : "Viste Advisor"}</strong><small>{locale === "es" ? "Punto de partida en 2 preguntas" : "A starting point in 2 questions"}</small></div></div><button type="button" onClick={() => setOpen(false)} aria-label={locale === "es" ? "Cerrar asesor" : "Close advisor"}>×</button></header>
+      <OpportunityChat locale={locale} />
+    </aside> : null}
+    <button className="advisor-launcher" type="button" aria-expanded={open} aria-controls={dialogId} onClick={() => { setHasOpened(true); setOpen((value) => !value); }}>
+      <span aria-hidden="true">✦</span><b>{label}</b>
+    </button>
+  </div>;
 }
