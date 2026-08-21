@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildAdvisorSystemPrompt, fallbackAdvisorReply, isClearlyNonsense, isObviouslyVague } from "./advisor-conversation";
+import { buildAdvisorSystemPrompt, fallbackAdvisorReply, isClearlyNonsense, isObviouslyVague, isWeakForStage } from "./advisor-conversation";
 
 const base = {
   locale: "en" as const,
@@ -23,6 +23,20 @@ describe("advisor conversation guardrails", () => {
     expect(reply.nextStage).toBe("closed");
     expect(reply.quality).toBe("rejected");
     expect(reply.normalizedAnswer).toBe("");
+  });
+
+  it("does not treat a meta-question as a description of the business", () => {
+    const first = { ...base, stage: "business" as const, answer: "qué problema dices" };
+    expect(isWeakForStage(first)).toBe(true);
+    expect(fallbackAdvisorReply(first)).toEqual(expect.objectContaining({ nextStage: "business", quality: "recoverable" }));
+    expect(fallbackAdvisorReply({ ...first, recoveryAttempts: 1 })).toEqual(expect.objectContaining({ nextStage: "closed", quality: "rejected" }));
+  });
+
+  it("requires stage-relevant context before advancing in fallback mode", () => {
+    expect(isWeakForStage({ ...base, stage: "business", answer: "something online" })).toBe(true);
+    expect(isWeakForStage({ ...base, stage: "business", answer: "I run a local hair salon for families." })).toBe(false);
+    expect(isWeakForStage({ ...base, stage: "goal", answer: "Ayúdame a elegir" })).toBe(true);
+    expect(isWeakForStage({ ...base, stage: "situation", answer: "We use email and Excel today." })).toBe(false);
   });
 
   it("moves an explicit Rupert request to the protected contact step", () => {

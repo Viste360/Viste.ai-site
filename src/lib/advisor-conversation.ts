@@ -30,14 +30,28 @@ export const advisorConversationReplySchema = z.object({
 export type AdvisorConversationRequest = z.infer<typeof advisorConversationRequestSchema>;
 export type AdvisorConversationReply = z.infer<typeof advisorConversationReplySchema> & { mode: "ai" | "fallback" };
 
-const vagueAnswers = /^(?:hi|hello|hey|hola|buenas|not sure|no idea|i don'?t know|idk|dunno|anything|whatever|maybe|no s[eé]|ni idea|da igual|lo que sea|quiz[aá]s)[.!? ]*$/i;
+const vagueAnswers = /^(?:hi|hello|hey|hola|buenas|not sure|no idea|i don'?t know|idk|dunno|anything|whatever|maybe|help me choose|no s[eé]|ni idea|da igual|lo que sea|quiz[aá]s|ay[uú]dame a elegir)[.!? ]*$/i;
+const metaQuestions = /^(?:(?:what|which)\s+(?:problem|issue|do you mean|are you asking)|(?:qu[eé]|cu[aá]l)\s+(?:problema|dices|quieres decir|me preguntas)|de qu[eé] (?:hablas|problema))[.!?¿ ]*$/i;
 const humanRequests = /(?:\b(?:human|humano|rupert)\b|\b(?:speak|talk)\s+(?:to|with)\s+(?:a\s+)?(?:person|someone|human|rupert)\b|\b(?:call|phone|contact)\s+me\b|\b(?:book|arrange|schedule)\s+(?:a\s+)?(?:call|meeting|appointment)\b|\bhablar\s+con\s+(?:una\s+)?(?:persona|alguien|humano|rupert)\b|\b(?:ll[aá]mame|contactadme|cont[aá]ctame)\b|\b(?:agendar|reservar|programar|solicitar)\s+(?:una\s+)?(?:llamada|reuni[oó]n|cita)\b)/i;
 const promptInjection = /\b(?:ignore (?:all |the )?(?:previous|prior|system)|reveal (?:the )?(?:prompt|instructions)|system prompt|developer message|jailbreak|act as|disregard (?:all |the )?(?:previous|prior))\b/i;
 const keyboardMash = /^(?:(?:asdfghjkl|asdf|qwertyuiop|qwerty|zxcvbnm|zxcv|hjkl|ñlkj)[.!? ]*){1,4}$/i;
 
 export function isObviouslyVague(answer: string) {
   const value = answer.trim();
-  return value.length < 3 || vagueAnswers.test(value);
+  return value.length < 3 || vagueAnswers.test(value) || metaQuestions.test(value);
+}
+
+const stageSignals = {
+  business: /\b(?:we|our|i run|i own|my business|my company|company|business|agency|salon|restaurant|clinic|shop|store|hotel|properties|practice|software|service|services|customers|clients|somos|tenemos|vendemos|ofrecemos|gestionamos|mi empresa|mi negocio|empresa|negocio|agencia|peluquer[ií]a|restaurante|cl[ií]nica|tienda|hotel|alojamientos|servicio|servicios|clientes)\b/i,
+  goal: /\b(?:customer|client|lead|sale|revenue|booking|appointment|service|response|time|admin|workflow|data|report|website|site|app|build|improve|increase|reduce|automate|connect|cliente|venta|ingreso|reserva|cita|atenci[oó]n|respuesta|tiempo|administraci[oó]n|flujo|datos|informe|web|aplicaci[oó]n|crear|mejorar|aumentar|reducir|automatizar|conectar)\b/i,
+  situation: /\b(?:manual|scattered|delay|slow|missed|losing|outdated|cannot|can'?t|without|repeated|duplicate|waiting|inbox|spreadsheet|excel|email|whatsapp|crm|use|using|problem|friction|manual|dispers|retras|lent|perd|anticuad|obsolet|no podemos|sin |repet|duplic|espera|bandeja|hoja de c[aá]lculo|correo|usamos|utilizamos|problema|fricci[oó]n)\w*/i,
+} as const;
+
+export function isWeakForStage(input: AdvisorConversationRequest) {
+  const value = input.answer.trim();
+  if (isObviouslyVague(value) || isClearlyNonsense(value)) return true;
+  const minimum = input.stage === "goal" ? 8 : 12;
+  return value.length < minimum || (!stageSignals[input.stage].test(value) && value.length < 40);
 }
 
 export function isClearlyNonsense(answer: string) {
@@ -75,7 +89,7 @@ export function fallbackAdvisorReply(input: AdvisorConversationRequest): Advisor
         : "Of course. Leave your details and complete the quick security check; we’ll pass this context to the team so Rupert or the right person can follow up.",
     };
   }
-  if (isObviouslyVague(input.answer) || isClearlyNonsense(input.answer)) {
+  if (isWeakForStage(input)) {
     if (input.recoveryAttempts >= 1) {
       return {
         mode: "fallback",

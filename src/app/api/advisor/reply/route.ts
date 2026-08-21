@@ -7,8 +7,7 @@ import {
   advisorConversationRequestSchema,
   buildAdvisorSystemPrompt,
   fallbackAdvisorReply,
-  isClearlyNonsense,
-  isObviouslyVague,
+  isWeakForStage,
   wantsHumanContact,
 } from "@/lib/advisor-conversation";
 
@@ -63,7 +62,7 @@ export async function POST(request: NextRequest) {
   const input = parsed.data;
 
   const modelAvailable = Boolean(process.env.AI_GATEWAY_API_KEY || process.env.VERCEL || process.env.OPENAI_API_KEY);
-  if (isObviouslyVague(input.answer) || isClearlyNonsense(input.answer) || wantsHumanContact(input.answer) || !modelAvailable) {
+  if (isWeakForStage(input) || wantsHumanContact(input.answer) || !modelAvailable) {
     return json(fallbackAdvisorReply(input));
   }
 

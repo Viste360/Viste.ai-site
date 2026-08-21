@@ -35,6 +35,13 @@ describe("advisor reply API", () => {
     expect(await response.json()).toEqual(expect.objectContaining({ nextStage: "closed", quality: "rejected", mode: "fallback" }));
   });
 
+  it("closes the exact repeated Spanish meta-question flow", async () => {
+    const { POST } = await import("./route");
+    const response = await POST(request({ locale: "es", stage: "business", answer: "qué problema dices", recoveryAttempts: 1, context: { business: "", goal: "", situation: "" } }, "203.0.113.85"));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual(expect.objectContaining({ nextStage: "closed", quality: "rejected", mode: "fallback" }));
+  });
+
   it("rejects cross-origin use", async () => {
     const { POST } = await import("./route");
     const response = await POST(request({ locale: "en", stage: "business", answer: "A useful answer", context: { business: "", goal: "", situation: "" } }, "203.0.113.83", "https://attacker.example"));
