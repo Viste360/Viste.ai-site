@@ -7,6 +7,7 @@ import type { AdvisorConversationReply, AdvisorConversationStage } from "@/lib/a
 import { classifyIntent, type OpportunityIntent, type OpportunitySubmission } from "@/lib/opportunity-engine";
 import { recordOpportunityEvent } from "@/lib/opportunity-analytics";
 import { publicConfig } from "@/lib/public-config";
+import styles from "./advisor-chat.module.css";
 import { TurnstileWidget } from "./turnstile-widget";
 
 type Locale = "en" | "es";
@@ -27,7 +28,7 @@ const copy = {
     situationPlaceholder: "For example: enquiries arrive in different places, follow-up is manual and we cannot see what is still waiting…",
     thinking: "Thinking about your business…",
     retry: "I couldn’t think that through properly just now. Please try again — your answer is still here.",
-    send: "Send", back: "Back", restart: "Start again",
+    send: "Send", sendHint: "Enter to send · Shift+Enter for a new line", back: "Back", restart: "Start again",
     brief: "What I’d explore with you", best: "Best starting point", other: "Also worth considering",
     note: "These are informed starting points, not a fixed proposal. A Viste specialist will confirm scope, timing, cost and what should stay human-led.",
     review: "Talk to Viste",
@@ -54,7 +55,7 @@ const copy = {
     situationPlaceholder: "Por ejemplo: las consultas llegan por varios sitios, el seguimiento es manual y no vemos qué sigue pendiente…",
     thinking: "Pensando en tu negocio…",
     retry: "No pude analizarlo bien en este momento. Inténtalo de nuevo; tu respuesta sigue aquí.",
-    send: "Enviar", back: "Atrás", restart: "Empezar de nuevo",
+    send: "Enviar", sendHint: "Enter para enviar · Shift+Enter para una nueva línea", back: "Atrás", restart: "Empezar de nuevo",
     brief: "Lo que exploraría contigo", best: "Mejor punto de partida", other: "También puede encajar",
     note: "Son puntos de partida razonados, no una propuesta cerrada. Un especialista de Viste confirmará alcance, plazo, coste y qué debe seguir bajo control humano.",
     review: "Hablar con Viste",
@@ -128,7 +129,8 @@ export function OpportunityChat({ locale }: { locale: Locale }) {
   const [turnstileToken, setTurnstileToken] = useState("");
   const [result, setResult] = useState<Result | null>(null);
   const startedAt = useRef(0);
-  const transcriptEnd = useRef<HTMLDivElement>(null);
+  const transcript = useRef<HTMLDivElement>(null);
+  const turnInFlight = useRef(false);
   const submission = useMemo(() => baseSubmission(locale, business, goal, situation), [business, goal, locale, situation]);
   const classification = useMemo(() => classifyIntent(`${business} ${goal} ${situation}`), [business, goal, situation]);
   const resolvedIntent = advisorIntent === "AI_EXPLORATION" ? classification.intent : advisorIntent;
@@ -149,12 +151,21 @@ export function OpportunityChat({ locale }: { locale: Locale }) {
   }, [locale]);
 
   useEffect(() => {
-    transcriptEnd.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    const container = transcript.current;
+    if (!container) return;
+    container.scrollTo({ top: container.scrollHeight, behavior: pending ? "auto" : "smooth" });
   }, [pending, stage, turns]);
+
+  function handleComposerKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>, turnStage: AdvisorConversationStage) {
+    if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) return;
+    event.preventDefault();
+    void sendAdvisorTurn(turnStage);
+  }
 
   async function sendAdvisorTurn(turnStage: AdvisorConversationStage, value = draft) {
     const answer = value.trim();
-    if (answer.length < 2 || pending) return;
+    if (answer.length < 2 || turnInFlight.current) return;
+    turnInFlight.current = true;
     if (!startedAt.current) startedAt.current = Date.now();
     if (!turns.length) recordOpportunityEvent("advisor_started", { locale, step: 0, intent: classification.intent });
     setTurns((current) => [...current, { id: crypto.randomUUID(), role: "user", text: answer }]);
@@ -191,11 +202,12 @@ export function OpportunityChat({ locale }: { locale: Locale }) {
     } catch {
       setDraft(answer);
       setTurns((current) => [...current, { id: crypto.randomUUID(), role: "assistant", text: c.retry }]);
-    } finally { setPending(false); }
+    } finally { turnInFlight.current = false; setPending(false); }
   }
 
   function restart() {
     setStage("business"); setDraft(""); setBusiness(""); setGoal(""); setSituation(""); setTurns([]); setPending(false);
+    turnInFlight.current = false;
     setAdvisorIntent("AI_EXPLORATION"); setRecoveryAttempts(0); setContact({ name: "", email: "", phone: "", company: "", region: "" });
     setConsent(false); setFaxNumber(""); setTurnstileToken(""); setResult(null); startedAt.current = Date.now();
   }
@@ -229,7 +241,7 @@ export function OpportunityChat({ locale }: { locale: Locale }) {
   const showBrief = stage === "success" && Boolean(business && goal && situation);
 
   return <div className="advisor-chat">
-    <div className="advisor-chat-transcript" aria-live="polite">
+    <div className="advisor-chat-transcript" aria-live="polite" ref={transcript}>
       <div className="chat-row chat-row-ai"><span aria-hidden="true">AI</span><div><strong>{c.hello}</strong><p>{c.intro}</p></div></div>
       {turns.map((turn) => <div className={`chat-row chat-row-${turn.role === "assistant" ? "ai" : "user"}`} key={turn.id}>{turn.role === "assistant" ? <span aria-hidden="true">AI</span> : null}<div><p>{turn.text}</p></div></div>)}
       {pending ? <div className="chat-row chat-row-ai chat-row-thinking"><span aria-hidden="true">AI</span><div><p>{c.thinking}<b aria-hidden="true">•••</b></p></div></div> : null}
@@ -244,18 +256,17 @@ export function OpportunityChat({ locale }: { locale: Locale }) {
         <span aria-hidden="true">✓</span><strong>{c.success}</strong><p>{c.successDetail}</p><small>VIS_010 · {c.reference} {result.reference.slice(0, 8)}</small>
         <div>{result.bookingUrl ? <a className="chat-book-link" href={result.bookingUrl} target="_blank" rel="noreferrer">{c.book}</a> : null}<a className="chat-whatsapp-link" href={whatsappUrl} target="_blank" rel="noreferrer">{c.whatsapp}</a><a href="mailto:hello@viste.ai">{c.emailFallback}</a><Link href={result.service.href}>{result.service.label}</Link></div>
       </div> : null}
-      <div ref={transcriptEnd} />
     </div>
 
-    {(stage === "business" || stage === "situation") ? <div className="chat-composer">
+    {(stage === "business" || stage === "situation") ? <form className="chat-composer" onSubmit={(event) => { event.preventDefault(); void sendAdvisorTurn(stage); }}>
       <label htmlFor="advisor-answer">{activeQuestion}</label>
-      <textarea id="advisor-answer" value={draft} onChange={(event) => setDraft(event.target.value)} placeholder={activePlaceholder} rows={3} maxLength={1500} disabled={pending} />
-      <button type="button" disabled={draft.trim().length < 2 || pending} onClick={() => sendAdvisorTurn(stage)}>{c.send}<span aria-hidden="true">↑</span></button>
-    </div> : null}
+      <div className={styles.inputRow}><textarea id="advisor-answer" value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => handleComposerKeyDown(event, stage)} placeholder={activePlaceholder} rows={2} maxLength={1500} disabled={pending} enterKeyHint="send" aria-describedby="advisor-answer-hint" /><button className={styles.sendButton} type="submit" disabled={draft.trim().length < 2 || pending}>{c.send}<span aria-hidden="true">↑</span></button></div>
+      <small className={styles.sendHint} id="advisor-answer-hint">{c.sendHint}</small>
+    </form> : null}
 
     {stage === "goal" ? <div className="chat-goal-wrap">
       <div className="chat-goals" aria-label={c.goal}>{c.goals.map((option) => <button type="button" key={option} disabled={pending} onClick={() => sendAdvisorTurn("goal", option)}>{option}<span aria-hidden="true">→</span></button>)}</div>
-      <div className="chat-composer chat-goal-composer"><label htmlFor="advisor-goal">{c.goalPlaceholder}</label><textarea id="advisor-goal" value={draft} onChange={(event) => setDraft(event.target.value)} placeholder={c.goalPlaceholder} rows={2} maxLength={800} disabled={pending} /><div className="chat-composer-actions"><button className="chat-back" type="button" onClick={() => setStage("business")}>{c.back}</button><button type="button" disabled={draft.trim().length < 2 || pending} onClick={() => sendAdvisorTurn("goal")}>{c.send}<span aria-hidden="true">↑</span></button></div></div>
+      <form className="chat-composer chat-goal-composer" onSubmit={(event) => { event.preventDefault(); void sendAdvisorTurn("goal"); }}><label htmlFor="advisor-goal">{c.goalPlaceholder}</label><div className={styles.inputRow}><textarea id="advisor-goal" value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => handleComposerKeyDown(event, "goal")} placeholder={c.goalPlaceholder} rows={2} maxLength={800} disabled={pending} enterKeyHint="send" aria-describedby="advisor-goal-hint" /><button className={styles.sendButton} type="submit" disabled={draft.trim().length < 2 || pending}>{c.send}<span aria-hidden="true">↑</span></button></div><div className={styles.composerMeta}><button className="chat-back" type="button" onClick={() => setStage("business")}>{c.back}</button><small className={styles.sendHint} id="advisor-goal-hint">{c.sendHint}</small></div></form>
     </div> : null}
 
     {stage === "contact" || stage === "sending" || stage === "error" ? <form className="chat-contact" onSubmit={submit}>

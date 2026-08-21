@@ -1,0 +1,193 @@
+.inputRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+}
+
+.inputRow textarea {
+  min-height: 64px;
+  padding-right: 12px;
+}
+
+.sendButton {
+  display: inline-flex;
+  min-width: 82px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 9px 8px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--aqua);
+  color: #04211e;
+  font-size: 11px;
+  font-weight: 800;
+  touch-action: manipulation;
+}
+
+.sendButton:disabled {
+  cursor: not-allowed;
+  opacity: .35;
+}
+
+.sendHint {
+  display: block;
+  margin-top: 6px;
+  color: #789990;
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.composerMeta {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.composerMeta .sendHint {
+  margin: 0;
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .widget.open .launcher {
+    display: none;
+  }
+
+  .widget .panel {
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    transform-origin: center;
+  }
+
+  .widget .header {
+    min-height: calc(60px + env(safe-area-inset-top));
+    padding-top: max(10px, env(safe-area-inset-top));
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-left: max(14px, env(safe-area-inset-left));
+  }
+
+  .widget .header > button {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+
+  .panel :global(.advisor-chat-transcript) {
+    padding: 12px;
+    scroll-padding-bottom: 16px;
+  }
+
+  .panel :global(.chat-row) {
+    margin-bottom: 11px;
+  }
+
+  .panel :global(.chat-row > div) {
+    max-width: 88%;
+  }
+
+  .panel :global(.chat-row p) {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .panel :global(.chat-row strong) {
+    font-size: 14px;
+  }
+
+  .panel :global(.chat-composer) {
+    padding: 10px max(12px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+
+  .panel :global(.chat-composer label) {
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+
+  .panel .inputRow textarea {
+    min-height: 56px;
+    max-height: 120px;
+    padding: 10px 12px;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .panel .sendButton {
+    min-width: 88px;
+    min-height: 48px;
+    font-size: 12px;
+  }
+
+  .panel .sendHint {
+    font-size: 10px;
+  }
+
+  .panel :global(.chat-goal-wrap) {
+    max-height: 66%;
+  }
+
+  .panel :global(.chat-goals) {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .panel :global(.chat-goals button:not(.chat-back)) {
+    min-height: 48px;
+    font-size: 11px;
+  }
+
+  .panel :global(.chat-contact) {
+    max-height: 72%;
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 370px) {
+  .inputRow {
+    grid-template-columns: minmax(0, 1fr) 48px;
+  }
+
+  .sendButton {
+    min-width: 48px;
+    padding-inline: 8px;
+  }
+
+  .sendButton {
+    font-size: 0;
+  }
+
+  .sendButton span {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 760px) and (orientation: landscape) {
+  .widget .header {
+    min-height: 54px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+
+  .panel :global(.chat-row p) {
+    font-size: 13px;
+  }
+
+  .panel :global(.chat-composer) {
+    padding-top: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .widget .panel {
+    animation: none;
+  }
+}

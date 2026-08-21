@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
+import styles from "./advisor-chat.module.css";
 import { OpportunityChat } from "./opportunity-chat";
 
 export function AdvisorLauncher({ locale }: { locale: "en" | "es" }) {
@@ -18,14 +19,37 @@ export function AdvisorLauncher({ locale }: { locale: "en" | "es" }) {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
+  useEffect(() => {
+    if (!open || !window.matchMedia("(max-width: 760px)").matches) return;
+    const previousOverflow = document.body.style.overflow;
+    const previousOverscroll = document.body.style.overscrollBehavior;
+    document.body.style.overflow = "hidden";
+    document.body.style.overscrollBehavior = "none";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.body.style.overscrollBehavior = previousOverscroll;
+    };
+  }, [open]);
+
+  useEffect(() => {
+    document.documentElement.dataset.visteAdvisorOpen = open ? "true" : "false";
+    window.dispatchEvent(new CustomEvent("viste:advisor-visibility", { detail: { open } }));
+    return () => {
+      if (open) {
+        document.documentElement.dataset.visteAdvisorOpen = "false";
+        window.dispatchEvent(new CustomEvent("viste:advisor-visibility", { detail: { open: false } }));
+      }
+    };
+  }, [open]);
+
   if (pathname.startsWith("/admin")) return null;
   const label = locale === "es" ? "Habla con Viste" : "Talk to Viste";
-  return <div className={`advisor-widget${open ? " is-open" : ""}`}>
-    {hasOpened ? <aside id={dialogId} className="advisor-panel" role="dialog" aria-modal="false" aria-label={locale === "es" ? "Asesor de oportunidades de Viste" : "Viste Opportunity Advisor"} hidden={!open}>
-      <header><div><span aria-hidden="true">✦</span><div><strong>{locale === "es" ? "Asesor de Viste" : "Viste Advisor"}</strong><small>{locale === "es" ? "Asesor IA · seguimiento humano" : "AI advisor · human follow-up"}</small></div></div><button type="button" onClick={() => setOpen(false)} aria-label={locale === "es" ? "Cerrar asesor" : "Close advisor"}>×</button></header>
+  return <div className={`advisor-widget ${styles.widget}${open ? ` is-open ${styles.open}` : ""}`}>
+    {hasOpened ? <aside id={dialogId} className={`advisor-panel ${styles.panel}`} role="dialog" aria-modal="false" aria-label={locale === "es" ? "Asesor de oportunidades de Viste" : "Viste Opportunity Advisor"} hidden={!open}>
+      <header className={styles.header}><div><span aria-hidden="true">✦</span><div><strong>{locale === "es" ? "Asesor de Viste" : "Viste Advisor"}</strong><small>{locale === "es" ? "Asesor IA · seguimiento humano" : "AI advisor · human follow-up"}</small></div></div><button type="button" onClick={() => setOpen(false)} aria-label={locale === "es" ? "Cerrar asesor" : "Close advisor"}>×</button></header>
       <OpportunityChat locale={locale} />
     </aside> : null}
-    <button className="advisor-launcher" type="button" aria-expanded={open} aria-controls={dialogId} onClick={() => { setHasOpened(true); setOpen((value) => !value); }}>
+    <button className={`advisor-launcher ${styles.launcher}`} type="button" aria-expanded={open} aria-controls={dialogId} onClick={() => { setHasOpened(true); setOpen((value) => !value); }}>
       <span aria-hidden="true">✦</span><b>{label}</b>
     </button>
   </div>;
