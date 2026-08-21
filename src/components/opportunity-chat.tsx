@@ -13,6 +13,7 @@ type Locale = "en" | "es";
 type Stage = AdvisorConversationStage | "contact" | "sending" | "success" | "error" | "closed";
 type Result = { reference: string; bookingUrl?: string; service: { label: string; href: string }; nextAction: string };
 type ChatTurn = { id: string; role: "user" | "assistant"; text: string };
+const whatsappUrl = process.env.NEXT_PUBLIC_WHATSAPP_URL || "https://wa.me/message/5IYX266Z5KPKK1";
 
 const copy = {
   en: {
@@ -241,7 +242,7 @@ export function OpportunityChat({ locale }: { locale: Locale }) {
       {stage === "closed" ? <div className="chat-row chat-row-ai"><span aria-hidden="true">AI</span><div><p>{c.closed}</p></div></div> : null}
       {stage === "success" && result ? <div className="chat-success" role="status">
         <span aria-hidden="true">✓</span><strong>{c.success}</strong><p>{c.successDetail}</p><small>VIS_010 · {c.reference} {result.reference.slice(0, 8)}</small>
-        <div>{result.bookingUrl ? <a className="chat-book-link" href={result.bookingUrl} target="_blank" rel="noreferrer">{c.book}</a> : null}<a className="chat-whatsapp-link" href={publicConfig.whatsappUrl} target="_blank" rel="noreferrer">{c.whatsapp}</a><a href="mailto:hello@viste.ai">{c.emailFallback}</a><Link href={result.service.href}>{result.service.label}</Link></div>
+        <div>{result.bookingUrl ? <a className="chat-book-link" href={result.bookingUrl} target="_blank" rel="noreferrer">{c.book}</a> : null}<a className="chat-whatsapp-link" href={whatsappUrl} target="_blank" rel="noreferrer">{c.whatsapp}</a><a href="mailto:hello@viste.ai">{c.emailFallback}</a><Link href={result.service.href}>{result.service.label}</Link></div>
       </div> : null}
       <div ref={transcriptEnd} />
     </div>
