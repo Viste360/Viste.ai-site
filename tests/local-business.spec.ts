@@ -12,6 +12,39 @@ test("Viste Local routes keep bilingual pricing and one-off terms in parity", as
   }
 });
 
+test("Viste Local provides bilingual page navigation and distinguishes pricing types", async ({ page }) => {
+  const routes = [
+    {
+      path: "/services/websites-for-local-businesses",
+      nav: "On this page",
+      firstLink: "Why it matters",
+      fixedPrice: "Fixed project price",
+      startingPrice: "Starting project price",
+    },
+    {
+      path: "/es/servicios/paginas-web-negocios-locales",
+      nav: "En esta página",
+      firstLink: "Por qué importa",
+      fixedPrice: "Precio fijo por proyecto",
+      startingPrice: "Precio inicial por proyecto",
+    },
+  ];
+
+  for (const route of routes) {
+    await page.goto(route.path);
+    const contents = page.getByRole("navigation", { name: route.nav });
+    await expect(contents).toBeVisible();
+    await expect(contents.getByRole("link", { name: new RegExp(route.firstLink) })).toHaveAttribute("href", "#why-it-matters");
+    await expect(contents.getByRole("link")).toHaveCount(5);
+    await expect(page.locator("#why-it-matters")).toBeAttached();
+    await expect(page.locator("#connected-presence")).toBeAttached();
+    await expect(page.locator("#packages")).toBeAttached();
+    await expect(page.locator("#extras")).toBeAttached();
+    await expect(page.getByText(route.fixedPrice).first()).toBeVisible();
+    await expect(page.getByText(route.startingPrice).first()).toBeVisible();
+  }
+});
+
 test("Viste Local enquiry works without an existing website and submits structured values", async ({ page }) => {
   let submission: Record<string, unknown> | null = null;
   await page.route("**/api/contact", async (route) => {

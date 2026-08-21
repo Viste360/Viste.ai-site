@@ -16,6 +16,8 @@ const copy = {
     interest: "I'm interested",
     whatsapp: "Ask on WhatsApp",
     oneOff: "One-off project prices — not monthly subscriptions",
+    contentsLabel: "On this page",
+    contents: [["Why it matters", "why-it-matters"], ["Connected presence", "connected-presence"], ["Website packages", "packages"], ["One-off extras", "extras"], ["Enquire", "website-enquiry"]],
     whyEyebrow: "Why this is necessary",
     whyTitle: "A customer should be able to find you, trust you and act — without piecing the story together.",
     why: [
@@ -37,9 +39,9 @@ const copy = {
     packagesEyebrow: "Website packages",
     packagesTitle: "Choose the right starting point. Pay once for the agreed project.",
     packages: [
-      { name: "Local Start", price: "€490", description: "For a small business needing a credible mobile-first website quickly.", bullets: ["Focused mobile-first website", "Essential business information", "Clear contact and WhatsApp actions"] },
-      { name: "Local Business", price: "from €950", description: "For businesses needing several pages, stronger presentation, reviews, galleries and booking.", bullets: ["Several-page structure", "Reviews and gallery presentation", "Booking connection in the customer journey"] },
-      { name: "Signature", price: "from €1,500", description: "For a more distinctive brand, custom structure, integrations and conversion journey.", bullets: ["More distinctive visual direction", "Custom information structure", "Agreed integrations and conversion journey"] },
+      { name: "Local Start", price: "€490", priceType: "Fixed project price", description: "For a small business needing a credible mobile-first website quickly.", bullets: ["Focused mobile-first website", "Essential business information", "Clear contact and WhatsApp actions"] },
+      { name: "Local Business", price: "from €950", priceType: "Starting project price", description: "For businesses needing several pages, stronger presentation, reviews, galleries and booking.", bullets: ["Several-page structure", "Reviews and gallery presentation", "Booking connection in the customer journey"] },
+      { name: "Signature", price: "from €1,500", priceType: "Starting project price", description: "For a more distinctive brand, custom structure, integrations and conversion journey.", bullets: ["More distinctive visual direction", "Custom information structure", "Agreed integrations and conversion journey"] },
     ],
     extrasEyebrow: "One-off extras",
     extrasTitle: "Add only what the business needs.",
@@ -57,6 +59,8 @@ const copy = {
     interest: "Me interesa",
     whatsapp: "Preguntar por WhatsApp",
     oneOff: "Precios por proyecto único — no son cuotas mensuales",
+    contentsLabel: "En esta página",
+    contents: [["Por qué importa", "why-it-matters"], ["Presencia conectada", "connected-presence"], ["Paquetes web", "packages"], ["Extras opcionales", "extras"], ["Solicitar información", "website-enquiry"]],
     whyEyebrow: "Por qué es necesario",
     whyTitle: "El cliente debe poder encontrarte, confiar y actuar sin tener que reconstruir la historia por su cuenta.",
     why: [
@@ -78,9 +82,9 @@ const copy = {
     packagesEyebrow: "Paquetes web",
     packagesTitle: "Elige el punto de partida adecuado. Paga una vez por el proyecto acordado.",
     packages: [
-      { name: "Local Start", price: "490 €", description: "Para un pequeño negocio que necesita rápidamente una web móvil y creíble.", bullets: ["Web enfocada y pensada para móvil", "Información esencial del negocio", "Acciones claras de contacto y WhatsApp"] },
-      { name: "Local Business", price: "desde 950 €", description: "Para negocios que necesitan varias páginas, mejor presentación, reseñas, galerías y reservas.", bullets: ["Estructura de varias páginas", "Presentación de reseñas y galería", "Conexión de reservas en el recorrido"] },
-      { name: "Signature", price: "desde 1.500 €", description: "Para una marca más diferenciada, estructura a medida, integraciones y recorrido de conversión.", bullets: ["Dirección visual más distintiva", "Estructura de información a medida", "Integraciones y recorrido de conversión acordados"] },
+      { name: "Local Start", price: "490 €", priceType: "Precio fijo por proyecto", description: "Para un pequeño negocio que necesita rápidamente una web móvil y creíble.", bullets: ["Web enfocada y pensada para móvil", "Información esencial del negocio", "Acciones claras de contacto y WhatsApp"] },
+      { name: "Local Business", price: "desde 950 €", priceType: "Precio inicial por proyecto", description: "Para negocios que necesitan varias páginas, mejor presentación, reseñas, galerías y reservas.", bullets: ["Estructura de varias páginas", "Presentación de reseñas y galería", "Conexión de reservas en el recorrido"] },
+      { name: "Signature", price: "desde 1.500 €", priceType: "Precio inicial por proyecto", description: "Para una marca más diferenciada, estructura a medida, integraciones y recorrido de conversión.", bullets: ["Dirección visual más distintiva", "Estructura de información a medida", "Integraciones y recorrido de conversión acordados"] },
     ],
     extrasEyebrow: "Extras de pago único",
     extrasTitle: "Añade solo lo que necesita el negocio.",
@@ -97,11 +101,12 @@ export function LocalBusinessWebsites({ locale }: { locale: Locale }) {
   const definition = getPage(c.path);
   if (!definition) return null;
   return <main className="local-service-page"><PageJsonLd page={definition} />
-    <section className="local-service-hero"><div className="shell"><Breadcrumbs path={c.path} title={definition.title} locale={locale} /><div className="local-hero-grid"><div><p className="eyebrow">{c.eyebrow}</p><h1>{c.title}</h1><p className="lede">{c.lead}</p><div className="button-row"><Link className="button" href="#website-enquiry">{c.interest}</Link><a className="button button-ghost" href="https://wa.me/message/5IYX266Z5KPKK1" rel="noreferrer">{c.whatsapp}</a></div><p className="local-one-off">{c.oneOff}</p></div><div className="local-price-stack" aria-label={locale === "en" ? "Website package prices" : "Precios de paquetes web"}>{c.packages.map((item, index) => <a href="#packages" key={item.name}><span>0{index + 1}</span><div><strong>{item.name}</strong><small>{item.description}</small></div><b>{item.price}</b></a>)}</div></div></div></section>
-    <section className="shell local-why"><div className="local-section-heading"><p className="eyebrow">{c.whyEyebrow}</p><h2>{c.whyTitle}</h2></div><div className="local-question-grid">{c.why.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section>
-    <section className="local-connected"><div className="shell"><div className="local-section-heading"><p className="eyebrow">{c.connectedEyebrow}</p><h2>{c.connectedTitle}</h2><p>{c.connectedLead}</p></div><div className="presence-grid">{c.connected.map(([label, description, Icon]) => <article key={label}><Icon aria-hidden="true" focusable="false" /><div><h3>{label}</h3><p>{description}</p></div></article>)}</div><p className="ownership-note">{c.ownership}</p></div></section>
-    <section className="shell local-packages" id="packages"><div className="local-section-heading"><p className="eyebrow">{c.packagesEyebrow}</p><h2>{c.packagesTitle}</h2></div><div className="package-grid">{c.packages.map((item, index) => <article className={index === 1 ? "featured" : ""} key={item.name}><span>0{index + 1}</span><h3>{item.name}</h3><strong>{item.price}</strong><p>{item.description}</p><ul>{item.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul><Link href="#website-enquiry" className={index === 1 ? "button" : "button button-ghost"}>{c.interest}</Link></article>)}</div></section>
-    <section className="shell local-extras"><div className="local-section-heading"><p className="eyebrow">{c.extrasEyebrow}</p><h2>{c.extrasTitle}</h2></div><div className="extras-list">{c.extras.map(([name, price]) => <div key={name}><span>{name}</span><strong>{price}</strong></div>)}</div><div className="pricing-boundaries"><h3>{c.termsTitle}</h3><ul>{c.terms.map((term) => <li key={term}>{term}</li>)}</ul><strong>{c.oneOff}</strong></div></section>
+    <section className="local-service-hero"><div className="shell"><Breadcrumbs path={c.path} title={definition.title} locale={locale} /><div className="local-hero-grid"><div><p className="eyebrow">{c.eyebrow}</p><h1>{c.title}</h1><p className="lede">{c.lead}</p><div className="button-row"><Link className="button" href="#website-enquiry">{c.interest}</Link><a className="button button-ghost" href="https://wa.me/message/5IYX266Z5KPKK1" rel="noreferrer">{c.whatsapp}</a></div><p className="local-one-off">{c.oneOff}</p></div><div className="local-price-stack" aria-label={locale === "en" ? "Website package prices" : "Precios de paquetes web"}>{c.packages.map((item, index) => <a href="#packages" key={item.name}><span>0{index + 1}</span><div><strong>{item.name}</strong><small>{item.description}</small></div><span className="local-price-value"><b>{item.price}</b><small>{item.priceType}</small></span></a>)}</div></div></div></section>
+    <nav className="shell local-toc" aria-label={c.contentsLabel}><span>{c.contentsLabel}</span><ol>{c.contents.map(([label, id], index) => <li key={id}><a href={`#${id}`}><small>{String(index + 1).padStart(2, "0")}</small>{label}</a></li>)}</ol></nav>
+    <section className="shell local-why" id="why-it-matters"><div className="local-section-heading"><p className="eyebrow">{c.whyEyebrow}</p><h2>{c.whyTitle}</h2></div><div className="local-question-grid">{c.why.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section>
+    <section className="local-connected" id="connected-presence"><div className="shell"><div className="local-section-heading"><p className="eyebrow">{c.connectedEyebrow}</p><h2>{c.connectedTitle}</h2><p>{c.connectedLead}</p></div><div className="presence-grid">{c.connected.map(([label, description, Icon]) => <article key={label}><Icon aria-hidden="true" focusable="false" /><div><h3>{label}</h3><p>{description}</p></div></article>)}</div><p className="ownership-note">{c.ownership}</p></div></section>
+    <section className="shell local-packages" id="packages"><div className="local-section-heading"><p className="eyebrow">{c.packagesEyebrow}</p><h2>{c.packagesTitle}</h2></div><div className="package-grid">{c.packages.map((item, index) => <article className={index === 1 ? "featured" : ""} key={item.name}><span>0{index + 1}</span><h3>{item.name}</h3><span className="package-price"><strong>{item.price}</strong><small>{item.priceType}</small></span><p>{item.description}</p><ul>{item.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul><Link href="#website-enquiry" className={index === 1 ? "button" : "button button-ghost"}>{c.interest}</Link></article>)}</div></section>
+    <section className="shell local-extras" id="extras"><div className="local-section-heading"><p className="eyebrow">{c.extrasEyebrow}</p><h2>{c.extrasTitle}</h2></div><div className="extras-list">{c.extras.map(([name, price]) => <div key={name}><span>{name}</span><strong>{price}</strong></div>)}</div><div className="pricing-boundaries"><h3>{c.termsTitle}</h3><ul>{c.terms.map((term) => <li key={term}>{term}</li>)}</ul><strong>{c.oneOff}</strong></div></section>
     <section className="local-form-section"><div className="shell local-form-layout"><div><p className="eyebrow">{c.formEyebrow}</p><h2>{c.formTitle}</h2><p className="lede">{c.ownership}</p><a className="text-link" href="https://wa.me/message/5IYX266Z5KPKK1" rel="noreferrer">{c.whatsapp} →</a></div><LocalWebsiteForm locale={locale} /></div></section>
   </main>;
 }
