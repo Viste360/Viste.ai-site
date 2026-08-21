@@ -32,6 +32,7 @@ test("mobile advisor is full-screen and sends with Enter", async ({ page }, test
   const viewport = page.viewportSize();
   expect(viewport).not.toBeNull();
   await expect.poll(async () => (await panel.boundingBox())?.x).toBeLessThanOrEqual(1);
+  await expect.poll(async () => (await panel.boundingBox())?.y).toBeLessThanOrEqual(1);
   const panelBox = await panel.boundingBox();
   expect(panelBox).not.toBeNull();
   expect(panelBox!.y).toBeLessThanOrEqual(1);
