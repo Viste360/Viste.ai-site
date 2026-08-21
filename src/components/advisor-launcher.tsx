@@ -19,10 +19,10 @@ export function AdvisorLauncher({ locale }: { locale: "en" | "es" }) {
   }, [open]);
 
   if (pathname.startsWith("/admin")) return null;
-  const label = locale === "es" ? "Habla con Viste" : "Ask Viste";
+  const label = locale === "es" ? "Habla con Viste" : "Talk to Viste";
   return <div className={`advisor-widget${open ? " is-open" : ""}`}>
     {hasOpened ? <aside id={dialogId} className="advisor-panel" role="dialog" aria-modal="false" aria-label={locale === "es" ? "Asesor de oportunidades de Viste" : "Viste Opportunity Advisor"} hidden={!open}>
-      <header><div><span aria-hidden="true">✦</span><div><strong>{locale === "es" ? "Asesor de Viste" : "Viste Advisor"}</strong><small>{locale === "es" ? "Punto de partida en 2 preguntas" : "A starting point in 2 questions"}</small></div></div><button type="button" onClick={() => setOpen(false)} aria-label={locale === "es" ? "Cerrar asesor" : "Close advisor"}>×</button></header>
+      <header><div><span aria-hidden="true">✦</span><div><strong>{locale === "es" ? "Asesor de Viste" : "Viste Advisor"}</strong><small>{locale === "es" ? "Asesor IA · seguimiento humano" : "AI advisor · human follow-up"}</small></div></div><button type="button" onClick={() => setOpen(false)} aria-label={locale === "es" ? "Cerrar asesor" : "Close advisor"}>×</button></header>
       <OpportunityChat locale={locale} />
     </aside> : null}
     <button className="advisor-launcher" type="button" aria-expanded={open} aria-controls={dialogId} onClick={() => { setHasOpened(true); setOpen((value) => !value); }}>

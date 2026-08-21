@@ -213,30 +213,55 @@ test("opportunity diagnostic shows transparent value before contact capture", as
   await expect(page.getByRole("link", { name: /Ver servicio relacionado/ })).toHaveAttribute("href", "/es/servicios/atencion-cliente-whatsapp");
 });
 
-test("VIS_010 opens in the corner, asks two prompts and delivers value before contact capture", async ({ page }) => {
-  await page.route("**/api/opportunities", async (route) => route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true, reference: "b1234567-b123-c123-d123-e12345678900", intent: "SALES_CRM", score: 82, priority: "P1_PRIORITY", confidence: 0.91, risk: "LOW", stage: "QUALIFIED", service: { label: "Sales and CRM Automation", href: "/services/sales-crm-automation" }, nextAction: "Diagnostic session with a senior practitioner", missingInformation: [], bookingUrl: "https://booking.example.com/viste" }) }));
+test("VIS_010 qualifies a visitor, recommends services and captures a reachable lead", async ({ page }) => {
+  await page.route("**/api/advisor/reply", async (route) => {
+    const input = route.request().postDataJSON() as { stage: "business" | "goal" | "situation"; answer: string };
+    const body = input.stage === "business" && input.answer === "not sure"
+      ? { reply: "No problem. To make this useful, tell me what the business sells or does and the kind of customer it helps.", nextStage: "business", normalizedAnswer: "", intent: "AI_EXPLORATION", quality: "recoverable", mode: "fallback" }
+      : input.stage === "business"
+        ? { reply: "Outsourced sales for B2B software companies gives me a clear picture. What improvement would create the most commercial value now?", nextStage: "goal", normalizedAnswer: input.answer, intent: "SALES_CRM", quality: "accepted", mode: "ai" }
+        : input.stage === "goal"
+          ? { reply: "Winning more customers is clear. Where does the sales process currently lose momentum?", nextStage: "situation", normalizedAnswer: input.answer, intent: "SALES_CRM", quality: "accepted", mode: "ai" }
+          : { reply: "That sounds frustrating. I have enough context to match this with the right Viste options; leave your details first so we can carry the conversation forward.", nextStage: "ready", normalizedAnswer: input.answer, intent: "SALES_CRM", quality: "accepted", mode: "ai" };
+    await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(body) });
+  });
+  const advisorLead = { value: null as Record<string, unknown> | null };
+  await page.route("**/api/opportunities", async (route) => {
+    advisorLead.value = route.request().postDataJSON() as Record<string, unknown>;
+    await route.fulfill({ status: 201, contentType: "application/json", body: JSON.stringify({ ok: true, reference: "b1234567-b123-c123-d123-e12345678900", intent: "SALES_CRM", score: 82, priority: "P1_PRIORITY", confidence: 0.91, risk: "LOW", stage: "QUALIFIED", service: { label: "Sales and CRM Automation", href: "/services/sales-crm-automation" }, nextAction: "Diagnostic session with a senior practitioner", missingInformation: [], notification: "sent", storage: "stored", bookingUrl: "https://booking.example.com/viste" }) });
+  });
   await page.goto("/");
   await expect(page.getByRole("dialog", { name: "Viste Opportunity Advisor" })).toHaveCount(0);
-  await page.getByRole("button", { name: "Ask Viste" }).click();
+  await page.getByRole("button", { name: "Talk to Viste" }).click();
   await expect(page.getByRole("dialog", { name: "Viste Opportunity Advisor" })).toBeVisible();
-  await expect(page.getByText("Hi — I’m the Viste Advisor.")).toBeVisible();
+  await expect(page.getByText("Hi — I’m Viste’s AI business advisor.")).toBeVisible();
   await expect(page.locator('input[type="email"]')).toHaveCount(0);
-  await page.getByLabel("What’s the issue?").fill("Our sales team loses qualified leads because CRM follow-up is inconsistent.");
+  await page.getByLabel("What does your business do, and who does it serve?").fill("not sure");
   await page.getByRole("button", { name: "Send" }).click();
-  await page.getByLabel("What would a good result look like?").fill("Complete every qualified follow-up within one working day and keep the CRM updated.");
+  await expect(page.getByText(/what the business sells or does/)).toBeVisible();
+  await page.getByLabel("What does your business do, and who does it serve?").fill("We provide outsourced sales services to B2B software companies.");
   await page.getByRole("button", { name: "Send" }).click();
-  await expect(page.getByText("A sensible starting point")).toBeVisible();
-  await expect(page.getByText(/\d+\/100/)).toBeVisible();
-  await expect(page.locator('input[type="email"]')).toHaveCount(0);
-  await page.getByRole("button", { name: "Ask Viste to review" }).click();
+  await expect(page.getByText(/gives me a clear picture/)).toBeVisible();
+  await page.getByRole("button", { name: "Win more customers" }).click();
+  await expect(page.getByText(/sales process currently lose momentum/)).toBeVisible();
+  await page.getByLabel("What is getting in the way today?").fill("Qualified leads are scattered across inboxes and CRM follow-up is inconsistent.");
+  await page.getByRole("button", { name: "Send" }).click();
+  await expect(page.getByText(/leave your details first/)).toBeVisible();
+  await expect(page.locator(".chat-sales-brief")).toHaveCount(0);
   await page.getByLabel("Name").fill("Test Person");
   await page.getByLabel("Work email").fill("test@example.com");
+  await page.getByLabel("Phone / WhatsApp (optional)").fill("+34 600 000 000");
   await page.getByLabel("Company").fill("Example Ltd");
   await page.getByLabel("Country / region").fill("Spain");
   await page.getByRole("checkbox").check();
-  await page.getByRole("button", { name: "Send for review" }).click();
-  await expect(page.getByText("Your brief is with Viste.")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Diagnostic session with a senior practitioner" })).toHaveAttribute("href", "https://booking.example.com/viste");
+  await page.getByRole("button", { name: "Send my details and show next steps" }).click();
+  await expect(page.getByText("Thank you — Viste has your details and conversation.")).toBeVisible();
+  await expect(page.getByText("What I’d explore with you")).toBeVisible();
+  await expect(page.locator(".chat-sales-brief").getByText("Sales and CRM Automation", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Book a time with Rupert" })).toHaveAttribute("href", "https://booking.example.com/viste");
+  await expect(page.getByRole("link", { name: "Continue on WhatsApp" })).toHaveAttribute("href", "https://wa.me/message/5IYX266Z5KPKK1");
+  expect(advisorLead.value).toMatchObject({ name: "Test Person", email: "test@example.com", phone: "+34 600 000 000", company: "Example Ltd" });
+  expect(String(advisorLead.value?.advisorTranscript)).toContain("Qualified leads are scattered across inboxes");
 });
 
 test("ROI planner uses user inputs and exposes three scenarios", async ({ page }) => {

@@ -63,8 +63,8 @@ export const intentServiceMap: Record<OpportunityIntent, { en: { label: string; 
     es: { label: "Datos e Inteligencia para Decisiones", href: "/es/servicios/inteligencia-datos" },
   },
   CUSTOM_PRODUCT: {
-    en: { label: "Custom AI Development", href: "/services/custom-ai-development" },
-    es: { label: "Desarrollo de IA a Medida", href: "/es/servicios/desarrollo-ia-medida" },
+    en: { label: "Website and Business App Development", href: "/services/website-app-development" },
+    es: { label: "Desarrollo Web y Aplicaciones de Negocio", href: "/es/servicios/desarrollo-web-aplicaciones" },
   },
   PARTNER: {
     en: { label: "AI delivery partnerships", href: "/industries/it-providers-resellers" },
@@ -98,8 +98,10 @@ export const opportunitySubmissionSchema = z.object({
   commercialReadiness: levelSchema,
   risk: z.enum(["LOW", "MEDIUM", "HIGH"]),
   constraints: z.string().trim().max(1_500).default(""),
+  advisorTranscript: z.string().trim().max(8_000).optional(),
   name: z.string().trim().min(2).max(100),
   email: z.email().max(200),
+  phone: z.string().trim().max(40).optional(),
   company: z.string().trim().min(2).max(160),
   region: z.string().trim().min(2).max(120),
   consent: z.literal(true),
@@ -128,7 +130,7 @@ const keywordGroups: Array<[OpportunityIntent, string[]]> = [
   ["DOCUMENT_WORKFLOW", ["document", "documents", "pdf", "invoice", "contract", "documento", "documentos", "factura", "contrato", "expediente"]],
   ["DATA_INTELLIGENCE", ["dashboard", "report", "analytics", "data", "kpi", "reporting", "datos", "informe"]],
   ["SUPPORT_AUTOMATION", ["support", "ticket", "customer service", "helpdesk", "atención al cliente", "atencion al cliente", "soporte"]],
-  ["CUSTOM_PRODUCT", ["custom app", "software product", "platform", "portal", "aplicación", "aplicacion", "producto", "plataforma"]],
+  ["CUSTOM_PRODUCT", ["website", "web site", "web app", "custom app", "software product", "platform", "portal", "admin dashboard", "database", "full stack", "sitio web", "página web", "pagina web", "aplicación", "aplicacion", "producto", "plataforma", "panel de administración", "base de datos"]],
 ];
 
 export function classifyIntent(text: string): { intent: OpportunityIntent; confidence: number; evidence: string[] } {
