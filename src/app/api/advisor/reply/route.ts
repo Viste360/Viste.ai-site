@@ -16,12 +16,16 @@ const salt = process.env.CONTACT_IP_SALT || randomUUID();
 const windowMs = 15 * 60_000;
 const maximumTurns = 18;
 
+export function advisorProvider() {
+  return process.env.OPENAI_API_KEY ? "openai" : "gateway";
+}
+
 function advisorModel() {
   const configured = process.env.OPENAI_ADVISOR_MODEL || "gpt-5.6-terra";
   const openAIModel = configured.replace(/^openai\//, "");
-  return process.env.AI_GATEWAY_API_KEY || process.env.VERCEL
-    ? gateway(`openai/${openAIModel}`)
-    : openai(openAIModel);
+  return advisorProvider() === "openai"
+    ? openai(openAIModel)
+    : gateway(`openai/${openAIModel}`);
 }
 
 function json(body: object, status = 200) {

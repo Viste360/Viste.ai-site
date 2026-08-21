@@ -12,6 +12,17 @@ function request(body: object, ip: string, origin = "https://viste.ai") {
 describe("advisor reply API", () => {
   afterEach(() => { delete process.env.OPENAI_API_KEY; });
 
+  it("prefers the direct OpenAI provider when a server key is configured", async () => {
+    process.env.OPENAI_API_KEY = "test-key-not-used";
+    const { advisorProvider } = await import("./route");
+    expect(advisorProvider()).toBe("openai");
+  });
+
+  it("uses the Vercel AI Gateway only when no direct OpenAI key is configured", async () => {
+    const { advisorProvider } = await import("./route");
+    expect(advisorProvider()).toBe("gateway");
+  });
+
   it("returns a useful same-stage reply for a vague answer without calling a model", async () => {
     const { POST } = await import("./route");
     const response = await POST(request({ locale: "en", stage: "business", answer: "not sure", context: { business: "", goal: "", situation: "" } }, "203.0.113.81"));
