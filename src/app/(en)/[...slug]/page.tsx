@@ -8,6 +8,7 @@ import { QuestionsHub } from "@/components/questions-hub";
 import { RoiCalculatorPage } from "@/components/roi-calculator-page";
 import { WhatsAppDemo } from "@/components/whatsapp-demo";
 import { AdvisorPage } from "@/components/advisor-page";
+import { LocalBusinessWebsites } from "@/components/local-business-websites";
 import { getGrowthPage, growthPages } from "@/content/growth";
 import { getInsight, insights } from "@/content/insights";
 import { legalPages } from "@/content/legal";
@@ -17,6 +18,7 @@ import { pageMetadata } from "@/lib/site";
 type Props = { params: Promise<{ slug: string[] }> };
 function pathOf(slug: string[]) { return `/${slug.join("/")}`; }
 const demoPath = "/solutions/whatsapp-sales-service-control/demo";
+const localWebsitesPath = "/services/websites-for-local-businesses";
 
 export function generateStaticParams() { return [...allPages.filter((page) => page.locale === "en").map((page) => ({ slug: page.path.slice(1).split("/") })), ...legalPages.filter((page) => page.locale === "en").map((page) => ({ slug: page.path.slice(1).split("/") })), ...growthPages.filter((page) => page.locale === "en").map((page) => ({ slug: page.path.slice(1).split("/") })), ...insights.map((insight) => ({ slug: insight.path.en.slice(1).split("/") })), { slug: ["insights"] }, { slug: ["contact"] }, { slug: ["advisor"] }, { slug: demoPath.slice(1).split("/") }]; }
 
@@ -41,6 +43,7 @@ export default async function Page({ params }: Props) {
   if (path === "/advisor") return <AdvisorPage locale="en" />;
   if (path === "/insights") return <InsightsIndex locale="en" />;
   if (path === demoPath) return <WhatsAppDemo locale="en" />;
+  if (path === localWebsitesPath) return <LocalBusinessWebsites locale="en" />;
   const growthPage = getGrowthPage(path);
   if (growthPage?.key === "opportunity") return <OpportunityPage page={growthPage} />;
   if (growthPage?.key === "roi") return <RoiCalculatorPage page={growthPage} />;

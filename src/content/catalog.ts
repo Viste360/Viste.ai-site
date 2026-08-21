@@ -28,6 +28,58 @@ export const services: CatalogItem[] = [
     metrics: { en: ["Decision clarity", "Estimated implementation effort", "Risk coverage", "Pilot readiness"], es: ["Claridad de decisión", "Esfuerzo estimado", "Cobertura de riesgos", "Preparación del piloto"] },
   },
   {
+    id: "website-app-development",
+    path: { en: "/services/website-app-development", es: "/es/servicios/desarrollo-web-aplicaciones" },
+    title: { en: "Website and Business App Development", es: "Desarrollo Web y Aplicaciones de Negocio" },
+    description: {
+      en: "Come to us with a simple brief. We design and build the client-facing site or app, admin area, database and integrations as one complete delivery.",
+      es: "Cuéntanos tu idea de forma sencilla. Diseñamos y construimos la web o aplicación, el área de administración, la base de datos y las integraciones como un proyecto completo.",
+    },
+    problem: {
+      en: "Businesses need a new website or app but do not want to coordinate separate designers, frontend and backend developers, database specialists and hosting providers.",
+      es: "Las empresas necesitan una nueva web o aplicación, pero no quieren coordinar por separado diseño, frontend, backend, bases de datos y alojamiento.",
+    },
+    approach: {
+      en: ["Turn a plain-language brief into pages, user roles and core actions", "Design the client experience and practical admin workflows", "Build the frontend, server logic, database and required integrations", "Test, launch and document day-to-day management"],
+      es: ["Convertir una idea explicada con sencillez en páginas, roles y acciones clave", "Diseñar la experiencia del cliente y los flujos de administración", "Construir frontend, lógica de servidor, base de datos e integraciones", "Probar, publicar y documentar la gestión diaria"],
+    },
+    outcomes: {
+      en: ["Fast, responsive website or web app", "Practical administration dashboard", "Structured database and secure access", "Maintainable launch and handover"],
+      es: ["Web o aplicación rápida y adaptable", "Panel de administración práctico", "Base de datos estructurada y acceso seguro", "Publicación y entrega mantenibles"],
+    },
+    guardrail: {
+      en: "Scope, content responsibilities, third-party services, hosting and ongoing support are agreed before build. Security and data controls depend on the users, information and actions involved.",
+      es: "El alcance, los contenidos, los servicios externos, el alojamiento y el soporte continuo se acuerdan antes del desarrollo. La seguridad y los controles de datos dependen de los usuarios, la información y las acciones implicadas.",
+    },
+    metrics: { en: ["Launch readiness", "Core-task completion", "Performance and accessibility", "Administration time"], es: ["Preparación para publicar", "Finalización de tareas clave", "Rendimiento y accesibilidad", "Tiempo de administración"] },
+  },
+  {
+    id: "local-business-websites",
+    path: { en: "/services/websites-for-local-businesses", es: "/es/servicios/paginas-web-negocios-locales" },
+    title: { en: "Viste Local — Websites for Local Businesses", es: "Viste Local — Páginas Web para Negocios Locales" },
+    description: {
+      en: "One-off website and connected digital-presence packages for local businesses, with clear pricing from €490.",
+      es: "Webs y paquetes de presencia digital conectada para negocios locales, en un único proyecto y con precios claros desde 490 €.",
+    },
+    problem: {
+      en: "Customers often judge a local business through Google, Instagram, photos, opening hours, reviews, WhatsApp and booking before they decide to visit or enquire.",
+      es: "Los clientes suelen valorar un negocio local por Google, Instagram, las fotos, los horarios, las reseñas, WhatsApp y las reservas antes de visitar o preguntar.",
+    },
+    approach: {
+      en: ["Clarify the offer and essential business information", "Design a fast mobile-first website", "Connect approved Google, social, WhatsApp and booking accounts", "Launch with clear ownership and handover"],
+      es: ["Aclarar la oferta y la información esencial", "Diseñar una web rápida y pensada para móvil", "Conectar las cuentas aprobadas de Google, redes, WhatsApp y reservas", "Publicar con propiedad y entrega claras"],
+    },
+    outcomes: {
+      en: ["A credible central website", "Consistent customer information", "Immediate contact and booking paths", "A digital presence the business owns"],
+      es: ["Una web central y creíble", "Información coherente para el cliente", "Vías inmediatas de contacto y reserva", "Una presencia digital propiedad del negocio"],
+    },
+    guardrail: {
+      en: "Package prices are one-off project prices. Advertising spend, third-party subscriptions, travel, printing, domain, hosting and optional ongoing work are separate where applicable.",
+      es: "Los precios son por proyecto, no suscripciones. La inversión publicitaria, servicios de terceros, desplazamientos, impresión, dominio, alojamiento y trabajo continuo opcional se cotizan aparte cuando corresponda.",
+    },
+    metrics: { en: ["Information clarity", "Mobile usability", "Enquiry paths", "Account ownership"], es: ["Claridad de la información", "Usabilidad móvil", "Vías de consulta", "Propiedad de las cuentas"] },
+  },
+  {
     id: "customer-service-whatsapp",
     path: { en: "/services/customer-service-whatsapp", es: "/es/servicios/atencion-cliente-whatsapp" },
     title: { en: "Customer Service and WhatsApp Operations", es: "Atención al Cliente y Operaciones de WhatsApp" },

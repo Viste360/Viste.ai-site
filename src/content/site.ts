@@ -5,6 +5,7 @@ export const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://viste.ai";
 export const navigation = {
   en: [
     ["Services", "/services"],
+    ["Viste Local", "/services/websites-for-local-businesses"],
     ["Solutions", "/solutions"],
     ["Industries", "/industries"],
     ["Partners", "/partners"],
@@ -14,6 +15,7 @@ export const navigation = {
   ],
   es: [
     ["Servicios", "/es/servicios"],
+    ["Viste Local", "/es/servicios/paginas-web-negocios-locales"],
     ["Soluciones", "/es/soluciones"],
     ["Sectores", "/es/sectores"],
     ["Socios", "/es/socios"],

@@ -8,6 +8,7 @@ import { QuestionsHub } from "@/components/questions-hub";
 import { RoiCalculatorPage } from "@/components/roi-calculator-page";
 import { WhatsAppDemo } from "@/components/whatsapp-demo";
 import { AdvisorPage } from "@/components/advisor-page";
+import { LocalBusinessWebsites } from "@/components/local-business-websites";
 import { getGrowthPage, growthPages } from "@/content/growth";
 import { getInsight, insights } from "@/content/insights";
 import { legalPages } from "@/content/legal";
@@ -17,6 +18,7 @@ import { pageMetadata } from "@/lib/site";
 type Props = { params: Promise<{ slug: string[] }> };
 function pathOf(slug: string[]) { return `/es/${slug.join("/")}`; }
 const demoPath = "/es/soluciones/control-ventas-servicio-whatsapp/demo";
+const localWebsitesPath = "/es/servicios/paginas-web-negocios-locales";
 
 export function generateStaticParams() { return [...allPages.filter((page) => page.locale === "es").map((page) => ({ slug: page.path.replace(/^\/es\//, "").split("/") })), ...legalPages.filter((page) => page.locale === "es").map((page) => ({ slug: page.path.replace(/^\/es\//, "").split("/") })), ...growthPages.filter((page) => page.locale === "es").map((page) => ({ slug: page.path.replace(/^\/es\//, "").split("/") })), ...insights.map((insight) => ({ slug: insight.path.es.replace(/^\/es\//, "").split("/") })), { slug: ["recursos"] }, { slug: ["contacto"] }, { slug: ["asesor"] }, { slug: demoPath.replace(/^\/es\//, "").split("/") }]; }
 
@@ -41,6 +43,7 @@ export default async function Page({ params }: Props) {
   if (path === "/es/asesor") return <AdvisorPage locale="es" />;
   if (path === "/es/recursos") return <InsightsIndex locale="es" />;
   if (path === demoPath) return <WhatsAppDemo locale="es" />;
+  if (path === localWebsitesPath) return <LocalBusinessWebsites locale="es" />;
   const growthPage = getGrowthPage(path);
   if (growthPage?.key === "opportunity") return <OpportunityPage page={growthPage} />;
   if (growthPage?.key === "roi") return <RoiCalculatorPage page={growthPage} />;

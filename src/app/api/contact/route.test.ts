@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { NextRequest } from "next/server";
-import { validContact } from "../../../lib/contact.test";
+import { validContact, validWebsiteContact } from "../../../lib/contact.test";
 
 const mocks = vi.hoisted(() => ({
   abortSignal: vi.fn().mockResolvedValue({ error: null }),
@@ -56,6 +56,24 @@ describe("contact API", () => {
       utm_source: "search",
       utm_term: "ai implementation",
       qualified_for_booking: true,
+    }));
+  });
+
+  it("stores a structured Viste Local enquiry for later CRM handoff", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, status: 200 }));
+    const { POST } = await import("./route");
+    const response = await POST(request(validWebsiteContact, "203.0.113.26"));
+    expect(response.status).toBe(201);
+    expect(mocks.insert).toHaveBeenCalledWith(expect.objectContaining({
+      enquiry_type: "website",
+      source: "viste-local",
+      phone: "+34 600 000 000",
+      preferred_package: "local-start",
+      add_ons: ["photography", "booking"],
+      marketing_source: "instagram",
+      pipeline_stage: "prospect",
+      company_website: "",
+      utm_source: "instagram",
     }));
   });
 
