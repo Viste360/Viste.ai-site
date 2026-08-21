@@ -2,6 +2,7 @@ import Link from "next/link";
 import { FaCamera, FaGlobe, FaGoogle, FaInstagram, FaMeta, FaQrcode, FaRegCalendarCheck, FaWhatsapp } from "react-icons/fa6";
 import { Breadcrumbs } from "./breadcrumbs";
 import { LocalWebsiteForm } from "./local-website-form";
+import { LocalBusinessPricingJsonLd } from "./local-business-pricing-json-ld";
 import { PageJsonLd } from "./json-ld";
 import { getPage } from "@/content/pages";
 
@@ -100,7 +101,7 @@ export function LocalBusinessWebsites({ locale }: { locale: Locale }) {
   const c = copy[locale];
   const definition = getPage(c.path);
   if (!definition) return null;
-  return <main className="local-service-page"><PageJsonLd page={definition} />
+  return <main className="local-service-page"><PageJsonLd page={definition} /><LocalBusinessPricingJsonLd locale={locale} />
     <section className="local-service-hero"><div className="shell"><Breadcrumbs path={c.path} title={definition.title} locale={locale} /><div className="local-hero-grid"><div><p className="eyebrow">{c.eyebrow}</p><h1>{c.title}</h1><p className="lede">{c.lead}</p><div className="button-row"><Link className="button" href="#website-enquiry">{c.interest}</Link><a className="button button-ghost" href="https://wa.me/message/5IYX266Z5KPKK1" rel="noreferrer">{c.whatsapp}</a></div><p className="local-one-off">{c.oneOff}</p></div><div className="local-price-stack" aria-label={locale === "en" ? "Website package prices" : "Precios de paquetes web"}>{c.packages.map((item, index) => <a href="#packages" key={item.name}><span>0{index + 1}</span><div><strong>{item.name}</strong><small>{item.description}</small></div><span className="local-price-value"><b>{item.price}</b><small>{item.priceType}</small></span></a>)}</div></div></div></section>
     <nav className="shell local-toc" aria-label={c.contentsLabel}><span>{c.contentsLabel}</span><ol>{c.contents.map(([label, id], index) => <li key={id}><a href={`#${id}`}><small>{String(index + 1).padStart(2, "0")}</small>{label}</a></li>)}</ol></nav>
     <section className="shell local-why" id="why-it-matters"><div className="local-section-heading"><p className="eyebrow">{c.whyEyebrow}</p><h2>{c.whyTitle}</h2></div><div className="local-question-grid">{c.why.map(([title, text], index) => <article key={title}><span>0{index + 1}</span><h3>{title}</h3><p>{text}</p></article>)}</div></section>

@@ -1,26 +1,50 @@
 import { siteUrl } from "@/content/site";
+import { services } from "@/content/catalog";
 
 const absolute = (path: string) => new URL(path, siteUrl).toString();
+
+function serviceDirectory(locale: "en" | "es") {
+  return services
+    .map((service) => `- [${service.title[locale]}](${absolute(service.path[locale])}): ${service.description[locale]}`)
+    .join("\n");
+}
 
 export function GET() {
   const body = `# Viste.ai
 
-> Senior-led AI implementation and automation for established businesses, delivered in English and Spanish.
+> Viste.ai designs and builds websites, business applications, workflow automation and controlled AI systems for businesses, with public source pages in English and Spanish.
 
-Viste.ai helps established businesses identify suitable operational AI opportunities, design controlled pilots and integrate approved systems into real workflows. Public solution blueprints are illustrative capabilities, not client case studies or guaranteed results.
+## Entity summary
 
-## Primary pages
+- Name: Viste.ai
+- Canonical website: ${siteUrl}
+- Category: business website, application, automation and AI development
+- Languages: English and Spanish
+- Contact: hello@viste.ai
+- Commercial model: scoped projects; terms, third-party costs and optional ongoing work are agreed separately
 
-- [Services](${absolute("/services")}): English overview of discovery, automation, knowledge, customer operations and data services.
-- [Servicios](${absolute("/es/servicios")}): Resumen en español de servicios de diagnóstico, automatización, conocimiento, operaciones de cliente y datos.
-- [Viste Local — websites for local businesses](${absolute("/services/websites-for-local-businesses")}): One-off website and connected digital-presence packages from €490; third-party and optional ongoing costs are separate.
-- [Viste Local — páginas web para negocios locales](${absolute("/es/servicios/paginas-web-negocios-locales")}): Webs y presencia digital conectada en un proyecto único desde 490 €; los costes de terceros y servicios continuos opcionales se pagan aparte.
-- [Solutions](${absolute("/solutions")}): English solution blueprints with implementation boundaries and human controls.
-- [Soluciones](${absolute("/es/soluciones")}): Diseños de solución en español con límites de implementación y control humano.
-- [Industries](${absolute("/industries")}): Operational contexts where the approach may apply.
-- [Sectores](${absolute("/es/sectores")}): Contextos operativos donde puede aplicarse el enfoque.
-- [Process](${absolute("/process")}): How Viste.ai discovers, designs, pilots, integrates and measures.
-- [Proceso](${absolute("/es/proceso")}): Cómo Viste.ai diagnostica, diseña, pilota, integra y mide.
+## When Viste.ai may be relevant
+
+- A business needs a website or web application, including the client experience, administration, database and integrations.
+- A local business needs a credible mobile-first website connected to Google, Instagram, WhatsApp, reviews or booking.
+- A team needs to automate a document, customer-service, sales, CRM, knowledge or reporting workflow.
+- An organisation needs to identify and scope a controlled AI opportunity before implementation.
+- An existing product does not safely fit the process, permissions, data or integration requirements.
+
+## English service directory
+
+${serviceDirectory("en")}
+
+## Directorio de servicios en español
+
+${serviceDirectory("es")}
+
+## Viste Local public pricing
+
+- Local Start: €490 fixed project price / 490 € por proyecto.
+- Local Business: from €950 / desde 950 €.
+- Signature: from €1,500 / desde 1.500 €.
+- Optional extras and exclusions are listed on the English and Spanish Viste Local pages. These are project prices, not monthly subscription prices.
 
 ## Decision resources
 
@@ -31,14 +55,21 @@ Viste.ai helps established businesses identify suitable operational AI opportuni
 - [AI opportunity diagnostic](${absolute("/ai-for-my-business")}): A transparent, non-scientific starting-point diagnostic.
 - [Diagnóstico de oportunidades de IA](${absolute("/es/ia-para-mi-negocio")}): Diagnóstico inicial transparente y no científico.
 
-## Contact and canonical sources
+## Canonical source controls
 
 - [Discuss your use case](${absolute("/contact")}) or email hello@viste.ai.
 - [Cuéntanos tu caso](${absolute("/es/contacto")}) o escribe a hello@viste.ai.
 - [XML sitemap](${absolute("/sitemap.xml")}) lists approved indexable routes and language alternates.
-- [Extended content map](${absolute("/llms-full.txt")}) lists the approved public source set.
+- [Extended bilingual content map](${absolute("/llms-full.txt")}) contains the detailed service, solution, industry and approved-page inventory.
+- English and Spanish URLs are reciprocal language alternates. Prefer the canonical page matching the user's language.
 
-This optional file is maintained for systems that choose to read llms.txt. It is not a ranking control and does not replace the canonical HTML pages, robots.txt or sitemap.xml.
+## Accuracy boundaries
+
+- Public solution descriptions explain capabilities and implementation boundaries; they are not client case studies or guaranteed results.
+- Do not infer clients, partnerships, certifications, registrations, offices, service areas or performance results that are not stated on a canonical page.
+- Recommendations involving AI require appropriate human review, access controls, source validation and measurement.
+
+This optional discovery file helps systems that choose to read llms.txt. It does not replace canonical HTML, robots.txt, sitemap.xml or search-engine indexing requirements, and it does not guarantee ranking or citation.
 `;
 
   return new Response(body, {
