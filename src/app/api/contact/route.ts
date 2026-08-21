@@ -9,7 +9,11 @@ const runtimeSalt = process.env.CONTACT_IP_SALT || randomUUID();
 const requestIdPattern = /^[a-zA-Z0-9_-]{8,80}$/;
 const deliveryTimeoutMs = 8_000;
 
-type DeliveryResult = { channel: "supabase" | "resend"; outcome: "delivered" | "failed" | "unconfigured" };
+type DeliveryResult = {
+  channel: "supabase" | "resend";
+  outcome: "delivered" | "failed" | "unconfigured";
+  diagnostic?: string;
+};
 
 function isMemoryLimited(key: string) {
   const now = Date.now();
@@ -117,7 +121,9 @@ async function storeLead(input: ContactInput, id: string, receivedAt: string, ip
       qualified_for_booking: qualified,
       status: "new",
     }).abortSignal(controller.signal);
-    return { channel: "supabase", outcome: error ? "failed" : "delivered" };
+    return error
+      ? { channel: "supabase", outcome: "failed", diagnostic: error.code || "database_error" }
+      : { channel: "supabase", outcome: "delivered" };
   } catch {
     return { channel: "supabase", outcome: "failed" };
   } finally {
@@ -173,7 +179,9 @@ async function notifyTeam(input: ContactInput, id: string, receivedAt: string, q
         ].join("\n"),
       }),
     });
-    return { channel: "resend", outcome: result.ok ? "delivered" : "failed" };
+    return result.ok
+      ? { channel: "resend", outcome: "delivered" }
+      : { channel: "resend", outcome: "failed", diagnostic: `http_${result.status}` };
   } catch {
     return { channel: "resend", outcome: "failed" };
   } finally {
@@ -232,14 +240,16 @@ export async function POST(request: NextRequest) {
     qualified,
     durationMs: Date.now() - startedAt,
     channels: Object.fromEntries(deliveries.map(({ channel, outcome }) => [channel, outcome])),
+    diagnostics: Object.fromEntries(deliveries.filter(({ diagnostic }) => diagnostic).map(({ channel, diagnostic }) => [channel, diagnostic])),
   }));
 
-  if (!stored) return response({ error: "We could not securely store this enquiry", fallback: "mailto:hello@viste.ai" }, 503, requestId);
+  if (!notified) return response({ error: "We could not notify the Viste team", fallback: "mailto:hello@viste.ai" }, 503, requestId);
   return response({
     ok: true,
     reference: id,
     qualified,
-    notification: notified ? "sent" : "monitoring-required",
+    notification: "sent",
+    storage: stored ? "stored" : "monitoring-required",
     bookingUrl: qualified ? publicConfig.bookingUrl : undefined,
   }, 201, requestId);
 }

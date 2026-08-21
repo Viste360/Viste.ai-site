@@ -61,7 +61,8 @@ test("Viste Local enquiry works without an existing website and submits structur
   await page.getByLabel("Business goals or missing features").fill("Explain our menu and opening hours and make WhatsApp contact easier.");
   await page.locator("#website-enquiry .consent input").check();
   await page.getByRole("button", { name: "Send — I’m interested" }).click();
-  await expect(page.getByText("Thanks. We have your Viste Local enquiry.")).toBeVisible();
+  await expect(page.getByText("Thank you — your enquiry has been received.")).toBeVisible();
+  await expect(page.getByText("A Viste representative will get back to you shortly.")).toBeVisible();
   expect(submission).toMatchObject({
     enquiryType: "website",
     companyWebsite: "",

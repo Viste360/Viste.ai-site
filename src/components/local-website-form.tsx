@@ -113,8 +113,8 @@ export function LocalWebsiteForm({ locale }: { locale: Locale }) {
 
   if (state === "success" && success) return <div className="form-success local-form-success" role="status" aria-live="polite">
     <span>✓</span><p className="eyebrow">{es ? `Referencia ${success.reference.slice(0, 8)}` : `Reference ${success.reference.slice(0, 8)}`}</p>
-    <h2>{es ? "Gracias. Ya tenemos tu consulta de Viste Local." : "Thanks. We have your Viste Local enquiry."}</h2>
-    <p>{es ? "Revisaremos el negocio, el paquete y los extras seleccionados antes de responder." : "We’ll review your business, package and selected extras before replying."}</p>
+    <h2>{es ? "Gracias — hemos recibido tu consulta." : "Thank you — your enquiry has been received."}</h2>
+    <p>{es ? "Un representante de Viste se pondrá en contacto contigo en breve." : "A Viste representative will get back to you shortly."}</p>
     <a className="button" href="https://wa.me/message/5IYX266Z5KPKK1" rel="noreferrer">{es ? "Continuar por WhatsApp" : "Continue on WhatsApp"}</a>
   </div>;
 
