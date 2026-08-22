@@ -1,0 +1,65 @@
+{
+  "manifestVersion": 1,
+  "status": "test-only",
+  "replaceBeforeLaunch": true,
+  "talentId": "temporary-owner-test-v1",
+  "locale": "en",
+  "styleId": "phone-pilot-v1",
+  "assets": [
+    {
+      "id": "idle-loop",
+      "sourceFile": "IMG_4435.MOV",
+      "durationMs": 11167,
+      "loop": true,
+      "muted": true,
+      "mp4": {
+        "path": "/coach-assets/test-v1/en/phone-pilot-v1/idle-loop.v1.mp4",
+        "bytes": 748267,
+        "sha256": "16806a236b2c7e43a9cfefe2017a05e13b304a0863b7b3a1e23f10d8046260c9"
+      },
+      "poster": {
+        "path": "/coach-assets/test-v1/en/phone-pilot-v1/idle-loop.v1.jpg",
+        "bytes": 27961,
+        "sha256": "ae0dd140d2aecdfb9ed29923c2af2ec58ffbf7962b1ff625e7f867576af6057e"
+      }
+    },
+    {
+      "id": "squat-depth-shallow-01",
+      "sourceFile": "IMG_4436.MOV",
+      "durationMs": 5700,
+      "loop": false,
+      "muted": false,
+      "transcript": "Good control. Give me a little more depth on the next one.",
+      "mp4": {
+        "path": "/coach-assets/test-v1/en/phone-pilot-v1/squat-depth-shallow-01.v1.mp4",
+        "bytes": 601396,
+        "sha256": "9d9d462a7d869a5b67d61888269cb4e298b2f7919fce254b4e430ff0e7079b72"
+      },
+      "poster": {
+        "path": "/coach-assets/test-v1/en/phone-pilot-v1/squat-depth-shallow-01.v1.jpg",
+        "bytes": 26135,
+        "sha256": "d3b0284229be585dbdec8fec05ddd0fb3d82e35d387a202256cae36390394bb5"
+      },
+      "captions": "/coach-assets/test-v1/en/phone-pilot-v1/squat-depth-shallow-01.v1.vtt"
+    },
+    {
+      "id": "encourage-comeback-01",
+      "sourceFile": "IMG_4438.MOV",
+      "durationMs": 4500,
+      "loop": false,
+      "muted": false,
+      "transcript": "Yes, that’s the adjustment. Keep it there.",
+      "mp4": {
+        "path": "/coach-assets/test-v1/en/phone-pilot-v1/encourage-comeback-01.v1.mp4",
+        "bytes": 429075,
+        "sha256": "418638e2321d7cf96e5648fd61e3105ff2eada99372298236ceb757a1efdd67a"
+      },
+      "poster": {
+        "path": "/coach-assets/test-v1/en/phone-pilot-v1/encourage-comeback-01.v1.jpg",
+        "bytes": 26712,
+        "sha256": "4662c709efb2f70f6b3dc4e51f2cb568bf4460b4b787ec63b16db32abd296bbb"
+      },
+      "captions": "/coach-assets/test-v1/en/phone-pilot-v1/encourage-comeback-01.v1.vtt"
+    }
+  ]
+}

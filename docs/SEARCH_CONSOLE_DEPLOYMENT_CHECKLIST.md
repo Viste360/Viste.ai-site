@@ -18,7 +18,8 @@ Do not execute production steps until the migration report is approved.
 - [ ] Verify `/`, `/es`, `/contact`, one service, one insight, all three named legacy legal URLs, sitemap, robots and security headers.
 - [ ] Confirm production robots allows public crawling and preview noindex headers are absent only on production.
 - [ ] Confirm contact health is `ok`, then reconcile one test lead end-to-end.
-- [ ] Submit `https://viste.ai/sitemap.xml` in the existing domain property.
+- [x] Verify the `sc-domain:viste.ai` property by DNS (completed 2026-08-13).
+- [x] Submit `https://viste.ai/sitemap.xml` in the domain property (submitted and read successfully 2026-08-13; 86 pages discovered).
 - [ ] Request indexing for the two homepages and highest-value service/industry pages.
 
 ## Monitoring

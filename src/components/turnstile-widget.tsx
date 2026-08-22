@@ -12,7 +12,7 @@ declare global {
     };
   }
 }
-export function TurnstileWidget({ siteKey, locale, onToken }: { siteKey?: string; locale: "en" | "es"; onToken: (token: string) => void }) {
+export function TurnstileWidget({ siteKey, locale, onToken, action = "viste_opportunity" }: { siteKey?: string; locale: "en" | "es"; onToken: (token: string) => void; action?: string }) {
   const container = useRef<HTMLDivElement>(null);
   const widgetId = useRef<string | null>(null);
   const [loaded, setLoaded] = useState(false);
@@ -21,7 +21,7 @@ export function TurnstileWidget({ siteKey, locale, onToken }: { siteKey?: string
     if (!siteKey || !loaded || !container.current || !window.turnstile || widgetId.current) return;
     widgetId.current = window.turnstile.render(container.current, {
       sitekey: siteKey,
-      action: "viste_opportunity",
+      action,
       theme: "dark",
       size: "flexible",
       language: locale,
@@ -29,7 +29,7 @@ export function TurnstileWidget({ siteKey, locale, onToken }: { siteKey?: string
       "expired-callback": () => onToken(""),
       "error-callback": () => onToken(""),
     });
-  }, [loaded, locale, onToken, siteKey]);
+  }, [action, loaded, locale, onToken, siteKey]);
 
   useEffect(() => {
     renderWidget();

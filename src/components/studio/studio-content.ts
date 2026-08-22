@@ -1,0 +1,78 @@
+export type StudioLocale = "en" | "es";
+
+export const studioCopy = {
+  en: {
+    localeName: "Español",
+    landingPath: "/studio",
+    alternateLandingPath: "/es/studio",
+    appPath: "/app",
+    alternateAppPath: "/es/app",
+    assetsPath: "/app/assets",
+    createPath: "/app/create",
+    calendarPath: "/app/calendar",
+    eyebrow: "Viste Content Engine",
+    headline: "One idea. Every channel. Always on brand.",
+    lead: "Turn approved company knowledge, brand assets and commercial objectives into polished campaigns—ready for human review, production and measurable distribution.",
+    primary: "Enter the studio",
+    secondary: "See how it works",
+    trusted: "Built around your approved knowledge",
+    trustedText: "Every claim can stay connected to its source, every asset to its rights, and every publish action to a human decision.",
+    flowTitle: "From brief to campaign",
+    flowLead: "One calm workspace for the decisions that matter. The system carries brand context forward, while your team keeps creative control.",
+    formatsTitle: "One campaign, shaped for every format.",
+    formatsLead: "Adapt the idea, pacing and call to action for each channel instead of mechanically copying the same output.",
+    controlTitle: "Human control at every stage",
+    controlLead: "Lock approved lines, review factual claims, replace scene assets and require a fresh approval after material changes.",
+    finalTitle: "Bring your brand into the studio.",
+    finalLead: "Start with the material you already trust: your website, brand guide, footage, case studies and approved claims.",
+    upload: "Upload your first assets",
+  },
+  es: {
+    localeName: "English",
+    landingPath: "/es/studio",
+    alternateLandingPath: "/studio",
+    appPath: "/es/app",
+    alternateAppPath: "/app",
+    assetsPath: "/es/app/assets",
+    createPath: "/es/app/create",
+    calendarPath: "/es/app/calendar",
+    eyebrow: "Viste Content Engine",
+    headline: "Una idea. Todos los canales. Siempre fiel a tu marca.",
+    lead: "Convierte el conocimiento aprobado de tu empresa, sus recursos de marca y sus objetivos comerciales en campañas pulidas, listas para revisión humana, producción y distribución medible.",
+    primary: "Entrar al estudio",
+    secondary: "Ver cómo funciona",
+    trusted: "Creado alrededor de tu conocimiento aprobado",
+    trustedText: "Cada afirmación puede mantener su fuente, cada recurso sus derechos y cada publicación una decisión humana.",
+    flowTitle: "Del briefing a la campaña",
+    flowLead: "Un espacio sereno para las decisiones que importan. El sistema mantiene el contexto de marca mientras tu equipo conserva el control creativo.",
+    formatsTitle: "Una campaña, adaptada a cada formato.",
+    formatsLead: "Adapta la idea, el ritmo y la llamada a la acción a cada canal en vez de copiar mecánicamente el mismo contenido.",
+    controlTitle: "Control humano en cada etapa",
+    controlLead: "Bloquea líneas aprobadas, revisa afirmaciones, cambia recursos de escena y exige una nueva aprobación cuando haya cambios relevantes.",
+    finalTitle: "Trae tu marca al estudio.",
+    finalLead: "Empieza por el material en el que ya confías: tu web, guía de marca, vídeos, casos y afirmaciones aprobadas.",
+    upload: "Sube tus primeros recursos",
+  },
+} satisfies Record<StudioLocale, Record<string, string>>;
+
+export const workflowSteps = {
+  en: [
+    ["01", "Idea", "Set the audience, objective and commercial tension."],
+    ["02", "Script", "Develop grounded hooks, claims and calls to action."],
+    ["03", "Storyboard", "Shape every scene, asset, caption and transition."],
+    ["04", "Render", "Produce channel-ready variants through an isolated worker."],
+    ["05", "Publish", "Approve, schedule and learn from performance."],
+  ],
+  es: [
+    ["01", "Idea", "Define la audiencia, el objetivo y la tensión comercial."],
+    ["02", "Guion", "Desarrolla hooks, afirmaciones y llamadas a la acción con fuentes."],
+    ["03", "Storyboard", "Da forma a cada escena, recurso, subtítulo y transición."],
+    ["04", "Render", "Produce variantes para cada canal en un worker aislado."],
+    ["05", "Publicar", "Aprueba, programa y aprende del rendimiento."],
+  ],
+} satisfies Record<StudioLocale, string[][]>;
+
+export const navItems = {
+  en: ["Home", "Brands", "Campaigns", "Create", "Review", "Assets", "Calendar", "Analytics", "Integrations", "Settings"],
+  es: ["Inicio", "Marcas", "Campañas", "Crear", "Revisión", "Recursos", "Calendario", "Analítica", "Integraciones", "Ajustes"],
+} satisfies Record<StudioLocale, string[]>;

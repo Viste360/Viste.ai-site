@@ -3,14 +3,15 @@ import { expect, test } from "@playwright/test";
 import { insights } from "../src/content/insights";
 import { legalPages } from "../src/content/legal";
 import { allPages } from "../src/content/pages";
-import { growthPairs } from "../src/content/growth";
+import { growthPages, growthPairs } from "../src/content/growth";
 import { legacyRedirects } from "../src/config/redirects";
 
-const coreRoutes = ["/", "/es", "/advisor", "/es/asesor", "/ai-for-my-business", "/es/ia-para-mi-negocio", "/tools/ai-automation-roi-calculator", "/es/herramientas/calculadora-roi-automatizacion-ia", "/questions", "/es/preguntas", "/services/ai-opportunity-sprint", "/es/servicios/sprint-oportunidades-ia", "/solutions/whatsapp-sales-service-control", "/es/soluciones/control-ventas-servicio-whatsapp", "/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo", "/industries/hospitality-property", "/es/sectores/hospitalidad-propiedades", "/insights/choose-first-ai-use-case", "/es/recursos/elegir-primer-caso-uso-ia", "/privacy", "/es/privacidad", "/contact", "/es/contacto"];
+const coreRoutes = ["/", "/es", "/advisor", "/es/asesor", "/voice", "/es/voz", "/ai-for-my-business", "/es/ia-para-mi-negocio", "/tools/ai-automation-roi-calculator", "/es/herramientas/calculadora-roi-automatizacion-ia", "/questions", "/es/preguntas", "/services/ai-opportunity-sprint", "/es/servicios/sprint-oportunidades-ia", "/services/website-app-development", "/es/servicios/desarrollo-web-aplicaciones", "/solutions/whatsapp-sales-service-control", "/es/soluciones/control-ventas-servicio-whatsapp", "/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo", "/industries/hospitality-property", "/es/sectores/hospitalidad-propiedades", "/insights/choose-first-ai-use-case", "/es/recursos/elegir-primer-caso-uso-ia", "/privacy", "/es/privacidad", "/contact", "/es/contacto"];
 const publicPairs = [
   ["/", "/es"],
   ["/contact", "/es/contacto"],
   ["/advisor", "/es/asesor"],
+  ["/voice", "/es/voz"],
   ["/insights", "/es/recursos"],
   ["/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo"],
   ...growthPairs,
@@ -29,7 +30,7 @@ for (const route of coreRoutes) test(`${route} renders without browser errors`, 
   expect(errors).toEqual([]);
 });
 
-for (const route of ["/", "/contact", "/advisor", "/solutions/whatsapp-sales-service-control/demo", "/es", "/es/asesor", "/es/ia-para-mi-negocio", "/es/herramientas/calculadora-roi-automatizacion-ia"]) test(`${route} has no serious accessibility violations`, async ({ page }) => {
+for (const route of ["/", "/contact", "/advisor", "/voice", "/solutions/whatsapp-sales-service-control/demo", "/es", "/es/asesor", "/es/voz", "/es/ia-para-mi-negocio", "/es/herramientas/calculadora-roi-automatizacion-ia"]) test(`${route} has no serious accessibility violations`, async ({ page }) => {
   await page.goto(route);
   const consent = page.getByRole("button", { name: /Essential only|Solo esenciales/ });
   if (await consent.isVisible()) await consent.click();
@@ -65,6 +66,20 @@ test("Spanish routes render only the Spanish server shell", async ({ request, pa
   await page.goto("/es/servicios/sprint-oportunidades-ia");
   await expect(page.locator('nav[aria-label="Navegación principal"]')).toHaveCount(1);
   await expect(page.locator(".header-actions .language")).toHaveAttribute("href", "/services/ai-opportunity-sprint");
+});
+
+test("homepages explain the WhatsApp workflow with an explicitly illustrative bilingual phone scenario", async ({ page }) => {
+  for (const [path, heading, note, link] of [
+    ["/", "Show the complicated request—not just the chatbot.", "Illustrative scenario · no client data", "/solutions/whatsapp-sales-service-control/demo"],
+    ["/es", "Muestra la petición compleja, no solo el chatbot.", "Escenario ilustrativo · sin datos de clientes", "/es/soluciones/control-ventas-servicio-whatsapp/demo"],
+  ] as const) {
+    await page.goto(path);
+    await expect(page.getByRole("heading", { name: heading })).toBeVisible();
+    await expect(page.getByText(note).first()).toBeVisible();
+    await expect(page.locator(".whatsapp-message-incoming")).toBeVisible();
+    await expect(page.locator(".whatsapp-message-draft")).toBeVisible();
+    await expect(page.locator(`a[href="${link}"]`).filter({ visible: true })).toBeVisible();
+  }
 });
 
 test("every legacy URL is a direct 301 to its canonical destination", async ({ request }) => {
@@ -109,20 +124,41 @@ test("all public pages have unique metadata, canonical, reciprocal hreflang and 
 
 test("sitemap and robots expose the production crawl contract", async ({ request }) => {
   const sitemap = await (await request.get("/sitemap.xml")).text();
-  expect(sitemap).toContain("https://viste.ai/solutions/whatsapp-sales-service-control/demo");
-  expect(sitemap).toContain("https://viste.ai/industries/multi-location-businesses");
+  const unapprovedGrowthPaths = new Set(growthPages.filter((page) => !page.publishApproved).map((page) => page.path));
+  const expectedUrls = publicPairs
+    .flat()
+    .filter((path) => !unapprovedGrowthPaths.has(path))
+    .map((path) => new URL(path, "https://viste.ai").toString());
+  const sitemapUrls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]);
+
+  expect(new Set(sitemapUrls).size, "sitemap must not contain duplicate URLs").toBe(sitemapUrls.length);
+  expect(new Set(sitemapUrls), "sitemap must contain every approved bilingual public route").toEqual(new Set(expectedUrls));
+  expect(sitemap).toContain("https://viste.ai/advisor");
+  expect(sitemap).toContain("https://viste.ai/es/asesor");
   expect(sitemap).toContain("hreflang=\"es\"");
   expect(sitemap).not.toContain("privacy-policy.html");
-  expect(sitemap).toContain("https://viste.ai/ai-for-my-business");
-  expect(sitemap).toContain("https://viste.ai/es/ia-para-mi-negocio");
-  expect(sitemap).toContain("https://viste.ai/tools/ai-automation-roi-calculator");
-  expect(sitemap).toContain("https://viste.ai/es/herramientas/calculadora-roi-automatizacion-ia");
-  expect(sitemap).toContain("https://viste.ai/questions");
-  expect(sitemap).toContain("https://viste.ai/es/preguntas");
+  expect(sitemap).not.toContain("https://viste.ai/admin");
+  expect(sitemap).not.toContain("https://viste.ai/api/");
   const robots = await (await request.get("/robots.txt")).text();
   expect(robots).toContain("Allow: /");
   expect(robots).toContain("Disallow: /admin");
+  expect(robots).toContain("Disallow: /api/");
   expect(robots).toContain("Sitemap: https://viste.ai/sitemap.xml");
+});
+
+test("AI discovery maps expose only approved bilingual public sources", async ({ request }) => {
+  for (const path of ["/llms.txt", "/llms-full.txt"]) {
+    const response = await request.get(path);
+    expect(response.status(), path).toBe(200);
+    expect(response.headers()["content-type"], path).toContain("text/plain");
+    const text = await response.text();
+    expect(text, path).toContain("https://viste.ai/services");
+    expect(text, path).toContain("https://viste.ai/es/servicios");
+    expect(text, path).toContain("hello@viste.ai");
+    expect(text, path).not.toContain("https://viste.ai/admin");
+    expect(text, path).not.toContain("https://viste.ai/api/");
+    expect(text, path).not.toMatch(/guarantees? results|garantiza resultados/i);
+  }
 });
 
 test("approved growth assets are indexable in production builds", async ({ request }) => {
@@ -136,10 +172,15 @@ test("approved growth assets are indexable in production builds", async ({ reque
 test("structured data is valid JSON and covers supported visible content", async ({ page }) => {
   await page.goto("/");
   const home = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() || "{}");
-  expect(home["@graph"].map((item: { "@type": string }) => item["@type"])).toEqual(expect.arrayContaining(["Organization", "WebSite"]));
+  expect(home["@graph"].map((item: { "@type": string }) => item["@type"])).toEqual(expect.arrayContaining(["Organization", "ImageObject", "WebSite", "WebPage"]));
+  expect(home["@graph"].find((item: { "@type": string }) => item["@type"] === "Organization").logo["@id"]).toBe("https://viste.ai/#logo");
+  expect(home["@graph"].find((item: { "@type": string }) => item["@type"] === "ImageObject").contentUrl).toBe("https://viste.ai/icon-512.png");
+  await page.goto("/es");
+  const spanishHome = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() || "{}");
+  expect(spanishHome["@graph"].find((item: { "@type": string }) => item["@type"] === "WebPage").inLanguage).toBe("es");
   await page.goto("/services/ai-opportunity-sprint");
   const service = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() || "{}");
-  expect(service["@graph"].map((item: { "@type": string }) => item["@type"])).toEqual(expect.arrayContaining(["BreadcrumbList", "Service"]));
+  expect(service["@graph"].map((item: { "@type": string }) => item["@type"])).toEqual(expect.arrayContaining(["BreadcrumbList", "WebPage", "Service"]));
   await page.goto("/insights/choose-first-ai-use-case");
   const article = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() || "{}");
   expect(article["@graph"].map((item: { "@type": string }) => item["@type"])).toEqual(expect.arrayContaining(["BreadcrumbList", "Article"]));
@@ -167,12 +208,12 @@ test("contact form exposes every qualification field and a tested booking succes
   await page.getByLabel("Work email").fill("test@example.com");
   await page.getByLabel("Company", { exact: true }).fill("Example Ltd");
   await page.getByLabel("Role").fill("Operations Director");
-  await page.getByLabel("Company website").fill("https://example.com");
+  await page.getByLabel("Current website (if any)").fill("https://example.com");
   await page.getByLabel("Country / region").fill("Spain");
   await page.getByLabel("Preferred language").selectOption("en");
   await page.getByLabel("Timeline").selectOption("quarter");
-  await page.getByLabel("Which workflow should work better?").fill("Customer requests arrive across several inboxes without clear ownership.");
-  await page.getByLabel("Which systems and channels are involved?").fill("WhatsApp Business, HubSpot and email");
+  await page.getByLabel("What would you like us to build or improve?").fill("Customer requests arrive across several inboxes without clear ownership.");
+  await page.getByLabel("Which systems or channels are involved? (if known)").fill("WhatsApp Business, HubSpot and email");
   await page.getByLabel("What outcome needs to change?").fill("Reduce response time and make every handoff accountable.");
   await page.getByLabel("Indicative budget").selectOption("10k-30k");
   await page.getByRole("checkbox").check();

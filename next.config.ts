@@ -2,12 +2,14 @@ import type { NextConfig } from "next";
 import { legacyRedirects } from "./src/config/redirects";
 
 const previewScriptSource = process.env.VERCEL_ENV && process.env.VERCEL_ENV !== "production" ? " https://vercel.live" : "";
+// React's development runtime reconstructs stack traces with eval(). Keep this
+// exception local to `next dev`; preview and production retain the strict CSP.
+const developmentScriptSource = process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : "";
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-Frame-Options", value: "DENY" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), browsing-topics=()" },
-  { key: "Content-Security-Policy", value: `default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com${previewScriptSource}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://challenges.cloudflare.com${previewScriptSource}; font-src 'self' data:; frame-src 'self' https://challenges.cloudflare.com${previewScriptSource}; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests` },
+  { key: "Content-Security-Policy", value: `default-src 'self'; script-src 'self' 'unsafe-inline'${developmentScriptSource} https://www.googletagmanager.com https://challenges.cloudflare.com${previewScriptSource}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://challenges.cloudflare.com https://api.elevenlabs.io wss://api.elevenlabs.io https://*.livekit.cloud wss://*.livekit.cloud${previewScriptSource}; font-src 'self' data:; media-src 'self' blob: https://*.livekit.cloud; worker-src 'self' blob:; frame-src 'self' https://challenges.cloudflare.com${previewScriptSource}; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'; upgrade-insecure-requests` },
 ];
 const aiDiscoveryHeaders = [{ key: "Link", value: "</llms.txt>; rel=\"describedby\"; type=\"text/plain\"" }];
 

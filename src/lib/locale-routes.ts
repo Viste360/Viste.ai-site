@@ -7,6 +7,7 @@ const pairs: [string, string][] = [
   ["/", "/es"],
   ["/contact", "/es/contacto"],
   ["/advisor", "/es/asesor"],
+  ["/voice", "/es/voz"],
   ["/insights", "/es/recursos"],
   ["/solutions/whatsapp-sales-service-control/demo", "/es/soluciones/control-ventas-servicio-whatsapp/demo"],
   ...growthPairs,

@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { en: "/", es: "/es", lastModified: "2026-08-03", priority: 1, changeFrequency: "weekly" },
     { en: "/contact", es: "/es/contacto", lastModified: "2026-08-03", priority: 0.9, changeFrequency: "monthly" },
     { en: "/advisor", es: "/es/asesor", lastModified: "2026-08-11", priority: 0.9, changeFrequency: "monthly" },
+    { en: "/voice", es: "/es/voz", lastModified: "2026-08-21", priority: 0.9, changeFrequency: "weekly" },
     { en: "/insights", es: "/es/recursos", lastModified: "2026-08-03", priority: 0.8, changeFrequency: "weekly" },
     { en: "/solutions/whatsapp-sales-service-control/demo", es: "/es/soluciones/control-ventas-servicio-whatsapp/demo", lastModified: "2026-08-03", priority: 0.8, changeFrequency: "monthly" },
     ...growthPages.filter((page) => page.locale === "en" && page.publishApproved).map((page) => ({ en: page.path, es: page.alternatePath, lastModified: page.lastReviewed, priority: 0.8, changeFrequency: "monthly" as const })),

@@ -16,7 +16,12 @@ function safePublicUrl(value: string | undefined) {
 
 export const publicConfig = {
   bookingUrl: safePublicUrl(process.env.NEXT_PUBLIC_BOOKING_URL),
+  whatsappUrl: safePublicUrl(process.env.NEXT_PUBLIC_WHATSAPP_URL) || "https://wa.me/message/5IYX266Z5KPKK1",
   turnstileSiteKey: clean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY),
+  searchVerification: {
+    google: clean(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION),
+    bing: clean(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION),
+  },
   legalOperator: {
     companyName: clean(process.env.NEXT_PUBLIC_LEGAL_COMPANY_NAME),
     companyNumber: clean(process.env.NEXT_PUBLIC_LEGAL_COMPANY_NUMBER),
