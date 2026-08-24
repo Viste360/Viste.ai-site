@@ -4,8 +4,8 @@ import { createClient, type Session } from "@supabase/supabase-js";
 import { useEffect, useMemo, useState } from "react";
 
 export function useNutritionAuth() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_NUTRITION_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-  const supabaseKey = process.env.NEXT_PUBLIC_NUTRITION_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
   const configured = Boolean(supabaseUrl && supabaseKey && !supabaseUrl.includes("example.supabase.co") && !supabaseKey.includes("example"));
   const supabase = useMemo(() => configured ? createClient(supabaseUrl, supabaseKey) : null, [configured, supabaseKey, supabaseUrl]);
   const [session, setSession] = useState<Session | null>(null);

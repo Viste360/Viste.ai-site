@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
   const history = ([...(historyResult.data || [])].reverse()) as NutritionMessage[];
   const message = parsed.data.message;
 
-  const { error: userMessageSaveError } = await auth.scoped.from("nutrition_messages").insert({
+  const { error: userMessageSaveError } = await auth.admin.from("nutrition_messages").insert({
     user_id: auth.user.id,
     role: "user",
     content: message,
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  const { error: saveError } = await auth.scoped.from("nutrition_messages").insert({
+  const { error: saveError } = await auth.admin.from("nutrition_messages").insert({
     user_id: auth.user.id,
     role: "assistant",
     content: reply.reply,
