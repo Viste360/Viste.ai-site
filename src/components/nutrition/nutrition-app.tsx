@@ -13,7 +13,7 @@ type View = "coach" | "log" | "progress" | "profile";
 const copy = {
   en: {
     eyebrow: "Viste.ai · private beta", title: "Your personal nutrition coach", lead: "A calm place to record what you eat, follow your weight trend and receive practical guidance that remembers your preferences.",
-    signIn: "Continue privately with Google", private: "Your meals and weight remain linked only to your account.", unavailable: "Private access is not configured in this environment yet.", loading: "Opening your private space…", signOut: "Sign out",
+    signIn: "Email me a private access link", email: "Your email", emailPlaceholder: "you@example.com", linkSent: "Check your inbox. We sent you a private sign-in link.", private: "Your meals and weight remain linked only to your account.", unavailable: "Private access is not configured in this environment yet.", loading: "Opening your private space…", signOut: "Sign out",
     coach: "Coach", log: "Food log", progress: "Progress", profile: "Profile", hello: "Good to see you", today: "Today", recent: "Recent meals", noMeals: "No meals recorded yet. Add the first one when you are ready.", noWeights: "Add two or more weigh-ins to see a trend without overreacting to daily changes.",
     ask: "Ask about your meals, habits or progress", placeholder: "For example: I’m hungry in the afternoon. What could I change?", send: "Send", thinking: "Looking at your profile and recent log…", chatEmpty: "Tell me what you ate or what feels difficult today. I’ll use your profile and recent entries, without judging.",
     addMeal: "Add a meal", mealType: "Meal", eatenAt: "When", description: "What did you eat?", mealPlaceholder: "Chicken, rice, salad and water…", hunger: "Hunger before (optional)", fullness: "Fullness after (optional)", saveMeal: "Save meal", saving: "Saving…",
@@ -23,7 +23,7 @@ const copy = {
   },
   es: {
     eyebrow: "Viste.ai · beta privada", title: "Tu asesor nutricional personal", lead: "Un espacio tranquilo para registrar lo que comes, seguir la evolución del peso y recibir orientación práctica que recuerda tus preferencias.",
-    signIn: "Continuar de forma privada con Google", private: "Tus comidas y tu peso quedan vinculados únicamente a tu cuenta.", unavailable: "El acceso privado todavía no está configurado en este entorno.", loading: "Abriendo tu espacio privado…", signOut: "Cerrar sesión",
+    signIn: "Enviarme un enlace de acceso privado", email: "Tu email", emailPlaceholder: "tu@email.com", linkSent: "Revisa tu correo. Te hemos enviado un enlace privado para entrar.", private: "Tus comidas y tu peso quedan vinculados únicamente a tu cuenta.", unavailable: "El acceso privado todavía no está configurado en este entorno.", loading: "Abriendo tu espacio privado…", signOut: "Cerrar sesión",
     coach: "Asesor", log: "Comidas", progress: "Progreso", profile: "Perfil", hello: "Qué bien verte", today: "Hoy", recent: "Comidas recientes", noMeals: "Todavía no has registrado comidas. Añade la primera cuando quieras.", noWeights: "Añade dos o más registros para ver una tendencia sin dar demasiada importancia a los cambios diarios.",
     ask: "Pregunta sobre tus comidas, hábitos o progreso", placeholder: "Por ejemplo: por la tarde tengo mucha hambre. ¿Qué podría cambiar?", send: "Enviar", thinking: "Revisando tu perfil y los últimos registros…", chatEmpty: "Cuéntame qué has comido o qué te está costando hoy. Usaré tu perfil y tus registros recientes, sin juzgarte.",
     addMeal: "Añadir una comida", mealType: "Comida", eatenAt: "Cuándo", description: "¿Qué has comido?", mealPlaceholder: "Pollo, arroz, ensalada y agua…", hunger: "Hambre antes (opcional)", fullness: "Saciedad después (opcional)", saveMeal: "Guardar comida", saving: "Guardando…",
@@ -43,14 +43,26 @@ function localDateTimeValue() {
   return now.toISOString().slice(0, 16);
 }
 
-function NutritionGate({ locale, configured, loading, onSignIn }: { locale: Locale; configured: boolean; loading: boolean; onSignIn: () => Promise<void> }) {
+function NutritionGate({ locale, configured, loading, onSignIn }: { locale: Locale; configured: boolean; loading: boolean; onSignIn: (email: string) => Promise<string | null> }) {
   const c = copy[locale];
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState("");
+  async function submit(event: React.FormEvent) {
+    event.preventDefault();
+    setStatus("sending");
+    const signInError = await onSignIn(email.trim());
+    if (signInError) { setError(signInError); setStatus("error"); return; }
+    setStatus("sent");
+  }
   return <main className={styles.gate}>
     <section className={styles.gateCard}>
       <div className={styles.brand}><span aria-hidden="true"><FiActivity /></span><strong>Viste.ai</strong><small>{locale === "es" ? "Nutrición personal" : "Personal nutrition"}</small></div>
       <p className={styles.eyebrow}>{c.eyebrow}</p><h1>{c.title}</h1><p className={styles.lead}>{c.lead}</p>
       <div className={styles.trustRow}><FiShield aria-hidden="true" /><span>{c.private}</span></div>
-      <button className={styles.primaryButton} type="button" disabled={!configured || loading} onClick={() => void onSignIn()}>{loading ? c.loading : c.signIn}<FiChevronRight aria-hidden="true" /></button>
+      <form className={styles.authForm} onSubmit={submit}><label htmlFor="nutrition-email">{c.email}</label><input id="nutrition-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder={c.emailPlaceholder} autoComplete="email" required /><button className={styles.primaryButton} type="submit" disabled={!configured || loading || status === "sending"}>{loading || status === "sending" ? c.loading : c.signIn}<FiChevronRight aria-hidden="true" /></button></form>
+      {status === "sent" ? <p className={styles.successText} role="status">{c.linkSent}</p> : null}
+      {status === "error" ? <p className={styles.inlineError} role="alert">{error}</p> : null}
       {!configured ? <p className={styles.inlineError} role="status">{c.unavailable}</p> : null}
       <div className={styles.safetyNote}><strong>{c.safetyTitle}</strong><p>{c.safety}</p></div>
     </section>
@@ -188,8 +200,8 @@ function ProgressView({ locale, session, supabase, weights, setWeights, latestWe
 }
 
 export function NutritionApp({ locale }: { locale: Locale }) {
-  const auth = useNutritionAuth(); const [authError, setAuthError] = useState("");
-  const signIn = async () => { const error = await auth.signInWithGoogle(locale); setAuthError(error || ""); };
-  if (!auth.session || !auth.supabase) return <><NutritionGate locale={locale} configured={auth.configured} loading={auth.loading} onSignIn={signIn} />{authError ? <p className={styles.floatingError}>{authError}</p> : null}</>;
+  const auth = useNutritionAuth();
+  const signIn = (email: string) => auth.signInWithEmail(email, locale);
+  if (!auth.session || !auth.supabase) return <NutritionGate locale={locale} configured={auth.configured} loading={auth.loading} onSignIn={signIn} />;
   return <NutritionDashboard locale={locale} session={auth.session} supabase={auth.supabase} signOut={auth.signOut} />;
 }
