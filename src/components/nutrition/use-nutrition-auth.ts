@@ -21,14 +21,15 @@ export function useNutritionAuth() {
     return () => { active = false; listener.subscription.unsubscribe(); };
   }, [supabase]);
 
-  async function signInWithEmail(email: string, locale: "en" | "es") {
+  async function signInWithGoogle(locale: "en" | "es") {
     if (!supabase) return locale === "es" ? "El acceso privado todavía no está configurado." : "Private access is not configured yet.";
     const returnPath = locale === "es" ? "/es/nutricion" : "/nutrition";
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
       options: {
-        emailRedirectTo: `${window.location.origin}${returnPath}`,
-        shouldCreateUser: true,
+        redirectTo: `${window.location.origin}${returnPath}`,
+        scopes: "openid email profile",
+        queryParams: { prompt: "select_account" },
       },
     });
     return error?.message || null;
@@ -38,5 +39,5 @@ export function useNutritionAuth() {
     if (supabase) await supabase.auth.signOut();
   }
 
-  return { configured, loading, session, supabase, signInWithEmail, signOut };
+  return { configured, loading, session, supabase, signInWithGoogle, signOut };
 }
